@@ -1,0 +1,33 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "crimsonforest:item/thermos/iron",
+    "layer1": "crimsonforest:item/thermos/life_0"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "crimsonforest:fluid_amount": 0.25
+      },
+      "model": "crimsonforest:item/thermos/iron/life_1"
+    },
+    {
+      "predicate": {
+        "crimsonforest:fluid_amount": 0.5
+      },
+      "model": "crimsonforest:item/thermos/iron/life_2"
+    },
+    {
+      "predicate": {
+        "crimsonforest:fluid_amount": 0.75
+      },
+      "model": "crimsonforest:item/thermos/iron/life_3"
+    },
+    {
+      "predicate": {
+        "crimsonforest:fluid_amount": 1
+      },
+      "model": "crimsonforest:item/thermos/iron/life_4"
+    }
+  ]
+}

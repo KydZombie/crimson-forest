@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "id": "examplemod",
+  "id": "crimsonforest",
   "version": "${version}",
 
-  "name": "Example Mod",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "name": "The Crimson Forest",
+  "description": "Idk right now. I'll get around to this later!",
   "authors": [
-    "Me!"
+    "KydZombie"
   ],
   "contact": {
     "homepage": "https://glass-launcher.net/",
@@ -14,22 +14,30 @@
   },
 
   "license": "CC0-1.0",
-  "icon": "assets/examplemod/icon.png",
+  "icon": "assets/crimsonforest/icon.png",
 
   "environment": "*",
   "entrypoints": {
     "main": [
-      "net.glasslauncher.example.ExampleMod"
+      "io.github.kydzombie.crimsonforest.TheCrimsonForest"
+    ],
+    "client": [
+      "io.github.kydzombie.crimsonforest.TheCrimsonForestClient"
     ],
     "stationapi:event_bus": [
+      "io.github.kydzombie.crimsonforest.TheCrimsonForest"
     ],
     "stationapi:event_bus_client": [
+      "io.github.kydzombie.crimsonforest.TheCrimsonForestClient"
     ],
     "stationapi:event_bus_server": [
+    ],
+    "data": [
+      "io.github.kydzombie.crimsonforest.TheCrimsonForestDatagen"
     ]
   },
   "mixins": [
-    "examplemod.mixins.json"
+    "crimsonforest.mixins.json"
   ],
 
   "depends": {

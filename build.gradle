@@ -12,6 +12,13 @@ group = project.maven_group
 
 loom {
 	// reference accessor file here if needed, see fabric wiki, along with in fabric.mod.json
+	runs {
+		register("data") {
+			property("datagen.run", "MODID") // replace with your mod's id
+			property("datagen.path", project.projectDir.toPath().resolve("src/generated/resources/").toAbsolutePath().toString())
+			client()
+		}
+	}
 }
 
 repositories {
@@ -79,19 +86,23 @@ dependencies {
 
 	modImplementation "net.modificationstation:StationAPI:${project.stapi_version}"
 	modImplementation include("me.carleslc:Simple-Yaml:1.8.4")
+	modImplementation("maven.modrinth:glass-networking:${project.glass_networking_version}") { transitive false }
 	modImplementation("net.glasslauncher.mods:GlassConfigAPI:${project.gcapi_version}") { transitive false }
 
 	// API Extensions
 	modImplementation("maven.modrinth:retrocommands:${retrocommands_version}") { transitive false }
 	modImplementation("maven.modrinth:bh-creative:${project.bhcreative_version}") { transitive false }
+	modImplementation("com.github.matthewperiut:accessory-api:${project.accessory_api_version}") { transitive false }
+	modImplementation("com.github.emmathemartian:stapi-datagen:${project.stapi_datagen_version}") { transitive false }
 
 	// Runtime Convenience
 	modRuntimeOnly "com.github.GeyserMC:MCAuthLib:d9d773e5d50327c33898c65cd545a4f6ef3ba1b5" // needed for mojang fix
 	modRuntimeOnly ("maven.modrinth:mojangfix-stationapi-edition:${project.mojang_fix_stapi_version}") { transitive false }
 	modRuntimeOnly ("maven.modrinth:thirdpersonfix-babric:${project.thirdpersonfix_version}") { transitive false }
 	modRuntimeOnly ("maven.modrinth:modmenu-beta:${project.modmenu_version}") { transitive false }
-	modRuntimeOnly ("maven.modrinth:howmanyitems-fabric:${project.howmanyitems_version}") {transitive false }
+	modRuntimeOnly ("maven.modrinth:always-more-items:${project.alwaysmoreitems_version}") { transitive false }
 	modRuntimeOnly ("com.github.matthewperiut:stapi-fast-intro:17a7ed0dc4") { transitive false }
+	modRuntimeOnly ("maven.modrinth:unitweaks:${unitweaks_version}") { transitive false }
 }
 
 processResources {
@@ -135,5 +146,16 @@ publishing {
 		// Notice: This block does NOT have the same function as the block in the top level.
 		// The repositories here will be used for publishing your artifact, not for
 		// retrieving dependencies.
+	}
+}
+
+sourceSets {
+	main {
+		java {
+			srcDir("src/main/java")
+		}
+		resources {
+			srcDir("src/generated/resources")
+		}
 	}
 }

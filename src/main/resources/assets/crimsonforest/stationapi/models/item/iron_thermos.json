@@ -1,0 +1,113 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "crimsonforest:item/thermos/iron"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "crimsonforest:fluid_type": 0.3,
+        "crimsonforest:fluid_amount": 0
+      },
+      "model": "crimsonforest:item/thermos/iron/milk_0"
+    },
+    {
+      "predicate": {
+        "crimsonforest:fluid_type": 0.3,
+        "crimsonforest:fluid_amount": 0.25
+      },
+      "model": "crimsonforest:item/thermos/iron/milk_1"
+    },
+    {
+      "predicate": {
+        "crimsonforest:fluid_type": 0.3,
+        "crimsonforest:fluid_amount": 0.5
+      },
+      "model": "crimsonforest:item/thermos/iron/milk_2"
+    },
+    {
+      "predicate": {
+        "crimsonforest:fluid_type": 0.3,
+        "crimsonforest:fluid_amount": 0.75
+      },
+      "model": "crimsonforest:item/thermos/iron/milk_3"
+    },
+    {
+      "predicate": {
+        "crimsonforest:fluid_type": 0.3,
+        "crimsonforest:fluid_amount": 1
+      },
+      "model": "crimsonforest:item/thermos/iron/milk_4"
+    },
+    {
+      "predicate": {
+        "crimsonforest:fluid_type": 0.6,
+        "crimsonforest:fluid_amount": 0
+      },
+      "model": "crimsonforest:item/thermos/iron/water_0"
+    },
+    {
+      "predicate": {
+        "crimsonforest:fluid_type": 0.6,
+        "crimsonforest:fluid_amount": 0.25
+      },
+      "model": "crimsonforest:item/thermos/iron/water_1"
+    },
+    {
+      "predicate": {
+        "crimsonforest:fluid_type": 0.6,
+        "crimsonforest:fluid_amount": 0.5
+      },
+      "model": "crimsonforest:item/thermos/iron/water_2"
+    },
+    {
+      "predicate": {
+        "crimsonforest:fluid_type": 0.6,
+        "crimsonforest:fluid_amount": 0.75
+      },
+      "model": "crimsonforest:item/thermos/iron/water_3"
+    },
+    {
+      "predicate": {
+        "crimsonforest:fluid_type": 0.6,
+        "crimsonforest:fluid_amount": 1
+      },
+      "model": "crimsonforest:item/thermos/iron/water_4"
+    },
+    {
+      "predicate": {
+        "crimsonforest:fluid_type": 1,
+        "crimsonforest:fluid_amount": 0
+      },
+      "model": "crimsonforest:item/thermos/iron/lava_0"
+    },
+    {
+      "predicate": {
+        "crimsonforest:fluid_type": 1,
+        "crimsonforest:fluid_amount": 0.25
+      },
+      "model": "crimsonforest:item/thermos/iron/lava_1"
+    },
+    {
+      "predicate": {
+        "crimsonforest:fluid_type": 1,
+        "crimsonforest:fluid_amount": 0.5
+      },
+      "model": "crimsonforest:item/thermos/iron/lava_2"
+    },
+    {
+      "predicate": {
+        "crimsonforest:fluid_type": 1,
+        "crimsonforest:fluid_amount": 0.75
+      },
+      "model": "crimsonforest:item/thermos/iron/lava_3"
+    },
+    {
+      "predicate": {
+        "crimsonforest:fluid_type": 1,
+        "crimsonforest:fluid_amount": 1
+      },
+      "model": "crimsonforest:item/thermos/iron/lava_4"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+tile.@.mortar_and_pestle.name=Mortar and Pestle
+
+item.@.life_essence_collector.name=Life Essence Collector
+item.@.life_essence_collector.essence_text=Life Essence: %d mB
+
+item.@.empty_vial.name=Empty Vial
+item.@.life_vial.name=Vial of Life Essence
+item.@.nature_vial.name=Vial of Nature Essence
+
+item.@.iron_thermos.name=Iron Thermos
+item.@.life_tuned_iron_thermos.name=Life-tuned Iron Thermos
+item.@.nature_tuned_iron_thermos.name=Nature-tuned Iron Thermos
+item.@.arcane_thermos.name=Arcane Thermos
+item.@.life_tuned_arcane_thermos.name=Life-tuned Arcane Thermos
+item.@.nature_tuned_arcane_thermos.name=Nature-tuned Arcane Thermos
+thermos.@.empty_text=Empty
+fluid_thermos.@.fluid_text=%1$d mB of %2$s
+essence_thermos.@.fluid_text=%1$d mB
+
+fluid.@.milk.name=Milk
+fluid.@.water.name=Water
+fluid.@.lava.name=Lava
+
+essence.@.life.name=Life
+essence.@.nature.name=Nature
