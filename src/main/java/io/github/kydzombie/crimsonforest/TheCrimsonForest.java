@@ -1,21 +1,30 @@
 package io.github.kydzombie.crimsonforest;
 
 import com.matthewperiut.accessoryapi.api.AccessoryRegister;
+import io.github.kydzombie.crimsonforest.block.CrudeForgeBlock;
 import io.github.kydzombie.crimsonforest.block.MortarAndPestleBlock;
+import io.github.kydzombie.crimsonforest.block.entity.CrudeForgeBlockEntity;
 import io.github.kydzombie.crimsonforest.block.entity.MortarAndPestleBlockEntity;
 import io.github.kydzombie.crimsonforest.item.LifeEssenceCollectorItem;
+import io.github.kydzombie.crimsonforest.item.SoulItem;
+import io.github.kydzombie.crimsonforest.item.SoulrenderItem;
 import io.github.kydzombie.crimsonforest.item.VialItem;
 import io.github.kydzombie.crimsonforest.item.thermos.FluidThermosItem;
 import io.github.kydzombie.crimsonforest.item.thermos.LifeTunedThermosItem;
 import io.github.kydzombie.crimsonforest.item.thermos.NatureTunedThermosItem;
 import io.github.kydzombie.crimsonforest.magic.EssenceType;
+import io.github.kydzombie.crimsonforest.recipe.CrudeForgeRecipe;
+import io.github.kydzombie.crimsonforest.recipe.CrudeForgeRecipeRegistry;
 import net.fabricmc.api.ModInitializer;
 import net.mine_diver.unsafeevents.listener.EventListener;
 import net.minecraft.block.material.Material;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.modificationstation.stationapi.api.event.block.entity.BlockEntityRegisterEvent;
 import net.modificationstation.stationapi.api.event.registry.BlockRegistryEvent;
 import net.modificationstation.stationapi.api.event.registry.ItemRegistryEvent;
 import net.modificationstation.stationapi.api.mod.entrypoint.Entrypoint;
+import net.modificationstation.stationapi.api.template.item.TemplateItem;
 import net.modificationstation.stationapi.api.util.Namespace;
 import net.modificationstation.stationapi.api.util.Null;
 import org.apache.logging.log4j.Logger;
@@ -35,17 +44,28 @@ public class TheCrimsonForest implements ModInitializer {
 
     public static MortarAndPestleBlock mortarAndPestleBlock;
 
+    public static CrudeForgeBlock crudeForgeBlock;
+
     @EventListener
     private void registerBlocks(BlockRegistryEvent event) {
         mortarAndPestleBlock = new MortarAndPestleBlock(NAMESPACE.id("mortar_and_pestle"), Material.WOOD);
+
+        crudeForgeBlock = new CrudeForgeBlock(NAMESPACE.id("crude_forge"), Material.STONE);
     }
 
     @EventListener
     private void registerBlockEntity(BlockEntityRegisterEvent event) {
         event.register(MortarAndPestleBlockEntity.class, NAMESPACE.id("mortar_and_pestle").toString());
+        event.register(CrudeForgeBlockEntity.class, NAMESPACE.id("crude_forge").toString());
     }
 
     public static LifeEssenceCollectorItem lifeEssenceCollectorItem;
+    public static SoulrenderItem ironSoulrenderItem;
+
+    public static SoulItem zombieSoulItem;
+    public static SoulItem spiderSoulItem;
+    public static SoulItem skeletonSoulItem;
+    public static SoulItem corruptedSoulItem;
 
     public static VialItem emptyVialItem;
     public static VialItem lifeVialItem;
@@ -59,9 +79,18 @@ public class TheCrimsonForest implements ModInitializer {
     public static LifeTunedThermosItem lifeTunedArcaneThermosItem;
     public static NatureTunedThermosItem natureTunedArcaneThermosItem;
 
+    public static TemplateItem lifeInfusedIngot;
+    public static TemplateItem natureInfusedIngot;
+
     @EventListener
     private void registerItems(ItemRegistryEvent event) {
-        lifeEssenceCollectorItem = new LifeEssenceCollectorItem(NAMESPACE.id("life_essence_collector"));
+        lifeEssenceCollectorItem = new LifeEssenceCollectorItem(NAMESPACE.id("life_essence_collector"), 4, 100, 1000, 32);
+        ironSoulrenderItem = new SoulrenderItem(NAMESPACE.id("iron_soulrender"), 6, 150, 2500, 250);
+
+        zombieSoulItem = new SoulItem(NAMESPACE.id("zombie_soul"));
+        spiderSoulItem = new SoulItem(NAMESPACE.id("spider_soul"));
+        skeletonSoulItem = new SoulItem(NAMESPACE.id("skeleton_soul"));
+        corruptedSoulItem = new SoulItem(NAMESPACE.id("corrupted_soul"));
 
         emptyVialItem = new VialItem(NAMESPACE.id("empty_vial"), null);
         lifeVialItem = new VialItem(NAMESPACE.id("life_vial"), EssenceType.LIFE);
@@ -74,6 +103,12 @@ public class TheCrimsonForest implements ModInitializer {
         arcaneThermosItem = new FluidThermosItem(NAMESPACE.id("arcane_thermos"), 16000);
         lifeTunedArcaneThermosItem = new LifeTunedThermosItem(NAMESPACE.id("life_tuned_arcane_thermos"), 16000);
         natureTunedArcaneThermosItem = new NatureTunedThermosItem(NAMESPACE.id("nature_tuned_arcane_thermos"), 16000);
+
+        lifeInfusedIngot = (TemplateItem) new TemplateItem(NAMESPACE.id("life_infused_ingot")).setTranslationKey(NAMESPACE.id("life_infused_ingot"));
+        natureInfusedIngot = (TemplateItem) new TemplateItem(NAMESPACE.id("nature_infused_ingot")).setTranslationKey(NAMESPACE.id("nature_infused_ingot"));
+
+        CrudeForgeRecipeRegistry.addRecipe(new CrudeForgeRecipe(new ItemStack(lifeInfusedIngot), 120, new ItemStack(Item.IRON_INGOT), new ItemStack(lifeVialItem)));
+        CrudeForgeRecipeRegistry.addRecipe(new CrudeForgeRecipe(new ItemStack(natureInfusedIngot), 120, new ItemStack(Item.IRON_INGOT), new ItemStack(natureVialItem)));
     }
 
 //    @EventListener

@@ -4,6 +4,7 @@ import io.github.kydzombie.crimsonforest.TheCrimsonForest;
 import io.github.kydzombie.crimsonforest.block.entity.MortarAndPestleBlockEntity;
 import io.github.kydzombie.crimsonforest.item.VialItem;
 import io.github.kydzombie.crimsonforest.item.thermos.NatureTunedThermosItem;
+import io.github.kydzombie.crimsonforest.magic.EssenceType;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.material.Material;
@@ -42,27 +43,29 @@ public class MortarAndPestleBlock extends TemplateBlockWithEntity {
             player.inventory.markDirty();
             return true;
         } else if (stack.getItem() instanceof NatureTunedThermosItem thermos) {
-            int millibuckets = thermos.getMillibuckets(stack);
             if (essence == 0) {
-                int takenEssence = Math.min(MortarAndPestleBlockEntity.MAX_ESSENCE, millibuckets);
+                int takenEssence = thermos.takeEssence(stack, EssenceType.NATURE, MortarAndPestleBlockEntity.MAX_ESSENCE - essence);
                 if (takenEssence > 0) {
-                    thermos.setMillibuckets(stack, millibuckets - takenEssence);
                     blockEntity.setEssence(essence + takenEssence);
                     return true;
                 }
             } else {
-                int takenEssence = Math.min(essence, thermos.maxMillibuckets - millibuckets);
-                if (takenEssence > 0) {
-                    thermos.setMillibuckets(stack, millibuckets + takenEssence);
-                    blockEntity.setEssence(essence - takenEssence);
+                int givenEssence = thermos.giveEssence(stack, EssenceType.NATURE, essence);
+                if (givenEssence > 0) {
+                    blockEntity.setEssence(essence - givenEssence);
                     return true;
                 }
             }
         } else if (stack.getItem() == TheCrimsonForest.emptyVialItem) {
-            if (essence >= VialItem.MILLIBUCKETS_PER_VIAL) {
-                player.inventory.setStack(player.inventory.selectedSlot, new ItemStack(TheCrimsonForest.natureVialItem));
+            if (essence >= VialItem.ESSENCE_PER_VIAL) {
+                stack.count--;
+                player.inventory.addStack(new ItemStack(TheCrimsonForest.natureVialItem));
+                if (stack.count <= 0) {
+                    player.inventory.setStack(player.inventory.selectedSlot, null);
+                }
+
                 player.inventory.markDirty();
-                blockEntity.setEssence(essence - VialItem.MILLIBUCKETS_PER_VIAL);
+                blockEntity.setEssence(essence - VialItem.ESSENCE_PER_VIAL);
                 return true;
             }
         }

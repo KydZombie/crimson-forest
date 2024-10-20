@@ -21,6 +21,6 @@ public abstract class ThermosItem extends TemplateItem {
     }
 
     public void setMillibuckets(ItemStack stack, int millibuckets) {
-        stack.getStationNbt().putInt(MILLIBUCKETS_KEY, millibuckets);
+        stack.getStationNbt().putInt(MILLIBUCKETS_KEY, Math.min(maxMillibuckets, millibuckets));
     }
 }

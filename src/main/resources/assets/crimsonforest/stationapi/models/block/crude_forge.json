@@ -1,0 +1,9 @@
+{
+  "parent": "block/orientable_with_bottom",
+  "textures": {
+    "front": "crimsonforest:block/crude_forge_front",
+    "side": "crimsonforest:block/crude_forge_side",
+    "top": "crimsonforest:block/crude_forge_top",
+    "bottom": "crimsonforest:block/crude_forge_bottom"
+  }
+}

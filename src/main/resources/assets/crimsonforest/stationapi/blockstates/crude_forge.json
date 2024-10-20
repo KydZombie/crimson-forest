@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "crimsonforest:block/crude_forge"
+    },
+    "facing=south": {
+      "model": "crimsonforest:block/crude_forge",
+      "y": 90
+    },
+    "facing=west": {
+      "model": "crimsonforest:block/crude_forge",
+      "y": 180
+    },
+    "facing=north": {
+      "model": "crimsonforest:block/crude_forge",
+      "y": 270
+    }
+  }
+}

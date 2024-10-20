@@ -1,7 +1,14 @@
 tile.@.mortar_and_pestle.name=Mortar and Pestle
+tile.@.crude_forge.name=Crude Forge
 
 item.@.life_essence_collector.name=Life Essence Collector
-item.@.life_essence_collector.essence_text=Life Essence: %d mB
+item.@.iron_soulrender.name=Iron Soulrender
+essence_collector.@.essence_text=Life Essence: %d mB
+
+item.@.zombie_soul.name=Zombie Soul
+item.@.spider_soul.name=Spider Soul
+item.@.skeleton_soul.name=Skeleton Soul
+item.@.corrupted_soul.name=Corrupted Soul
 
 item.@.empty_vial.name=Empty Vial
 item.@.life_vial.name=Vial of Life Essence
@@ -15,7 +22,10 @@ item.@.life_tuned_arcane_thermos.name=Life-tuned Arcane Thermos
 item.@.nature_tuned_arcane_thermos.name=Nature-tuned Arcane Thermos
 thermos.@.empty_text=Empty
 fluid_thermos.@.fluid_text=%1$d mB of %2$s
-essence_thermos.@.fluid_text=%1$d mB
+essence_thermos.@.fluid_text=%d mB
+
+item.@.life_infused_ingot.name=Life-infused Ingot
+item.@.nature_infused_ingot.name=Nature-infused Ingot
 
 fluid.@.milk.name=Milk
 fluid.@.water.name=Water

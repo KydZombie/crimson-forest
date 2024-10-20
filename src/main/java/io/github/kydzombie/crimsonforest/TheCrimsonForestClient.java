@@ -4,6 +4,7 @@ import io.github.kydzombie.crimsonforest.block.entity.MortarAndPestleBlockEntity
 import io.github.kydzombie.crimsonforest.client.MortarAndPestleBlockEntityRenderer;
 import io.github.kydzombie.crimsonforest.item.thermos.FluidThermosItem;
 import io.github.kydzombie.crimsonforest.item.thermos.TunedThermosItem;
+import io.github.kydzombie.crimsonforest.magic.EssenceType;
 import net.fabricmc.api.ClientModInitializer;
 import net.mine_diver.unsafeevents.listener.EventListener;
 import net.modificationstation.stationapi.api.client.event.block.entity.BlockEntityRendererRegisterEvent;
@@ -19,9 +20,16 @@ public class TheCrimsonForestClient implements ClientModInitializer {
     @EventListener
     private void registerTextures(TextureRegisterEvent event) {
         TheCrimsonForest.lifeEssenceCollectorItem.setTexture(TheCrimsonForest.NAMESPACE.id("item/life_essence_collector"));
+        TheCrimsonForest.ironSoulrenderItem.setTexture(TheCrimsonForest.NAMESPACE.id("item/iron_soulrender"));
+        TheCrimsonForest.zombieSoulItem.setTexture(TheCrimsonForest.NAMESPACE.id("item/soul/zombie"));
+        TheCrimsonForest.spiderSoulItem.setTexture(TheCrimsonForest.NAMESPACE.id("item/soul/spider"));
+        TheCrimsonForest.skeletonSoulItem.setTexture(TheCrimsonForest.NAMESPACE.id("item/soul/skeleton"));
+        TheCrimsonForest.corruptedSoulItem.setTexture(TheCrimsonForest.NAMESPACE.id("item/soul/corrupted"));
         TheCrimsonForest.emptyVialItem.setTexture(TheCrimsonForest.NAMESPACE.id("item/vial/empty"));
         TheCrimsonForest.lifeVialItem.setTexture(TheCrimsonForest.NAMESPACE.id("item/vial/life"));
         TheCrimsonForest.natureVialItem.setTexture(TheCrimsonForest.NAMESPACE.id("item/vial/nature"));
+        TheCrimsonForest.lifeInfusedIngot.setTexture(TheCrimsonForest.NAMESPACE.id("item/life_infused_ingot"));
+        TheCrimsonForest.natureInfusedIngot.setTexture(TheCrimsonForest.NAMESPACE.id("item/nature_infused_ingot"));
     }
 
     @EventListener
@@ -39,7 +47,10 @@ public class TheCrimsonForestClient implements ClientModInitializer {
                 TheCrimsonForest.lifeTunedArcaneThermosItem, TheCrimsonForest.natureTunedArcaneThermosItem
         }) {
             event.registry.register(thermos, TheCrimsonForest.NAMESPACE.id("fluid_amount"),
-                    (stack, world, entity, seed) -> thermos.getMillibuckets(stack) / (float) thermos.maxMillibuckets);
+                    (stack, world, entity, seed) -> {
+                        EssenceType essenceType = thermos.getEssenceTypes(stack).get(0);
+                        return thermos.getEssence(stack, essenceType) / (float) thermos.maxEssence;
+                    });
         }
     }
 
