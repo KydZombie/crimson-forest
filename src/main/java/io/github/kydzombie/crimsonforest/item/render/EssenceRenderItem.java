@@ -1,36 +1,36 @@
-package io.github.kydzombie.crimsonforest.item;
+package io.github.kydzombie.crimsonforest.item.render;
 
 import com.matthewperiut.accessoryapi.api.helper.AccessoryAccess;
 import io.github.kydzombie.crimsonforest.TheCrimsonForest;
+import io.github.kydzombie.crimsonforest.item.CrimsonWeaponItem;
+import io.github.kydzombie.crimsonforest.item.EssenceContainer;
+import io.github.kydzombie.crimsonforest.item.VialItem;
 import io.github.kydzombie.crimsonforest.item.thermos.LifeTunedThermosItem;
 import io.github.kydzombie.crimsonforest.magic.EssenceType;
 import net.minecraft.client.resource.language.I18n;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.modificationstation.stationapi.api.client.item.CustomTooltipProvider;
-import net.modificationstation.stationapi.api.template.item.TemplateItem;
 import net.modificationstation.stationapi.api.util.Identifier;
 
 import java.util.List;
 
-public class LifeEssenceCollectorItem extends TemplateItem implements EssenceContainer, CustomTooltipProvider {
-    private final int damage;
+public class EssenceRenderItem extends CrimsonWeaponItem implements EssenceContainer, CustomTooltipProvider {
     private final int maxEssence;
     private final int millibucketsPerKill;
     private static final String ESSENCE_NBT = "crimsonforest:essence";
 
-    public LifeEssenceCollectorItem(Identifier identifier, int damage, int millibucketsPerKill, int maxEssence, int maxDamage) {
-        super(identifier);
-        setTranslationKey(identifier);
-        setMaxCount(1);
-        setMaxDamage(maxDamage);
-        setHandheld();
-        this.damage = damage;
+    public EssenceRenderItem(Identifier identifier, int durability, int attackDamage, int millibucketsPerKill, int maxEssence) {
+        super(identifier, durability, attackDamage);
         this.millibucketsPerKill = millibucketsPerKill;
         this.maxEssence = maxEssence;
+    }
+
+    @Override
+    protected void onKill(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+        giveEssence(stack, EssenceType.LIFE, millibucketsPerKill);
     }
 
     @Override
@@ -61,30 +61,11 @@ public class LifeEssenceCollectorItem extends TemplateItem implements EssenceCon
         return false;
     }
 
-    protected void onKill(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        giveEssence(stack, EssenceType.LIFE, millibucketsPerKill);
-    }
-
-    @Override
-    public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        if (target.deathTime == 0 && target.lastHealth > 0 && target.health <= 0) {
-            onKill(stack, target, attacker);
-        }
-
-        stack.damage(1, attacker);
-        return true;
-    }
-
-    @Override
-    public int getAttackDamage(Entity attackedEntity) {
-        return damage;
-    }
-
     @Override
     public String[] getTooltip(ItemStack stack, String originalTooltip) {
         return new String[] {
                 originalTooltip,
-                I18n.getTranslation("essence_collector.crimsonforest.essence_text", + getEssence(stack, EssenceType.LIFE))
+                I18n.getTranslation("essence_render.crimsonforest.essence_text", + getEssence(stack, EssenceType.LIFE))
         };
     }
 

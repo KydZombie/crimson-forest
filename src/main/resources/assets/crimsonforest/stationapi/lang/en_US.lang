@@ -1,13 +1,17 @@
 tile.@.mortar_and_pestle.name=Mortar and Pestle
 tile.@.crude_forge.name=Crude Forge
 
-item.@.life_essence_collector.name=Life Essence Collector
-item.@.iron_soulrender.name=Iron Soulrender
-essence_collector.@.essence_text=Life Essence: %d mB
+item.@.wooden_essence_render.name=Wooden Essence Render
+item.@.iron_essence_render.name=Iron Essence Render
+item.@.iron_vinelash_render.name=Iron Vinelash Render
+item.@.tarnished_soul_render.name=Tarnished Soulrender
+item.@.arcane_soul_render.name=Arcane Soulrender
+essence_render.@.essence_text=Life Essence: %d mB
 
 item.@.zombie_soul.name=Zombie Soul
 item.@.spider_soul.name=Spider Soul
 item.@.skeleton_soul.name=Skeleton Soul
+item.@.passive_soul.name=Passive Soul
 item.@.corrupted_soul.name=Corrupted Soul
 
 item.@.empty_vial.name=Empty Vial

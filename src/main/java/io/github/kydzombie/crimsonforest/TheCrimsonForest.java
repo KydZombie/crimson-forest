@@ -5,10 +5,11 @@ import io.github.kydzombie.crimsonforest.block.CrudeForgeBlock;
 import io.github.kydzombie.crimsonforest.block.MortarAndPestleBlock;
 import io.github.kydzombie.crimsonforest.block.entity.CrudeForgeBlockEntity;
 import io.github.kydzombie.crimsonforest.block.entity.MortarAndPestleBlockEntity;
-import io.github.kydzombie.crimsonforest.item.LifeEssenceCollectorItem;
 import io.github.kydzombie.crimsonforest.item.SoulItem;
-import io.github.kydzombie.crimsonforest.item.SoulrenderItem;
+import io.github.kydzombie.crimsonforest.item.render.EssenceRenderItem;
 import io.github.kydzombie.crimsonforest.item.VialItem;
+import io.github.kydzombie.crimsonforest.item.render.SoulRenderItem;
+import io.github.kydzombie.crimsonforest.item.render.VinelashRenderItem;
 import io.github.kydzombie.crimsonforest.item.thermos.FluidThermosItem;
 import io.github.kydzombie.crimsonforest.item.thermos.LifeTunedThermosItem;
 import io.github.kydzombie.crimsonforest.item.thermos.NatureTunedThermosItem;
@@ -59,12 +60,16 @@ public class TheCrimsonForest implements ModInitializer {
         event.register(CrudeForgeBlockEntity.class, NAMESPACE.id("crude_forge").toString());
     }
 
-    public static LifeEssenceCollectorItem lifeEssenceCollectorItem;
-    public static SoulrenderItem ironSoulrenderItem;
+    public static EssenceRenderItem woodenEssenceRenderItem;
+    public static EssenceRenderItem ironEssenceRenderItem;
+    public static VinelashRenderItem ironVinelashRenderItem;
+    public static SoulRenderItem tarnishedSoulRenderItem;
+    public static SoulRenderItem arcaneSoulRenderItem;
 
     public static SoulItem zombieSoulItem;
     public static SoulItem spiderSoulItem;
     public static SoulItem skeletonSoulItem;
+    public static SoulItem passiveSoulItem;
     public static SoulItem corruptedSoulItem;
 
     public static VialItem emptyVialItem;
@@ -84,12 +89,16 @@ public class TheCrimsonForest implements ModInitializer {
 
     @EventListener
     private void registerItems(ItemRegistryEvent event) {
-        lifeEssenceCollectorItem = new LifeEssenceCollectorItem(NAMESPACE.id("life_essence_collector"), 4, 100, 1000, 32);
-        ironSoulrenderItem = new SoulrenderItem(NAMESPACE.id("iron_soulrender"), 6, 150, 2500, 250);
+        woodenEssenceRenderItem = new EssenceRenderItem(NAMESPACE.id("wooden_essence_render"), 32, 4, 100, 1000);
+        ironEssenceRenderItem = new EssenceRenderItem(NAMESPACE.id("iron_essence_render"), 250, 6, 150, 2500);
+        ironVinelashRenderItem = new VinelashRenderItem(NAMESPACE.id("iron_vinelash_render"), 250, 6);
+        tarnishedSoulRenderItem = new SoulRenderItem(NAMESPACE.id("tarnished_soul_render"), 512, 7, .1f);
+        arcaneSoulRenderItem = new SoulRenderItem(NAMESPACE.id("arcane_soul_render"), 1024, 7, .5f);
 
         zombieSoulItem = new SoulItem(NAMESPACE.id("zombie_soul"));
         spiderSoulItem = new SoulItem(NAMESPACE.id("spider_soul"));
         skeletonSoulItem = new SoulItem(NAMESPACE.id("skeleton_soul"));
+        passiveSoulItem = new SoulItem(NAMESPACE.id("passive_soul"));
         corruptedSoulItem = new SoulItem(NAMESPACE.id("corrupted_soul"));
 
         emptyVialItem = new VialItem(NAMESPACE.id("empty_vial"), null);
