@@ -35,6 +35,7 @@ public interface SimpleInventory extends Inventory {
                     getInventory()[slot] = null;
                 }
             }
+            markDirty();
             return stack;
         } else {
             return null;
@@ -47,6 +48,7 @@ public interface SimpleInventory extends Inventory {
         if (stack != null && stack.count > getMaxCountPerStack()) {
             stack.count = getMaxCountPerStack();
         }
+        markDirty();
     }
 
     @Override

@@ -1,9 +1,8 @@
 package io.github.kydzombie.crimsonforest;
 
 import com.matthewperiut.accessoryapi.api.AccessoryRegister;
-import io.github.kydzombie.crimsonforest.block.CrudeForgeBlock;
-import io.github.kydzombie.crimsonforest.block.CrudePressBlock;
-import io.github.kydzombie.crimsonforest.block.MortarAndPestleBlock;
+import io.github.kydzombie.crimsonforest.block.*;
+import io.github.kydzombie.crimsonforest.block.entity.BasinBlockEntity;
 import io.github.kydzombie.crimsonforest.block.entity.CrudeForgeBlockEntity;
 import io.github.kydzombie.crimsonforest.block.entity.CrudePressBlockEntity;
 import io.github.kydzombie.crimsonforest.block.entity.MortarAndPestleBlockEntity;
@@ -44,15 +43,22 @@ public class TheCrimsonForest implements ModInitializer {
 
     @Entrypoint.Logger
     public static final Logger LOGGER = Null.get();
+
+    // Blocks
+    public static BasinBlock stoneBasinBlock;
+    public static EssenceBondedBricksBlock essenceBondedBricksBlock;
     public static MortarAndPestleBlock mortarAndPestleBlock;
     public static CrudePressBlock crudePressBlock;
     public static CrudeForgeBlock crudeForgeBlock;
+
+    // Items
     public static EssenceRenderItem woodenEssenceRenderItem;
     public static EssenceRenderItem ironEssenceRenderItem;
     public static VinelashRenderItem ironVinelashRenderItem;
     public static LesserSoulRenderItem ironSoulRenderItem;
     public static SoulRenderItem tarnishedSoulRenderItem;
     public static SoulRenderItem arcaneSoulRenderItem;
+
     public static SoulShardItem soulShardItem;
     public static SoulItem zombieSoulItem;
     public static SoulItem spiderSoulItem;
@@ -61,6 +67,7 @@ public class TheCrimsonForest implements ModInitializer {
     public static SoulItem passiveSoulItem;
     public static SoulItem corruptedSoulItem;
     public static SoulItem endermanSoulItem;
+
     public static VialItem vialItem;
     public static FluidThermosItem ironThermosItem;
     public static LifeTunedThermosItem lifeTunedIronThermosItem;
@@ -68,11 +75,14 @@ public class TheCrimsonForest implements ModInitializer {
     public static FluidThermosItem arcaneThermosItem;
     public static LifeTunedThermosItem lifeTunedArcaneThermosItem;
     public static NatureTunedThermosItem natureTunedArcaneThermosItem;
+
     public static CrimsonForestCraftingItem natureStringItem;
+    
     public static CrimsonForestCraftingItem lifeIngotItem;
     public static CrimsonForestCraftingItem natureIngotItem;
     public static CrimsonForestCraftingItem tarnishedIngotItem;
     public static CrimsonForestCraftingItem arcaneIngotItem;
+
     public static CrimsonForestCraftingItem clayPlateItem;
     public static CrimsonForestCraftingItem brickPlateItem;
     public static CrimsonForestCraftingItem ironPlateItem;
@@ -81,6 +91,7 @@ public class TheCrimsonForest implements ModInitializer {
     public static CrimsonForestCraftingItem naturePlateItem;
     public static CrimsonForestCraftingItem tarnishedPlateItem;
     public static CrimsonForestCraftingItem arcanePlateItem;
+
     public static CrimsonForestCraftingItem biomechanicalGearItem;
     public static CrimsonForestCraftingItem biomechanicalChipItem;
     public static CrimsonForestCraftingItem biomechanicalCircuitItem;
@@ -95,6 +106,8 @@ public class TheCrimsonForest implements ModInitializer {
 
     @EventListener
     private void registerBlocks(BlockRegistryEvent event) {
+        stoneBasinBlock = new BasinBlock(NAMESPACE.id("stone_basin"), Material.STONE);
+        essenceBondedBricksBlock = new EssenceBondedBricksBlock(NAMESPACE.id("essence_bonded_bricks"), Material.STONE);
         mortarAndPestleBlock = new MortarAndPestleBlock(NAMESPACE.id("mortar_and_pestle"), Material.WOOD);
 
         crudePressBlock = new CrudePressBlock(NAMESPACE.id("crude_press"), Material.STONE);
@@ -103,6 +116,7 @@ public class TheCrimsonForest implements ModInitializer {
 
     @EventListener
     private void registerBlockEntity(BlockEntityRegisterEvent event) {
+        event.register(BasinBlockEntity.class, NAMESPACE.id("basin_block").toString());
         event.register(MortarAndPestleBlockEntity.class, NAMESPACE.id("mortar_and_pestle").toString());
         event.register(CrudePressBlockEntity.class, NAMESPACE.id("crude_press").toString());
         event.register(CrudeForgeBlockEntity.class, NAMESPACE.id("crude_forge").toString());

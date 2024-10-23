@@ -1,6 +1,8 @@
 package io.github.kydzombie.crimsonforest;
 
+import io.github.kydzombie.crimsonforest.block.entity.BasinBlockEntity;
 import io.github.kydzombie.crimsonforest.block.entity.MortarAndPestleBlockEntity;
+import io.github.kydzombie.crimsonforest.client.BasinBlockEntityRenderer;
 import io.github.kydzombie.crimsonforest.client.MortarAndPestleBlockEntityRenderer;
 import io.github.kydzombie.crimsonforest.client.entity.VinelashAttackEntityRenderer;
 import io.github.kydzombie.crimsonforest.entity.VinelashAttackEntity;
@@ -108,6 +110,7 @@ public class TheCrimsonForestClient implements ClientModInitializer {
 
     @EventListener
     private void registerBlockEntityRenderers(BlockEntityRendererRegisterEvent event) {
+        event.renderers.put(BasinBlockEntity.class, new BasinBlockEntityRenderer());
         event.renderers.put(MortarAndPestleBlockEntity.class, new MortarAndPestleBlockEntityRenderer());
     }
 

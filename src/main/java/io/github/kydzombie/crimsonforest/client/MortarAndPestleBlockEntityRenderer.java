@@ -1,6 +1,7 @@
 package io.github.kydzombie.crimsonforest.client;
 
 import io.github.kydzombie.crimsonforest.block.entity.MortarAndPestleBlockEntity;
+import io.github.kydzombie.crimsonforest.magic.EssenceType;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
@@ -27,7 +28,7 @@ public class MortarAndPestleBlockEntityRenderer extends BlockEntityRenderer {
 
         Tessellator tessellator = Tessellator.INSTANCE;
         tessellator.startQuads();
-        tessellator.color(55, 148, 110, 127);
+        tessellator.color(EssenceType.NATURE.color, 127);
         tessellator.vertex(x + MAX_HORIZONTAL, draw_y, z + MAX_HORIZONTAL);
         tessellator.vertex(x + MAX_HORIZONTAL, draw_y, z + MIN_HORIZONTAL);
         tessellator.vertex(x + MIN_HORIZONTAL, draw_y, z + MIN_HORIZONTAL);

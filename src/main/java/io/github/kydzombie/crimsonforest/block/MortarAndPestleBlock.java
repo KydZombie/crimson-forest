@@ -81,6 +81,7 @@ public class MortarAndPestleBlock extends TemplateBlockWithEntity {
                             player.dropItem(newStack, false);
                         }
                     }
+                    return true;
                 }
             }
         }

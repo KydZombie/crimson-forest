@@ -1,0 +1,8 @@
+{
+  "parent": "block/cube_bottom_top",
+  "textures": {
+    "side": "crimsonforest:block/crude_machine_side",
+    "top": "crimsonforest:block/crude_machine_top",
+    "bottom": "crimsonforest:block/crude_machine_bottom"
+  }
+}
