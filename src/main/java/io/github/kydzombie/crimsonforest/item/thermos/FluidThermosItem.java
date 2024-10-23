@@ -31,40 +31,10 @@ public class FluidThermosItem extends ThermosItem implements CustomTooltipProvid
         setMaxCount(1);
     }
 
-    public enum FluidType {
-        NONE(null, 0),
-        MILK(null, 0),
-        WATER(Material.WATER, Block.FLOWING_WATER.id),
-        LAVA(Material.LAVA, Block.FLOWING_LAVA.id);
-
-        public final Material MATERIAL;
-        public final int FLOWING_BLOCK_ID;
-
-        private static final HashMap<Material, FluidType> materialToFluidTypeMap = new HashMap<>();
-
-        FluidType(Material material, int flowingBlockId) {
-            MATERIAL = material;
-            FLOWING_BLOCK_ID = flowingBlockId;
-        }
-
-        @Environment(EnvType.CLIENT)
-        public float getPredicateValue() {
-            return (float) ordinal() / (FluidType.values().length - 1);
-        }
-
-        static {
-            for (FluidType fluidType : values()) {
-                if (fluidType.MATERIAL == null) continue;
-                materialToFluidTypeMap.put(fluidType.MATERIAL, fluidType);
-            }
-        }
-
-        public static @Nullable FluidType fromMaterial(Material material) {
-            return materialToFluidTypeMap.get(material);
-        }
+    public int getMillibuckets(ItemStack stack) {
+        return stack.getStationNbt().getInt(MILLIBUCKETS_KEY);
     }
 
-    @Override
     public void setMillibuckets(ItemStack stack, int millibuckets) {
         stack.getStationNbt().putInt(MILLIBUCKETS_KEY, millibuckets);
         if (millibuckets == 0) {
@@ -85,6 +55,7 @@ public class FluidThermosItem extends ThermosItem implements CustomTooltipProvid
 
     /**
      * The state of stack should change
+     *
      * @return true if there is liquid, so no other checks should be performed.
      */
     boolean attemptPickupBlock(ItemStack stack, FluidType currentFluidType, int currentMillibuckets, World world, int x, int y, int z, PlayerEntity user) {
@@ -108,6 +79,7 @@ public class FluidThermosItem extends ThermosItem implements CustomTooltipProvid
 
     /**
      * The state of stack should change
+     *
      * @return true if place was successful
      */
     boolean attemptPlace(ItemStack stack, FluidType currentFluidType, int currentMillibuckets, World world, int x, int y, int z, int side, PlayerEntity user, Vec3d var13) {
@@ -142,9 +114,9 @@ public class FluidThermosItem extends ThermosItem implements CustomTooltipProvid
         float var4 = 1.0F;
         float var5 = user.prevPitch + (user.pitch - user.prevPitch) * var4;
         float var6 = user.prevYaw + (user.yaw - user.prevYaw) * var4;
-        double var7 = user.prevX + (user.x - user.prevX) * (double)var4;
-        double var9 = user.prevY + (user.y - user.prevY) * (double)var4 + 1.62 - (double)user.standingEyeHeight;
-        double var11 = user.prevZ + (user.z - user.prevZ) * (double)var4;
+        double var7 = user.prevX + (user.x - user.prevX) * (double) var4;
+        double var9 = user.prevY + (user.y - user.prevY) * (double) var4 + 1.62 - (double) user.standingEyeHeight;
+        double var11 = user.prevZ + (user.z - user.prevZ) * (double) var4;
         Vec3d var13 = Vec3d.createCached(var7, var9, var11);
         float var14 = MathHelper.cos(-var6 * (float) (Math.PI / 180.0) - (float) Math.PI);
         float var15 = MathHelper.sin(-var6 * (float) (Math.PI / 180.0) - (float) Math.PI);
@@ -153,7 +125,7 @@ public class FluidThermosItem extends ThermosItem implements CustomTooltipProvid
         float var18 = var15 * var16;
         float var20 = var14 * var16;
         double var21 = 5.0;
-        Vec3d hitPos = var13.add((double)var18 * var21, (double)var17 * var21, (double)var20 * var21);
+        Vec3d hitPos = var13.add((double) var18 * var21, (double) var17 * var21, (double) var20 * var21);
         HitResult hit = world.raycast(var13, hitPos, true);
 
         FluidType currentFluidType = getFluidType(stack);
@@ -161,13 +133,14 @@ public class FluidThermosItem extends ThermosItem implements CustomTooltipProvid
 
         if (hit == null) return stack;
 
-
         if (hit.type == HitResultType.BLOCK && currentFluidType != FluidType.MILK) {
             if (attemptPickupBlock(stack, currentFluidType, currentMillibuckets, world, hit.blockX, hit.blockY, hit.blockZ, user)) {
+                user.swingHand();
                 return stack;
             }
 
             if (attemptPlace(stack, currentFluidType, currentMillibuckets, world, hit.blockX, hit.blockY, hit.blockZ, hit.side, user, var13)) {
+                user.swingHand();
                 return stack;
             }
         }
@@ -180,12 +153,12 @@ public class FluidThermosItem extends ThermosItem implements CustomTooltipProvid
         FluidType fluidType = getFluidType(stack);
         int millibuckets = getMillibuckets(stack);
         if (fluidType == FluidType.NONE) {
-            return new String[] {
+            return new String[]{
                     originalTooltip,
                     I18n.getTranslation("thermos.crimsonforest.empty_text")
             };
         }
-        return new String[] {
+        return new String[]{
                 originalTooltip,
                 I18n.getTranslation(
                         "fluid_thermos.crimsonforest.fluid_text",
@@ -193,5 +166,38 @@ public class FluidThermosItem extends ThermosItem implements CustomTooltipProvid
                         I18n.getTranslation("fluid.crimsonforest." + fluidType.toString().toLowerCase() + ".name")
                 )
         };
+    }
+
+    public enum FluidType {
+        NONE(null, 0),
+        MILK(null, 0),
+        WATER(Material.WATER, Block.FLOWING_WATER.id),
+        LAVA(Material.LAVA, Block.FLOWING_LAVA.id);
+
+        private static final HashMap<Material, FluidType> materialToFluidTypeMap = new HashMap<>();
+
+        static {
+            for (FluidType fluidType : values()) {
+                if (fluidType.MATERIAL == null) continue;
+                materialToFluidTypeMap.put(fluidType.MATERIAL, fluidType);
+            }
+        }
+
+        public final Material MATERIAL;
+        public final int FLOWING_BLOCK_ID;
+
+        FluidType(Material material, int flowingBlockId) {
+            MATERIAL = material;
+            FLOWING_BLOCK_ID = flowingBlockId;
+        }
+
+        public static @Nullable FluidType fromMaterial(Material material) {
+            return materialToFluidTypeMap.get(material);
+        }
+
+        @Environment(EnvType.CLIENT)
+        public float getPredicateValue() {
+            return (float) ordinal() / (FluidType.values().length - 1);
+        }
     }
 }

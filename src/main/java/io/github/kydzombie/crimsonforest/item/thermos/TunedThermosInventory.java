@@ -1,6 +1,7 @@
 package io.github.kydzombie.crimsonforest.item.thermos;
 
 import io.github.kydzombie.crimsonforest.TheCrimsonForest;
+import io.github.kydzombie.crimsonforest.magic.EssenceType;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
@@ -8,8 +9,12 @@ import net.minecraft.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 public class TunedThermosInventory implements Inventory {
-    @NotNull public final ItemStack thermosStack;
-    @NotNull public final TunedThermosItem tunedThermosItem;
+    @NotNull
+    public final ItemStack thermosStack;
+    @NotNull
+    public final TunedThermosItem thermosItem;
+    @NotNull
+    public final EssenceType essenceType;
 
     ItemStack[] inventory = new ItemStack[2];
 
@@ -19,12 +24,15 @@ public class TunedThermosInventory implements Inventory {
         //noinspection DataFlowIssue
         thermosStack = null;
         //noinspection DataFlowIssue
-        tunedThermosItem = null;
+        thermosItem = null;
+        //noinspection DataFlowIssue
+        essenceType = null;
     }
 
     public TunedThermosInventory(@NotNull ItemStack thermosStack) {
         this.thermosStack = thermosStack;
-        tunedThermosItem = (TunedThermosItem) thermosStack.getItem();
+        thermosItem = (TunedThermosItem) thermosStack.getItem();
+        essenceType = thermosItem.getEssenceTypes(thermosStack).get(0);
 //        arcane = thermosStack.getItem() == TheCrimsonForest.lifeTunedArcaneThermosItem || thermosStack.getItem() == TheCrimsonForest.natureTunedArcaneThermosItem;
     }
 

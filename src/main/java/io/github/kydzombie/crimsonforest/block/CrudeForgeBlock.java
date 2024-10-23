@@ -2,7 +2,7 @@ package io.github.kydzombie.crimsonforest.block;
 
 import io.github.kydzombie.crimsonforest.TheCrimsonForest;
 import io.github.kydzombie.crimsonforest.block.entity.CrudeForgeBlockEntity;
-import io.github.kydzombie.crimsonforest.gui.screen.ForgeScreenHandler;
+import io.github.kydzombie.crimsonforest.gui.screen.CrudeForgeScreenHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.material.Material;
@@ -39,7 +39,7 @@ public class CrudeForgeBlock extends TemplateBlockWithEntity {
     @Override
     public boolean onUse(World world, int x, int y, int z, PlayerEntity player) {
         CrudeForgeBlockEntity blockEntity = (CrudeForgeBlockEntity) world.getBlockEntity(x, y, z);
-        GuiHelper.openGUI(player, TheCrimsonForest.NAMESPACE.id("forge"), blockEntity, new ForgeScreenHandler(player.inventory, blockEntity));
+        GuiHelper.openGUI(player, TheCrimsonForest.NAMESPACE.id("crude_forge"), blockEntity, new CrudeForgeScreenHandler(player.inventory, blockEntity));
         return true;
     }
 

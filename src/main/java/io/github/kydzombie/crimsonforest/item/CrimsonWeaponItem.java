@@ -23,7 +23,8 @@ public class CrimsonWeaponItem extends TemplateItem {
         return attackDamage;
     }
 
-    protected void onKill(ItemStack stack, LivingEntity target, LivingEntity attacker) {}
+    protected void onKill(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+    }
 
     @Override
     public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {

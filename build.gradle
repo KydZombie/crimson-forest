@@ -84,6 +84,10 @@ dependencies {
 	implementation "blue.endless:jankson:1.2.1"
 	implementation 'com.google.guava:guava:33.2.1-jre'
 
+	// Lombok for @Getter and @Setter
+	compileOnly 'org.projectlombok:lombok:1.18.32'
+	annotationProcessor 'org.projectlombok:lombok:1.18.32'
+
 	modImplementation "net.modificationstation:StationAPI:${project.stapi_version}"
 	modImplementation include("me.carleslc:Simple-Yaml:1.8.4")
 	modImplementation("maven.modrinth:glass-networking:${project.glass_networking_version}") { transitive false }

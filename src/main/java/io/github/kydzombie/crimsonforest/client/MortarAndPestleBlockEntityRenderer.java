@@ -11,6 +11,7 @@ public class MortarAndPestleBlockEntityRenderer extends BlockEntityRenderer {
     static final double MAX_HORIZONTAL = .625;
     static final double MIN_VERTICAL = .0625;
     static final double MAX_VERTICAL = .1875;
+
     @Override
     public void render(BlockEntity blockEntity, double x, double y, double z, float tickDelta) {
         int essence = ((MortarAndPestleBlockEntity) blockEntity).getEssence();

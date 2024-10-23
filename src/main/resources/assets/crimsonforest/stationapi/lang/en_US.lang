@@ -1,22 +1,30 @@
 tile.@.mortar_and_pestle.name=Mortar and Pestle
+tile.@.crude_press.name=Crude Press
 tile.@.crude_forge.name=Crude Forge
 
 item.@.wooden_essence_render.name=Wooden Essence Render
 item.@.iron_essence_render.name=Iron Essence Render
 item.@.iron_vinelash_render.name=Iron Vinelash Render
+item.@.iron_soul_render.name=Iron Lesser Soulrender
 item.@.tarnished_soul_render.name=Tarnished Soulrender
-item.@.arcane_soul_render.name=Arcane Soulrender
+item.@.arcane_soul_render.name=Soulrender
+essence_render.@.no_vial_text=No vial inserted.
 essence_render.@.essence_text=Life Essence: %d mB
 
-item.@.zombie_soul.name=Zombie Soul
-item.@.spider_soul.name=Spider Soul
-item.@.skeleton_soul.name=Skeleton Soul
+item.@.soul_shard.name=Soul Shard
+item.@.zombie_soul.name=Rotting Soul
+item.@.spider_soul.name=Silken Soul
+item.@.skeleton_soul.name=Hollow Soul
+item.@.creeper_soul.name=Explosive Soul
 item.@.passive_soul.name=Passive Soul
 item.@.corrupted_soul.name=Corrupted Soul
+item.@.enderman_soul.name=Void-touched Soul
 
-item.@.empty_vial.name=Empty Vial
-item.@.life_vial.name=Vial of Life Essence
-item.@.nature_vial.name=Vial of Nature Essence
+item.@.vial.name=Vial
+item.@.vial.empty=Empty Vial
+item.@.vial.life=Vial of Life Essence
+item.@.vial.nature=Vial of Nature Essence
+vial.@.essence_text=%d mB
 
 item.@.iron_thermos.name=Iron Thermos
 item.@.life_tuned_iron_thermos.name=Life-tuned Iron Thermos
@@ -28,8 +36,28 @@ thermos.@.empty_text=Empty
 fluid_thermos.@.fluid_text=%1$d mB of %2$s
 essence_thermos.@.fluid_text=%d mB
 
-item.@.life_infused_ingot.name=Life-infused Ingot
-item.@.nature_infused_ingot.name=Nature-infused Ingot
+item.@.nature_string.name=Nature-infused String
+
+item.@.life_ingot.name=Life-infused Ingot
+item.@.nature_ingot.name=Nature-infused Ingot
+item.@.tarnished_ingot.name=Tarnished Ingot
+item.@.arcane_ingot.name=Arcane Ingot
+
+item.@.clay_plate.name=Clay Plate
+item.@.brick_plate.name=Brick Plate
+item.@.iron_plate.name=Iron Plate
+item.@.gold_plate.name=Gold Plate
+item.@.life_plate.name=Life-infused Plate
+item.@.nature_plate.name=Nature-infused Plate
+item.@.tarnished_plate.name=Tarnished Plate
+item.@.arcane_plate.name=Arcane Plate
+
+item.@.biomechanical_gear.name=Bio-mechanical Gear
+item.@.biomechanical_chip.name=Bio-mechanical Chip
+item.@.biomechanical_circuit.name=Bio-mechanical Circuit
+item.@.soul_gear.name=Soul-infused Gear
+item.@.soul_chip.name=Soul-infused Chip
+item.@.soul_circuit.name=Soul-infused Circuit
 
 fluid.@.milk.name=Milk
 fluid.@.water.name=Water

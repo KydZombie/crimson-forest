@@ -5,16 +5,18 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 
-public class CrudeForgeRecipeRegistry {
-    private static final ArrayList<CrudeForgeRecipe> recipes = new ArrayList<>();
+public class CrudeForgeRecipeRegistry extends CrudeRecipeRegistry {
+    public static final CrudeForgeRecipeRegistry INSTANCE = new CrudeForgeRecipeRegistry();
 
-    public static void addRecipe(CrudeForgeRecipe recipe) {
+    private final ArrayList<CrudeForgeRecipe> recipes = new ArrayList<>();
+
+    public void addRecipe(CrudeForgeRecipe recipe) {
         recipes.add(recipe);
     }
 
-    public static @Nullable CrudeForgeRecipeData getOutput(ItemStack[] inputs) {
+    public @Nullable CrudeRecipeData getOutput(ItemStack[] inputs) {
         for (CrudeForgeRecipe recipe : recipes) {
-            CrudeForgeRecipeData output = recipe.getOutput(inputs);
+            CrudeRecipeData output = recipe.getOutput(inputs);
             if (output != null) {
                 return output;
             }

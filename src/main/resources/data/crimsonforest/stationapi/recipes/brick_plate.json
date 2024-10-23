@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "crimsonforest:clay_plate"
+  },
+  "result": {
+    "item": "crimsonforest:brick_plate"
+  },
+  "cookingtime": 200
+}

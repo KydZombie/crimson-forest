@@ -2,20 +2,20 @@ package io.github.kydzombie.crimsonforest.block;
 
 import io.github.kydzombie.crimsonforest.TheCrimsonForest;
 import io.github.kydzombie.crimsonforest.block.entity.MortarAndPestleBlockEntity;
-import io.github.kydzombie.crimsonforest.item.VialItem;
-import io.github.kydzombie.crimsonforest.item.thermos.NatureTunedThermosItem;
+import io.github.kydzombie.crimsonforest.item.EssenceContainer;
 import io.github.kydzombie.crimsonforest.magic.EssenceType;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.modificationstation.stationapi.api.template.block.TemplateBlockWithEntity;
 import net.modificationstation.stationapi.api.util.Identifier;
 
 public class MortarAndPestleBlock extends TemplateBlockWithEntity {
-    public static final int ESSENCE_PER_FLOWER = 50;
+    public static final int ESSENCE_PER_FLOWER = 10;
 
     public MortarAndPestleBlock(Identifier identifier, Material material) {
         super(identifier, material);
@@ -42,34 +42,49 @@ public class MortarAndPestleBlock extends TemplateBlockWithEntity {
             stack.split(1);
             player.inventory.markDirty();
             return true;
-        } else if (stack.getItem() instanceof NatureTunedThermosItem thermos) {
-            if (essence == 0) {
-                int takenEssence = thermos.takeEssence(stack, EssenceType.NATURE, MortarAndPestleBlockEntity.MAX_ESSENCE - essence);
-                if (takenEssence > 0) {
-                    blockEntity.setEssence(essence + takenEssence);
-                    return true;
-                }
-            } else {
-                int givenEssence = thermos.giveEssence(stack, EssenceType.NATURE, essence);
-                if (givenEssence > 0) {
-                    blockEntity.setEssence(essence - givenEssence);
-                    return true;
-                }
-            }
-        } else if (stack.getItem() == TheCrimsonForest.emptyVialItem) {
-            if (essence >= VialItem.ESSENCE_PER_VIAL) {
-                stack.count--;
-                player.inventory.addStack(new ItemStack(TheCrimsonForest.natureVialItem));
-                if (stack.count <= 0) {
-                    player.inventory.setStack(player.inventory.selectedSlot, null);
-                }
-
-                player.inventory.markDirty();
-                blockEntity.setEssence(essence - VialItem.ESSENCE_PER_VIAL);
+        } else if (stack.itemId == Item.STRING.id) {
+            if (essence >= 50) {
+                blockEntity.setEssence(essence - 50);
+                player.inventory.removeStack(player.inventory.selectedSlot, 1);
+                player.inventory.addStack(new ItemStack(TheCrimsonForest.natureStringItem));
                 return true;
             }
+        } else if (stack.getItem() instanceof EssenceContainer container) {
+            boolean multiple = stack.count > 1;
+            ItemStack newStack = stack;
+            if (multiple) {
+                newStack = stack.copy();
+                newStack.count = 1;
+            }
+
+            if (container.canGiveEssence(stack, EssenceType.NATURE)) {
+                int givenEssence = container.giveEssence(newStack, EssenceType.NATURE, essence);
+                if (givenEssence > 0) {
+                    blockEntity.setEssence(essence - givenEssence);
+                    if (multiple) {
+                        player.inventory.removeStack(player.inventory.selectedSlot, 1);
+                        if (!player.inventory.addStack(newStack)) {
+                            player.dropItem(newStack, false);
+                        }
+                    }
+                    return true;
+                }
+            }
+
+            if (container.canTakeEssence(stack, EssenceType.NATURE)) {
+                int takenEssence = container.takeEssence(newStack, EssenceType.NATURE, MortarAndPestleBlockEntity.MAX_ESSENCE - essence);
+                if (takenEssence > 0) {
+                    blockEntity.setEssence(essence + takenEssence);
+                    if (multiple) {
+                        player.inventory.removeStack(player.inventory.selectedSlot, 1);
+                        if (!player.inventory.addStack(newStack)) {
+                            player.dropItem(newStack, false);
+                        }
+                    }
+                }
+            }
         }
-        return super.onUse(world, x, y, z, player);
+        return false;
     }
 
     @Override

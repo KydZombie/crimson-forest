@@ -1,0 +1,51 @@
+{
+  "parent": "crimsonforest:item/render/essence/wooden_no_vial",
+  "overrides": [
+    {
+      "predicate": {
+        "crimsonforest:vial": 0,
+        "crimsonforest:blood_drip": 1
+      },
+      "model": "crimsonforest:item/render/essence/wooden_no_vial_blood_drip"
+    },
+    {
+      "predicate": {
+        "crimsonforest:vial": 0.01
+      },
+      "model": "crimsonforest:item/render/essence/wooden_vial_0"
+    },
+    {
+      "predicate": {
+        "crimsonforest:vial": 0.01,
+        "crimsonforest:blood_drip": 1
+      },
+      "model": "crimsonforest:item/render/essence/wooden_vial_0_blood_drip"
+    },
+    {
+      "predicate": {
+        "crimsonforest:vial": 0.5
+      },
+      "model": "crimsonforest:item/render/essence/wooden_vial_1"
+    },
+    {
+      "predicate": {
+        "crimsonforest:vial": 0.5,
+        "crimsonforest:blood_drip": 1
+      },
+      "model": "crimsonforest:item/render/essence/wooden_vial_1_blood_drip"
+    },
+    {
+      "predicate": {
+        "crimsonforest:vial": 1
+      },
+      "model": "crimsonforest:item/render/essence/wooden_vial_2"
+    },
+    {
+      "predicate": {
+        "crimsonforest:vial": 1,
+        "crimsonforest:blood_drip": 1
+      },
+      "model": "crimsonforest:item/render/essence/wooden_vial_2_blood_drip"
+    }
+  ]
+}

@@ -18,9 +18,9 @@ import java.util.List;
 
 public abstract class TunedThermosItem extends TemplateItem implements EssenceContainer, Accessory, CustomTooltipProvider {
     public static final String ESSENCE_KEY = TheCrimsonForest.NAMESPACE.id("essence_amount").toString();
-    private static final String[] ACCESSORY_TYPES = new String[] { "thermos" };
-    private final EssenceType essenceType;
+    private static final String[] ACCESSORY_TYPES = new String[]{"thermos"};
     public final int maxEssence;
+    private final EssenceType essenceType;
 
     public TunedThermosItem(Identifier identifier, EssenceType essenceType, int maxEssence) {
         super(identifier);
@@ -72,12 +72,12 @@ public abstract class TunedThermosItem extends TemplateItem implements EssenceCo
     public String[] getTooltip(ItemStack stack, String originalTooltip) {
         int essence = getEssence(stack, essenceType);
         if (essence == 0) {
-            return new String[] {
+            return new String[]{
                     originalTooltip,
                     I18n.getTranslation("thermos.crimsonforest.empty_text")
             };
         }
-        return new String[] {
+        return new String[]{
                 originalTooltip,
                 I18n.getTranslation(
                         "essence_thermos.crimsonforest.fluid_text",

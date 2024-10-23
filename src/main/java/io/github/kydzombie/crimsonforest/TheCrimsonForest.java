@@ -2,12 +2,18 @@ package io.github.kydzombie.crimsonforest;
 
 import com.matthewperiut.accessoryapi.api.AccessoryRegister;
 import io.github.kydzombie.crimsonforest.block.CrudeForgeBlock;
+import io.github.kydzombie.crimsonforest.block.CrudePressBlock;
 import io.github.kydzombie.crimsonforest.block.MortarAndPestleBlock;
 import io.github.kydzombie.crimsonforest.block.entity.CrudeForgeBlockEntity;
+import io.github.kydzombie.crimsonforest.block.entity.CrudePressBlockEntity;
 import io.github.kydzombie.crimsonforest.block.entity.MortarAndPestleBlockEntity;
+import io.github.kydzombie.crimsonforest.entity.VinelashAttackEntity;
+import io.github.kydzombie.crimsonforest.item.CrimsonForestCraftingItem;
 import io.github.kydzombie.crimsonforest.item.SoulItem;
-import io.github.kydzombie.crimsonforest.item.render.EssenceRenderItem;
+import io.github.kydzombie.crimsonforest.item.SoulShardItem;
 import io.github.kydzombie.crimsonforest.item.VialItem;
+import io.github.kydzombie.crimsonforest.item.render.EssenceRenderItem;
+import io.github.kydzombie.crimsonforest.item.render.LesserSoulRenderItem;
 import io.github.kydzombie.crimsonforest.item.render.SoulRenderItem;
 import io.github.kydzombie.crimsonforest.item.render.VinelashRenderItem;
 import io.github.kydzombie.crimsonforest.item.thermos.FluidThermosItem;
@@ -16,16 +22,18 @@ import io.github.kydzombie.crimsonforest.item.thermos.NatureTunedThermosItem;
 import io.github.kydzombie.crimsonforest.magic.EssenceType;
 import io.github.kydzombie.crimsonforest.recipe.CrudeForgeRecipe;
 import io.github.kydzombie.crimsonforest.recipe.CrudeForgeRecipeRegistry;
+import io.github.kydzombie.crimsonforest.recipe.CrudePressRecipe;
+import io.github.kydzombie.crimsonforest.recipe.CrudePressRecipeRegistry;
 import net.fabricmc.api.ModInitializer;
 import net.mine_diver.unsafeevents.listener.EventListener;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.modificationstation.stationapi.api.event.block.entity.BlockEntityRegisterEvent;
+import net.modificationstation.stationapi.api.event.entity.EntityRegister;
 import net.modificationstation.stationapi.api.event.registry.BlockRegistryEvent;
 import net.modificationstation.stationapi.api.event.registry.ItemRegistryEvent;
 import net.modificationstation.stationapi.api.mod.entrypoint.Entrypoint;
-import net.modificationstation.stationapi.api.template.item.TemplateItem;
 import net.modificationstation.stationapi.api.util.Namespace;
 import net.modificationstation.stationapi.api.util.Null;
 import org.apache.logging.log4j.Logger;
@@ -36,88 +44,140 @@ public class TheCrimsonForest implements ModInitializer {
 
     @Entrypoint.Logger
     public static final Logger LOGGER = Null.get();
+    public static MortarAndPestleBlock mortarAndPestleBlock;
+    public static CrudePressBlock crudePressBlock;
+    public static CrudeForgeBlock crudeForgeBlock;
+    public static EssenceRenderItem woodenEssenceRenderItem;
+    public static EssenceRenderItem ironEssenceRenderItem;
+    public static VinelashRenderItem ironVinelashRenderItem;
+    public static LesserSoulRenderItem ironSoulRenderItem;
+    public static SoulRenderItem tarnishedSoulRenderItem;
+    public static SoulRenderItem arcaneSoulRenderItem;
+    public static SoulShardItem soulShardItem;
+    public static SoulItem zombieSoulItem;
+    public static SoulItem spiderSoulItem;
+    public static SoulItem skeletonSoulItem;
+    public static SoulItem creeperSoulItem;
+    public static SoulItem passiveSoulItem;
+    public static SoulItem corruptedSoulItem;
+    public static SoulItem endermanSoulItem;
+    public static VialItem vialItem;
+    public static FluidThermosItem ironThermosItem;
+    public static LifeTunedThermosItem lifeTunedIronThermosItem;
+    public static NatureTunedThermosItem natureTunedIronThermosItem;
+    public static FluidThermosItem arcaneThermosItem;
+    public static LifeTunedThermosItem lifeTunedArcaneThermosItem;
+    public static NatureTunedThermosItem natureTunedArcaneThermosItem;
+    public static CrimsonForestCraftingItem natureStringItem;
+    public static CrimsonForestCraftingItem lifeIngotItem;
+    public static CrimsonForestCraftingItem natureIngotItem;
+    public static CrimsonForestCraftingItem tarnishedIngotItem;
+    public static CrimsonForestCraftingItem arcaneIngotItem;
+    public static CrimsonForestCraftingItem clayPlateItem;
+    public static CrimsonForestCraftingItem brickPlateItem;
+    public static CrimsonForestCraftingItem ironPlateItem;
+    public static CrimsonForestCraftingItem goldPlateItem;
+    public static CrimsonForestCraftingItem lifePlateItem;
+    public static CrimsonForestCraftingItem naturePlateItem;
+    public static CrimsonForestCraftingItem tarnishedPlateItem;
+    public static CrimsonForestCraftingItem arcanePlateItem;
+    public static CrimsonForestCraftingItem biomechanicalGearItem;
+    public static CrimsonForestCraftingItem biomechanicalChipItem;
+    public static CrimsonForestCraftingItem biomechanicalCircuitItem;
+    public static CrimsonForestCraftingItem soulGearItem;
+    public static CrimsonForestCraftingItem soulChipItem;
+    public static CrimsonForestCraftingItem soulCircuitItem;
 
     @Override
     public void onInitialize() {
-        System.out.println("Hello World!");
         AccessoryRegister.add("thermos", "assets/crimsonforest/accessoryapi/accessory_icon_atlas.png", 0, 0);
     }
-
-    public static MortarAndPestleBlock mortarAndPestleBlock;
-
-    public static CrudeForgeBlock crudeForgeBlock;
 
     @EventListener
     private void registerBlocks(BlockRegistryEvent event) {
         mortarAndPestleBlock = new MortarAndPestleBlock(NAMESPACE.id("mortar_and_pestle"), Material.WOOD);
 
+        crudePressBlock = new CrudePressBlock(NAMESPACE.id("crude_press"), Material.STONE);
         crudeForgeBlock = new CrudeForgeBlock(NAMESPACE.id("crude_forge"), Material.STONE);
     }
 
     @EventListener
     private void registerBlockEntity(BlockEntityRegisterEvent event) {
         event.register(MortarAndPestleBlockEntity.class, NAMESPACE.id("mortar_and_pestle").toString());
+        event.register(CrudePressBlockEntity.class, NAMESPACE.id("crude_press").toString());
         event.register(CrudeForgeBlockEntity.class, NAMESPACE.id("crude_forge").toString());
     }
 
-    public static EssenceRenderItem woodenEssenceRenderItem;
-    public static EssenceRenderItem ironEssenceRenderItem;
-    public static VinelashRenderItem ironVinelashRenderItem;
-    public static SoulRenderItem tarnishedSoulRenderItem;
-    public static SoulRenderItem arcaneSoulRenderItem;
-
-    public static SoulItem zombieSoulItem;
-    public static SoulItem spiderSoulItem;
-    public static SoulItem skeletonSoulItem;
-    public static SoulItem passiveSoulItem;
-    public static SoulItem corruptedSoulItem;
-
-    public static VialItem emptyVialItem;
-    public static VialItem lifeVialItem;
-    public static VialItem natureVialItem;
-
-    public static FluidThermosItem ironThermosItem;
-    public static LifeTunedThermosItem lifeTunedIronThermosItem;
-    public static NatureTunedThermosItem natureTunedIronThermosItem;
-
-    public static FluidThermosItem arcaneThermosItem;
-    public static LifeTunedThermosItem lifeTunedArcaneThermosItem;
-    public static NatureTunedThermosItem natureTunedArcaneThermosItem;
-
-    public static TemplateItem lifeInfusedIngot;
-    public static TemplateItem natureInfusedIngot;
-
     @EventListener
     private void registerItems(ItemRegistryEvent event) {
-        woodenEssenceRenderItem = new EssenceRenderItem(NAMESPACE.id("wooden_essence_render"), 32, 4, 100, 1000);
-        ironEssenceRenderItem = new EssenceRenderItem(NAMESPACE.id("iron_essence_render"), 250, 6, 150, 2500);
+        woodenEssenceRenderItem = new EssenceRenderItem(NAMESPACE.id("wooden_essence_render"), 32, 4, 25);
+        ironEssenceRenderItem = new EssenceRenderItem(NAMESPACE.id("iron_essence_render"), 250, 6, 50);
         ironVinelashRenderItem = new VinelashRenderItem(NAMESPACE.id("iron_vinelash_render"), 250, 6);
+        ironSoulRenderItem = new LesserSoulRenderItem(NAMESPACE.id("iron_soul_render"), 512, 6, .25f);
         tarnishedSoulRenderItem = new SoulRenderItem(NAMESPACE.id("tarnished_soul_render"), 512, 7, .1f);
         arcaneSoulRenderItem = new SoulRenderItem(NAMESPACE.id("arcane_soul_render"), 1024, 7, .5f);
 
+        soulShardItem = new SoulShardItem(NAMESPACE.id("soul_shard"));
         zombieSoulItem = new SoulItem(NAMESPACE.id("zombie_soul"));
         spiderSoulItem = new SoulItem(NAMESPACE.id("spider_soul"));
         skeletonSoulItem = new SoulItem(NAMESPACE.id("skeleton_soul"));
+        creeperSoulItem = new SoulItem(NAMESPACE.id("creeper_soul"));
         passiveSoulItem = new SoulItem(NAMESPACE.id("passive_soul"));
         corruptedSoulItem = new SoulItem(NAMESPACE.id("corrupted_soul"));
+        endermanSoulItem = new SoulItem(NAMESPACE.id("enderman_soul"));
 
-        emptyVialItem = new VialItem(NAMESPACE.id("empty_vial"), null);
-        lifeVialItem = new VialItem(NAMESPACE.id("life_vial"), EssenceType.LIFE);
-        natureVialItem = new VialItem(NAMESPACE.id("nature_vial"), EssenceType.NATURE);
+        vialItem = new VialItem(NAMESPACE.id("vial"), 250);
 
-        ironThermosItem = new FluidThermosItem(NAMESPACE.id("iron_thermos"), 8000);
-        lifeTunedIronThermosItem = new LifeTunedThermosItem(NAMESPACE.id("life_tuned_iron_thermos"), 8000);
-        natureTunedIronThermosItem = new NatureTunedThermosItem(NAMESPACE.id("nature_tuned_iron_thermos"), 8000);
+        int ironMaxMillibuckets = 4000;
 
-        arcaneThermosItem = new FluidThermosItem(NAMESPACE.id("arcane_thermos"), 16000);
-        lifeTunedArcaneThermosItem = new LifeTunedThermosItem(NAMESPACE.id("life_tuned_arcane_thermos"), 16000);
-        natureTunedArcaneThermosItem = new NatureTunedThermosItem(NAMESPACE.id("nature_tuned_arcane_thermos"), 16000);
+        ironThermosItem = new FluidThermosItem(NAMESPACE.id("iron_thermos"), ironMaxMillibuckets);
+        lifeTunedIronThermosItem = new LifeTunedThermosItem(NAMESPACE.id("life_tuned_iron_thermos"), ironMaxMillibuckets);
+        natureTunedIronThermosItem = new NatureTunedThermosItem(NAMESPACE.id("nature_tuned_iron_thermos"), ironMaxMillibuckets);
 
-        lifeInfusedIngot = (TemplateItem) new TemplateItem(NAMESPACE.id("life_infused_ingot")).setTranslationKey(NAMESPACE.id("life_infused_ingot"));
-        natureInfusedIngot = (TemplateItem) new TemplateItem(NAMESPACE.id("nature_infused_ingot")).setTranslationKey(NAMESPACE.id("nature_infused_ingot"));
+        int arcaneMaxMillibuckets = 8000;
 
-        CrudeForgeRecipeRegistry.addRecipe(new CrudeForgeRecipe(new ItemStack(lifeInfusedIngot), 120, new ItemStack(Item.IRON_INGOT), new ItemStack(lifeVialItem)));
-        CrudeForgeRecipeRegistry.addRecipe(new CrudeForgeRecipe(new ItemStack(natureInfusedIngot), 120, new ItemStack(Item.IRON_INGOT), new ItemStack(natureVialItem)));
+        arcaneThermosItem = new FluidThermosItem(NAMESPACE.id("arcane_thermos"), arcaneMaxMillibuckets);
+        lifeTunedArcaneThermosItem = new LifeTunedThermosItem(NAMESPACE.id("life_tuned_arcane_thermos"), arcaneMaxMillibuckets);
+        natureTunedArcaneThermosItem = new NatureTunedThermosItem(NAMESPACE.id("nature_tuned_arcane_thermos"), arcaneMaxMillibuckets);
+
+        natureStringItem = new CrimsonForestCraftingItem(NAMESPACE.id("nature_string"));
+
+        lifeIngotItem = new CrimsonForestCraftingItem(NAMESPACE.id("life_ingot"));
+        natureIngotItem = new CrimsonForestCraftingItem(NAMESPACE.id("nature_ingot"));
+        tarnishedIngotItem = new CrimsonForestCraftingItem(NAMESPACE.id("tarnished_ingot"));
+        arcaneIngotItem = new CrimsonForestCraftingItem(NAMESPACE.id("arcane_ingot"));
+
+        clayPlateItem = new CrimsonForestCraftingItem(NAMESPACE.id("clay_plate"));
+        brickPlateItem = new CrimsonForestCraftingItem(NAMESPACE.id("brick_plate"));
+        ironPlateItem = new CrimsonForestCraftingItem(NAMESPACE.id("iron_plate"));
+        goldPlateItem = new CrimsonForestCraftingItem(NAMESPACE.id("gold_plate"));
+        lifePlateItem = new CrimsonForestCraftingItem(NAMESPACE.id("life_plate"));
+        naturePlateItem = new CrimsonForestCraftingItem(NAMESPACE.id("nature_plate"));
+        tarnishedPlateItem = new CrimsonForestCraftingItem(NAMESPACE.id("tarnished_plate"));
+        arcanePlateItem = new CrimsonForestCraftingItem(NAMESPACE.id("arcane_plate"));
+
+        biomechanicalGearItem = new CrimsonForestCraftingItem(NAMESPACE.id("biomechanical_gear"));
+        biomechanicalChipItem = new CrimsonForestCraftingItem(NAMESPACE.id("biomechanical_chip"));
+        biomechanicalCircuitItem = new CrimsonForestCraftingItem(NAMESPACE.id("biomechanical_circuit"));
+        soulGearItem = new CrimsonForestCraftingItem(NAMESPACE.id("soul_gear"));
+        soulChipItem = new CrimsonForestCraftingItem(NAMESPACE.id("soul_chip"));
+        soulCircuitItem = new CrimsonForestCraftingItem(NAMESPACE.id("soul_circuit"));
+
+        CrudePressRecipeRegistry.INSTANCE.addRecipe(new CrudePressRecipe(new ItemStack(Item.CLAY), new ItemStack(clayPlateItem), 60));
+        CrudePressRecipeRegistry.INSTANCE.addRecipe(new CrudePressRecipe(new ItemStack(Item.BRICK), new ItemStack(brickPlateItem), 120));
+        CrudePressRecipeRegistry.INSTANCE.addRecipe(new CrudePressRecipe(new ItemStack(Item.IRON_INGOT, 2), new ItemStack(ironPlateItem), 80));
+        CrudePressRecipeRegistry.INSTANCE.addRecipe(new CrudePressRecipe(new ItemStack(Item.GOLD_INGOT, 2), new ItemStack(goldPlateItem), 80));
+        CrudePressRecipeRegistry.INSTANCE.addRecipe(new CrudePressRecipe(new ItemStack(lifeIngotItem, 2), new ItemStack(lifePlateItem), 160));
+        CrudePressRecipeRegistry.INSTANCE.addRecipe(new CrudePressRecipe(new ItemStack(natureIngotItem, 2), new ItemStack(naturePlateItem), 160));
+
+        CrudeForgeRecipeRegistry.INSTANCE.addRecipe(new CrudeForgeRecipe(new ItemStack(lifeIngotItem), 120, new ItemStack(Item.IRON_INGOT), vialItem.asStack(EssenceType.LIFE, 50)));
+        CrudeForgeRecipeRegistry.INSTANCE.addRecipe(new CrudeForgeRecipe(new ItemStack(natureIngotItem), 120, new ItemStack(Item.IRON_INGOT), vialItem.asStack(EssenceType.NATURE, 50)));
+        CrudeForgeRecipeRegistry.INSTANCE.addRecipe(new CrudeForgeRecipe(new ItemStack(tarnishedIngotItem), 240, new ItemStack(lifeIngotItem), new ItemStack(natureIngotItem)));
+    }
+
+    @EventListener
+    private void registerEntities(EntityRegister event) {
+        event.register(VinelashAttackEntity.class, NAMESPACE.id("vinelash_attack").toString());
     }
 
 //    @EventListener

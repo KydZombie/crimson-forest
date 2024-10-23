@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "crimsonforest:block/crude_press"
+    },
+    "facing=south": {
+      "model": "crimsonforest:block/crude_press",
+      "y": 90
+    },
+    "facing=west": {
+      "model": "crimsonforest:block/crude_press",
+      "y": 180
+    },
+    "facing=north": {
+      "model": "crimsonforest:block/crude_press",
+      "y": 270
+    }
+  }
+}

@@ -7,6 +7,6 @@ public class SoulItem extends TemplateItem {
     public SoulItem(Identifier identifier) {
         super(identifier);
         setTranslationKey(identifier);
-        setMaxCount(16);
+        setMaxCount(8);
     }
 }

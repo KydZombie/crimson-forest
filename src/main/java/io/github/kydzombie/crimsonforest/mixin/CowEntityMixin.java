@@ -1,6 +1,5 @@
 package io.github.kydzombie.crimsonforest.mixin;
 
-import io.github.kydzombie.crimsonforest.TheCrimsonForest;
 import io.github.kydzombie.crimsonforest.item.thermos.FluidThermosItem;
 import net.minecraft.entity.passive.CowEntity;
 import net.minecraft.entity.player.PlayerEntity;

@@ -5,8 +5,8 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.nbt.NbtCompound;
 
 public class MortarAndPestleBlockEntity extends BlockEntity {
-    public static String ESSENCE_NBT = TheCrimsonForest.NAMESPACE.id("essence").toString();
     public static final int MAX_ESSENCE = 1000;
+    public static String ESSENCE_NBT = TheCrimsonForest.NAMESPACE.id("essence").toString();
     private int essence = 0;
 
     public int getEssence() {

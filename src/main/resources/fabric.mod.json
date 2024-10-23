@@ -2,7 +2,6 @@
   "schemaVersion": 1,
   "id": "crimsonforest",
   "version": "${version}",
-
   "name": "The Crimson Forest",
   "description": "Idk right now. I'll get around to this later!",
   "authors": [
@@ -12,10 +11,8 @@
     "homepage": "https://glass-launcher.net/",
     "sources": "https://github.com/calmilamsy/stationapi-example-mod"
   },
-
   "license": "CC0-1.0",
   "icon": "assets/crimsonforest/icon.png",
-
   "environment": "*",
   "entrypoints": {
     "main": [
@@ -40,7 +37,6 @@
   "mixins": [
     "crimsonforest.mixins.json"
   ],
-
   "depends": {
     "minecraft": "1.0.0-beta.7.3"
   }

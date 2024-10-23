@@ -8,17 +8,15 @@ import net.minecraft.entity.player.PlayerInventory;
 import org.lwjgl.opengl.GL11;
 
 public class TunedThermosScreen extends HandledScreen {
-    private final TunedThermosInventory inventory;
-
     private static final int BAR_X = 6;
     private static final int BAR_Y = 5;
     private static final int BAR_WIDTH = 28;
     private static final int FULL_BAR_HEIGHT = 76;
-
     private static final int LIFE_U = 0;
     private static final int LIFE_V = 166;
     private static final int NATURE_U = 28;
     private static final int NATURE_V = 166;
+    private final TunedThermosInventory inventory;
 
     public TunedThermosScreen(PlayerInventory playerInventory, TunedThermosInventory inventory) {
         super(new TunedThermosScreenHandler(playerInventory, inventory));
@@ -40,17 +38,23 @@ public class TunedThermosScreen extends HandledScreen {
         int var4 = (height - backgroundHeight) / 2;
         drawTexture(var3, var4, 0, 0, backgroundWidth, backgroundHeight);
 
-        EssenceType essenceType = inventory.tunedThermosItem.getEssenceTypes(inventory.thermosStack).get(0);
-
-        int essence = inventory.tunedThermosItem.getEssence(inventory.thermosStack, essenceType);
-        int maxMillibuckets = inventory.tunedThermosItem.maxEssence;
+        int essence = inventory.thermosItem.getEssence(inventory.thermosStack, inventory.essenceType);
+        int maxMillibuckets = inventory.thermosItem.maxEssence;
         int bar_height = (int) ((essence / (float) maxMillibuckets) * FULL_BAR_HEIGHT);
         int bar_offset = (FULL_BAR_HEIGHT - bar_height);
 
-        if (essenceType == EssenceType.LIFE) {
+        if (inventory.essenceType == EssenceType.LIFE) {
             drawTexture(var3 + BAR_X, var4 + BAR_Y + bar_offset, LIFE_U, LIFE_V + bar_offset, BAR_WIDTH, bar_height);
         } else {
             drawTexture(var3 + BAR_X, var4 + BAR_Y + bar_offset, NATURE_U, NATURE_V + bar_offset, BAR_WIDTH, bar_height);
+        }
+    }
+
+    @Override
+    public void removed() {
+        super.removed();
+        if (this.minecraft.player != null) {
+            container.onClosed(minecraft.player);
         }
     }
 }

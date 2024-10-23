@@ -46,6 +46,38 @@ public class TheCrimsonForestDatagen implements DataEntrypoint {
                                 .save("thermos/arcane/" + essenceType.name().toLowerCase() + "_" + i, this, context);
                     }
                 }
+
+                for (String materialType : new String[]{"wooden", "iron"}) {
+                    handheld()
+                            .texture("layer0", TheCrimsonForest.NAMESPACE.id("item/render/" + materialType))
+                            .texture("layer1", TheCrimsonForest.NAMESPACE.id("item/render/essence/no_vial"))
+                            .save("render/essence/" + materialType + "_no_vial", this, context);
+
+                    handheld()
+                            .texture("layer0", TheCrimsonForest.NAMESPACE.id("item/render/" + materialType))
+                            .texture("layer1", TheCrimsonForest.NAMESPACE.id("item/render/essence/no_vial"))
+                            .texture("layer2", TheCrimsonForest.NAMESPACE.id("item/render/essence/blood_drip"))
+                            .save("render/essence/" + materialType + "_no_vial_blood_drip", this, context);
+
+                    for (int i = 0; i < 3; i++) {
+                        handheld()
+                                .texture("layer0", TheCrimsonForest.NAMESPACE.id("item/render/" + materialType))
+                                .texture("layer1", TheCrimsonForest.NAMESPACE.id("item/render/essence/vial_" + i))
+                                .save("render/essence/" + materialType + "_vial_" + i, this, context);
+                        handheld()
+                                .texture("layer0", TheCrimsonForest.NAMESPACE.id("item/render/" + materialType))
+                                .texture("layer1", TheCrimsonForest.NAMESPACE.id("item/render/essence/vial_" + i))
+                                .texture("layer2", TheCrimsonForest.NAMESPACE.id("item/render/essence/blood_drip"))
+                                .save("render/essence/" + materialType + "_vial_" + i + "_blood_drip", this, context);
+                    }
+                }
+
+                for (String essenceType : new String[]{"life", "nature"}) {
+                    for (String fillAmount : new String[]{"partial", "full"}) {
+                        handheld().texture("layer0", TheCrimsonForest.NAMESPACE.id("item/vial/" + essenceType + "_" + fillAmount))
+                                .save("vial/" + essenceType + "_" + fillAmount, this, context);
+                    }
+                }
             }
         });
     }
