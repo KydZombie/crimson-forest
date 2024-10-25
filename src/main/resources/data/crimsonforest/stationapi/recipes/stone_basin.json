@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "S S",
+    "SVS",
+    "SSS"
+  ],
+  "key": {
+    "S": {
+      "item": "minecraft:stone"
+    },
+    "V": {
+      "item": "crimsonforest:vial"
+    }
+  },
+  "result": {
+    "item": "crimsonforest:stone_basin"
+  }
+}

@@ -1,6 +1,6 @@
 package io.github.kydzombie.crimsonforest.block.entity;
 
-import io.github.kydzombie.crimsonforest.recipe.CrudePressRecipeRegistry;
+import io.github.kydzombie.crimsonforest.recipe.crude.CrudePressRecipeRegistry;
 
 public class CrudePressBlockEntity extends CrudeMachineBlockEntity {
     public CrudePressBlockEntity() {

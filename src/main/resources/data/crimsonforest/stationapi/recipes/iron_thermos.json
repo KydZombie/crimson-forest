@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " V ",
+    "PBP",
+    " P "
+  ],
+  "key": {
+    "P": {
+      "item": "crimsonforest:iron_plate"
+    },
+    "B": {
+        "item": "minecraft:bucket"
+    },
+    "V": {
+      "item": "crimsonforest:vial"
+    }
+  },
+  "result": {
+    "item": "crimsonforest:iron_thermos"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PIP",
+    "GLG",
+    "EEE"
+  ],
+  "key": {
+    "P": {
+      "item": "crimsonforest:brick_plate"
+    },
+    "E": {
+      "item": "crimsonforest:essence_bonded_bricks"
+    },
+    "G": {
+      "item": "crimsonforest:biomechanical_gear"
+    },
+    "L": {
+      "item": "minecraft:glass"
+    },
+    "I": {
+      "item": "minecraft:iron_block"
+    }
+  },
+  "result": {
+    "item": "crimsonforest:crude_press"
+  }
+}

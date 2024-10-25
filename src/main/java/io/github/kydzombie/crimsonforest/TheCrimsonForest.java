@@ -19,12 +19,15 @@ import io.github.kydzombie.crimsonforest.item.thermos.FluidThermosItem;
 import io.github.kydzombie.crimsonforest.item.thermos.LifeTunedThermosItem;
 import io.github.kydzombie.crimsonforest.item.thermos.NatureTunedThermosItem;
 import io.github.kydzombie.crimsonforest.magic.EssenceType;
-import io.github.kydzombie.crimsonforest.recipe.CrudeForgeRecipe;
-import io.github.kydzombie.crimsonforest.recipe.CrudeForgeRecipeRegistry;
-import io.github.kydzombie.crimsonforest.recipe.CrudePressRecipe;
-import io.github.kydzombie.crimsonforest.recipe.CrudePressRecipeRegistry;
+import io.github.kydzombie.crimsonforest.recipe.BasinRecipe;
+import io.github.kydzombie.crimsonforest.recipe.BasinRecipeRegistry;
+import io.github.kydzombie.crimsonforest.recipe.crude.CrudeForgeRecipe;
+import io.github.kydzombie.crimsonforest.recipe.crude.CrudeForgeRecipeRegistry;
+import io.github.kydzombie.crimsonforest.recipe.crude.CrudePressRecipe;
+import io.github.kydzombie.crimsonforest.recipe.crude.CrudePressRecipeRegistry;
 import net.fabricmc.api.ModInitializer;
 import net.mine_diver.unsafeevents.listener.EventListener;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -92,6 +95,10 @@ public class TheCrimsonForest implements ModInitializer {
     public static CrimsonForestCraftingItem tarnishedPlateItem;
     public static CrimsonForestCraftingItem arcanePlateItem;
 
+    public static CrimsonForestCraftingItem woodenGearItem;
+    public static CrimsonForestCraftingItem ironRodItem;
+    public static CrimsonForestCraftingItem tarnishedRodItem;
+    public static CrimsonForestCraftingItem arcaneRodItem;
     public static CrimsonForestCraftingItem biomechanicalGearItem;
     public static CrimsonForestCraftingItem biomechanicalChipItem;
     public static CrimsonForestCraftingItem biomechanicalCircuitItem;
@@ -170,12 +177,26 @@ public class TheCrimsonForest implements ModInitializer {
         tarnishedPlateItem = new CrimsonForestCraftingItem(NAMESPACE.id("tarnished_plate"));
         arcanePlateItem = new CrimsonForestCraftingItem(NAMESPACE.id("arcane_plate"));
 
+        woodenGearItem = new CrimsonForestCraftingItem(NAMESPACE.id("wooden_gear"));
+        ironRodItem = new CrimsonForestCraftingItem(NAMESPACE.id("iron_rod"));
+        tarnishedRodItem = new CrimsonForestCraftingItem(NAMESPACE.id("tarnished_rod"));
+        arcaneRodItem = new CrimsonForestCraftingItem(NAMESPACE.id("arcane_rod"));
         biomechanicalGearItem = new CrimsonForestCraftingItem(NAMESPACE.id("biomechanical_gear"));
         biomechanicalChipItem = new CrimsonForestCraftingItem(NAMESPACE.id("biomechanical_chip"));
         biomechanicalCircuitItem = new CrimsonForestCraftingItem(NAMESPACE.id("biomechanical_circuit"));
         soulGearItem = new CrimsonForestCraftingItem(NAMESPACE.id("soul_gear"));
         soulChipItem = new CrimsonForestCraftingItem(NAMESPACE.id("soul_chip"));
         soulCircuitItem = new CrimsonForestCraftingItem(NAMESPACE.id("soul_circuit"));
+
+        BasinRecipeRegistry.INSTANCE.addRecipe(new BasinRecipe(new ItemStack(Item.STRING), EssenceType.NATURE, 5, new ItemStack(natureStringItem)));
+        BasinRecipeRegistry.INSTANCE.addRecipe(new BasinRecipe(new ItemStack(Block.BRICKS), EssenceType.LIFE, 25, new ItemStack(essenceBondedBricksBlock)));
+        BasinRecipeRegistry.INSTANCE.addRecipe(new BasinRecipe(new ItemStack(Block.BRICKS), EssenceType.NATURE, 25, new ItemStack(essenceBondedBricksBlock)));
+        BasinRecipeRegistry.INSTANCE.addRecipe(new BasinRecipe(new ItemStack(woodenGearItem), EssenceType.LIFE, 50, new ItemStack(biomechanicalGearItem)));
+        BasinRecipeRegistry.INSTANCE.addRecipe(new BasinRecipe(new ItemStack(woodenGearItem), EssenceType.NATURE, 50, new ItemStack(biomechanicalGearItem)));
+        BasinRecipeRegistry.INSTANCE.addRecipe(new BasinRecipe(new ItemStack(Item.IRON_INGOT), EssenceType.LIFE, 100, new ItemStack(lifeIngotItem)));
+        BasinRecipeRegistry.INSTANCE.addRecipe(new BasinRecipe(new ItemStack(Item.IRON_INGOT), EssenceType.NATURE, 100, new ItemStack(natureIngotItem)));
+        BasinRecipeRegistry.INSTANCE.addRecipe(new BasinRecipe(new ItemStack(ironThermosItem), EssenceType.LIFE, 100, new ItemStack(lifeTunedIronThermosItem)));
+        BasinRecipeRegistry.INSTANCE.addRecipe(new BasinRecipe(new ItemStack(ironThermosItem), EssenceType.NATURE, 100, new ItemStack(natureTunedIronThermosItem)));
 
         CrudePressRecipeRegistry.INSTANCE.addRecipe(new CrudePressRecipe(new ItemStack(Item.CLAY), new ItemStack(clayPlateItem), 60));
         CrudePressRecipeRegistry.INSTANCE.addRecipe(new CrudePressRecipe(new ItemStack(Item.BRICK), new ItemStack(brickPlateItem), 120));

@@ -42,13 +42,6 @@ public class MortarAndPestleBlock extends TemplateBlockWithEntity {
             stack.split(1);
             player.inventory.markDirty();
             return true;
-        } else if (stack.itemId == Item.STRING.id) {
-            if (essence >= 50) {
-                blockEntity.setEssence(essence - 50);
-                player.inventory.removeStack(player.inventory.selectedSlot, 1);
-                player.inventory.addStack(new ItemStack(TheCrimsonForest.natureStringItem));
-                return true;
-            }
         } else if (stack.getItem() instanceof EssenceContainer container) {
             boolean multiple = stack.count > 1;
             ItemStack newStack = stack;

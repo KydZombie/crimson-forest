@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "BPB",
+    "GFG",
+    "EEE"
+  ],
+  "key": {
+    "B": {
+      "item": "crimsonforest:brick_plate"
+    },
+    "P": {
+      "item": "crimsonforest:iron_plate"
+    },
+    "G": {
+      "item": "crimsonforest:biomechanical_gear"
+    },
+    "E": {
+      "item": "crimsonforest:essence_bonded_bricks"
+    },
+    "F": {
+      "item": "minecraft:furnace"
+    }
+  },
+  "result": {
+    "item": "crimsonforest:crude_forge"
+  }
+}

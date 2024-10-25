@@ -1,11 +1,15 @@
 package io.github.kydzombie.crimsonforest.block.entity;
 
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.FurnaceBlockEntity;
+import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
+
+import java.util.Random;
 
 public interface SimpleInventory extends Inventory {
     ItemStack[] getInventory();
@@ -65,6 +69,38 @@ public interface SimpleInventory extends Inventory {
             return false;
         } else {
             return !(player.getSquaredDistance((double) blockEntity.x + 0.5, (double) blockEntity.y + 0.5, (double) blockEntity.z + 0.5) > 64.0);
+        }
+    }
+
+    Random RANDOM = new Random();
+
+    default void dropInventory() {
+        BlockEntity blockEntity = (BlockEntity) this;
+
+        for (int i = 0; i < size(); i++) {
+            ItemStack stack = getStack(i);
+            if (stack != null) {
+                float xOffset = RANDOM.nextFloat() * 0.8F + 0.1F;
+                float yOffset = RANDOM.nextFloat() * 0.8F + 0.1F;
+                float zOffset = RANDOM.nextFloat() * 0.8F + 0.1F;
+
+                while (stack.count > 0) {
+                    int droppedCount = RANDOM.nextInt(21) + 10;
+                    if (droppedCount > stack.count) {
+                        droppedCount = stack.count;
+                    }
+
+                    stack.count -= droppedCount;
+                    ItemEntity droppedEntity = new ItemEntity(
+                            blockEntity.world, (float)blockEntity.x + xOffset, (float)blockEntity.y + yOffset, (float)blockEntity.z + zOffset, new ItemStack(stack.itemId, droppedCount, stack.getDamage())
+                    );
+                    float var13 = 0.05F;
+                    droppedEntity.velocityX = (float)RANDOM.nextGaussian() * var13;
+                    droppedEntity.velocityY = (float)RANDOM.nextGaussian() * var13 + 0.2F;
+                    droppedEntity.velocityZ = (float)RANDOM.nextGaussian() * var13;
+                    blockEntity.world.spawnEntity(droppedEntity);
+                }
+            }
         }
     }
 

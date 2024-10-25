@@ -1,7 +1,7 @@
 package io.github.kydzombie.crimsonforest.block.entity;
 
-import io.github.kydzombie.crimsonforest.recipe.CrudeRecipeData;
-import io.github.kydzombie.crimsonforest.recipe.CrudeRecipeRegistry;
+import io.github.kydzombie.crimsonforest.recipe.crude.CrudeRecipeData;
+import io.github.kydzombie.crimsonforest.recipe.crude.CrudeRecipeRegistry;
 import lombok.Getter;
 import lombok.Setter;
 import net.fabricmc.api.EnvType;

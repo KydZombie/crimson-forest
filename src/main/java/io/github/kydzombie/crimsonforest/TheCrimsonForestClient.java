@@ -57,6 +57,10 @@ public class TheCrimsonForestClient implements ClientModInitializer {
         TheCrimsonForest.tarnishedPlateItem.setTexture(TheCrimsonForest.NAMESPACE.id("item/plate/tarnished"));
         TheCrimsonForest.arcanePlateItem.setTexture(TheCrimsonForest.NAMESPACE.id("item/plate/arcane"));
 
+        TheCrimsonForest.woodenGearItem.setTexture(TheCrimsonForest.NAMESPACE.id("item/component/wooden_gear"));
+        TheCrimsonForest.ironRodItem.setTexture(TheCrimsonForest.NAMESPACE.id("item/component/iron_rod"));
+        TheCrimsonForest.tarnishedRodItem.setTexture(TheCrimsonForest.NAMESPACE.id("item/component/tarnished_rod"));
+        TheCrimsonForest.arcaneRodItem.setTexture(TheCrimsonForest.NAMESPACE.id("item/component/arcane_rod"));
         TheCrimsonForest.biomechanicalGearItem.setTexture(TheCrimsonForest.NAMESPACE.id("item/component/biomechanical_gear"));
         TheCrimsonForest.biomechanicalChipItem.setTexture(TheCrimsonForest.NAMESPACE.id("item/component/biomechanical_chip"));
         TheCrimsonForest.biomechanicalCircuitItem.setTexture(TheCrimsonForest.NAMESPACE.id("item/component/biomechanical_circuit"));

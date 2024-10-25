@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PPS",
+    " / ",
+    "/  "
+  ],
+  "key": {
+    "P": {
+      "item": "crimsonforest:iron_plate"
+    },
+    "S": {
+      "item": "crimsonforest:nature_string"
+    },
+    "/": {
+      "item": "crimsonforest:iron_rod"
+    }
+  },
+  "result": {
+    "item": "crimsonforest:iron_essence_render"
+  }
+}

@@ -1,4 +1,4 @@
-package io.github.kydzombie.crimsonforest.recipe;
+package io.github.kydzombie.crimsonforest.recipe.crude;
 
 import net.minecraft.item.ItemStack;
 import org.jetbrains.annotations.NotNull;

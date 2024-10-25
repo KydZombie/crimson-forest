@@ -2,8 +2,8 @@ package io.github.kydzombie.crimsonforest.block.entity;
 
 import io.github.kydzombie.crimsonforest.item.VialItem;
 import io.github.kydzombie.crimsonforest.magic.EssenceType;
-import io.github.kydzombie.crimsonforest.recipe.CrudeForgeRecipeRegistry;
-import io.github.kydzombie.crimsonforest.recipe.CrudeRecipeData;
+import io.github.kydzombie.crimsonforest.recipe.crude.CrudeForgeRecipeRegistry;
+import io.github.kydzombie.crimsonforest.recipe.crude.CrudeRecipeData;
 import net.minecraft.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

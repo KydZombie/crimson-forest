@@ -54,6 +54,10 @@ item.@.nature_plate.name=Nature-infused Plate
 item.@.tarnished_plate.name=Tarnished Plate
 item.@.arcane_plate.name=Arcane Plate
 
+item.@.wooden_gear.name=Wooden Gear
+item.@.iron_rod.name=Iron Rod
+item.@.tarnished_rod.name=Tarnished Rod
+item.@.arcane_rod.name=Arcane Rod
 item.@.biomechanical_gear.name=Bio-mechanical Gear
 item.@.biomechanical_chip.name=Bio-mechanical Chip
 item.@.biomechanical_circuit.name=Bio-mechanical Circuit

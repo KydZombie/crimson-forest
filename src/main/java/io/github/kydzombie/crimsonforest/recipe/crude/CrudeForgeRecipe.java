@@ -1,4 +1,4 @@
-package io.github.kydzombie.crimsonforest.recipe;
+package io.github.kydzombie.crimsonforest.recipe.crude;
 
 import io.github.kydzombie.crimsonforest.item.VialItem;
 import io.github.kydzombie.crimsonforest.magic.EssenceType;

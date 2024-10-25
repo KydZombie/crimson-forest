@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#",
+    "#"
+  ],
+  "key": {
+    "#": {
+      "item": "crimsonforest:iron_plate"
+    }
+  },
+  "result": {
+    "item": "crimsonforest:iron_rod",
+    "count": 4
+  }
+}

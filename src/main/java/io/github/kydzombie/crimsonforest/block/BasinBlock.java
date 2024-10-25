@@ -1,6 +1,7 @@
 package io.github.kydzombie.crimsonforest.block;
 
 import io.github.kydzombie.crimsonforest.block.entity.BasinBlockEntity;
+import io.github.kydzombie.crimsonforest.block.entity.CrudeForgeBlockEntity;
 import io.github.kydzombie.crimsonforest.item.EssenceContainer;
 import io.github.kydzombie.crimsonforest.magic.EssenceType;
 import net.minecraft.block.entity.BlockEntity;
@@ -20,6 +21,12 @@ public class BasinBlock extends TemplateBlockWithEntity {
         setHardness(1.5F);
         setResistance(10.0F);
         setSoundGroup(STONE_SOUND_GROUP);
+        setBoundingBox(0, 0, 0, 1, 0.8725f, 1);
+    }
+
+    @Override
+    public boolean isOpaque() {
+        return false;
     }
 
     @Override
@@ -100,6 +107,12 @@ public class BasinBlock extends TemplateBlockWithEntity {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void onBreak(World world, int x, int y, int z) {
+        ((BasinBlockEntity) world.getBlockEntity(x, y, z)).dropInventory();
+        super.onBreak(world, x, y, z);
     }
 
     @Override
