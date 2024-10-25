@@ -1,0 +1,9 @@
+{
+  "parent": "block/orientable_with_bottom",
+  "textures": {
+    "front": "crimsonforest:block/tarnished_soul_infuser_front",
+    "side": "crimsonforest:block/tarnished_machine_side",
+    "top": "crimsonforest:block/tarnished_machine_top",
+    "bottom": "crimsonforest:block/tarnished_machine_bottom"
+  }
+}

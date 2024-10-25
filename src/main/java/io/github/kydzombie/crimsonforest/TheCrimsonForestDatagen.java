@@ -2,6 +2,7 @@ package io.github.kydzombie.crimsonforest;
 
 import emmathemartian.datagen.DataGenContext;
 import emmathemartian.datagen.entrypoint.DataEntrypoint;
+import emmathemartian.datagen.provider.BlockStateProvider;
 import emmathemartian.datagen.provider.ItemModelProvider;
 import io.github.kydzombie.crimsonforest.item.thermos.FluidThermosItem;
 import io.github.kydzombie.crimsonforest.magic.EssenceType;
@@ -78,6 +79,13 @@ public class TheCrimsonForestDatagen implements DataEntrypoint {
                                 .save("vial/" + essenceType + "_" + fillAmount, this, context);
                     }
                 }
+            }
+        });
+
+        context.run(new BlockStateProvider(context) {
+            @Override
+            public void run(DataGenContext context) {
+
             }
         });
     }

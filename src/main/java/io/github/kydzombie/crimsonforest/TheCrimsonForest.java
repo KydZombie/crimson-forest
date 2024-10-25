@@ -50,6 +50,9 @@ public class TheCrimsonForest implements ModInitializer {
     public static MortarAndPestleBlock mortarAndPestleBlock;
     public static CrudePressBlock crudePressBlock;
     public static CrudeForgeBlock crudeForgeBlock;
+    public static TarnishedSoulInfuserBlock tarnishedSoulInfuserBlock;
+    public static CrudePressBlock tarnishedPressBlock;
+    public static CrudeForgeBlock tarnishedForgeBlock;
 
     // Items
     public static EssenceRenderItem woodenEssenceRenderItem;
@@ -124,6 +127,10 @@ public class TheCrimsonForest implements ModInitializer {
 
         crudePressBlock = new CrudePressBlock(NAMESPACE.id("crude_press"), Material.STONE);
         crudeForgeBlock = new CrudeForgeBlock(NAMESPACE.id("crude_forge"), Material.STONE);
+
+        tarnishedSoulInfuserBlock = new TarnishedSoulInfuserBlock(NAMESPACE.id("tarnished_soul_infuser"), Material.STONE);
+        tarnishedPressBlock = new CrudePressBlock(NAMESPACE.id("tarnished_press"), Material.STONE);
+        tarnishedForgeBlock = new CrudeForgeBlock(NAMESPACE.id("tarnished_forge"), Material.STONE);
     }
 
     @EventListener

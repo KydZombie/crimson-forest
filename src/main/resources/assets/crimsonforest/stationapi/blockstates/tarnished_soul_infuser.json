@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "crimsonforest:block/tarnished_soul_infuser"
+    },
+    "facing=south": {
+      "model": "crimsonforest:block/tarnished_soul_infuser",
+      "y": 90
+    },
+    "facing=west": {
+      "model": "crimsonforest:block/tarnished_soul_infuser",
+      "y": 180
+    },
+    "facing=north": {
+      "model": "crimsonforest:block/tarnished_soul_infuser",
+      "y": 270
+    }
+  }
+}

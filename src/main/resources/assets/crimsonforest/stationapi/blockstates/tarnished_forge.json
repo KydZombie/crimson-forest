@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "crimsonforest:block/tarnished_forge"
+    },
+    "facing=south": {
+      "model": "crimsonforest:block/tarnished_forge",
+      "y": 90
+    },
+    "facing=west": {
+      "model": "crimsonforest:block/tarnished_forge",
+      "y": 180
+    },
+    "facing=north": {
+      "model": "crimsonforest:block/tarnished_forge",
+      "y": 270
+    }
+  }
+}
