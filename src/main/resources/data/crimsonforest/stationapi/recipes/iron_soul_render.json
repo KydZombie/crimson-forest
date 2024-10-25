@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "crimsonforest:iron_render"
+    },
+    {
+      "item": "crimsonforest:arcane_string"
+    },
+    {
+      "item": "crimsonforest:lesser_soul_catcher"
+    }
+  ],
+  "result": {
+    "item": "crimsonforest:iron_soul_render"
+  }
+}

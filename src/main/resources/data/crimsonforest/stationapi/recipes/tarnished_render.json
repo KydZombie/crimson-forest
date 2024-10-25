@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PPS",
+    " / ",
+    "/  "
+  ],
+  "key": {
+    "P": {
+      "item": "crimsonforest:tarnished_plate"
+    },
+    "S": {
+      "item": "crimsonforest:arcane_string"
+    },
+    "/": {
+      "item": "crimsonforest:tarnished_rod"
+    }
+  },
+  "result": {
+    "item": "crimsonforest:tarnished_render"
+  }
+}

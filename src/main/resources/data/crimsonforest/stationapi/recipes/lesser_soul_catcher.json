@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " P ",
+    "PSP",
+    " P "
+  ],
+  "key": {
+    "P": {
+      "item": "crimsonforest:tarnished_plate"
+    },
+    "S": {
+      "item": "crimsonforest:arcane_string"
+    }
+  },
+  "result": {
+    "item": "crimsonforest:lesser_soul_catcher"
+  }
+}

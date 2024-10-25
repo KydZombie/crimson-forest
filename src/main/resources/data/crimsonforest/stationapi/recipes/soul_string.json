@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " S ",
+    "SAS",
+    " S "
+  ],
+  "key": {
+    "S": {
+      "item": "crimsonforest:soul_shard"
+    },
+    "A": {
+      "item": "crimsonforest:arcane_string"
+    }
+  },
+  "result": {
+    "item": "crimsonforest:soul_string"
+  }
+}

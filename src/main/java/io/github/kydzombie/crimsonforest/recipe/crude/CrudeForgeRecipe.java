@@ -45,6 +45,8 @@ public class CrudeForgeRecipe {
                 }
             } else if (!required.isItemEqual(given)) {
                 return null;
+            } else if (given.count < required.count) {
+                return null;
             }
 
             stacksTaken[i] = this.inputs[i].copy();

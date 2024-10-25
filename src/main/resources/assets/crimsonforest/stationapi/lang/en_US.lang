@@ -5,10 +5,13 @@ tile.@.crude_press.name=Crude Press
 tile.@.crude_forge.name=Crude Forge
 
 item.@.wooden_essence_render.name=Wooden Essence Render
+item.@.iron_render.name=Iron Render
 item.@.iron_essence_render.name=Iron Essence Render
 item.@.iron_vinelash_render.name=Iron Vinelash Render
 item.@.iron_soul_render.name=Iron Lesser Soulrender
+item.@.tarnished_render.name=Tarnished Render
 item.@.tarnished_soul_render.name=Tarnished Soulrender
+item.@.arcane_render.name=Arcane Render
 item.@.arcane_soul_render.name=Soulrender
 essence_render.@.no_vial_text=No vial inserted.
 essence_render.@.essence_text=Life Essence: %d mB
@@ -38,7 +41,10 @@ thermos.@.empty_text=Empty
 fluid_thermos.@.fluid_text=%1$d mB of %2$s
 essence_thermos.@.fluid_text=%d mB
 
+item.@.life_string.name=Life-infused String
 item.@.nature_string.name=Nature-infused String
+item.@.arcane_string.name=Arcane String
+item.@.soul_string.name=Soul-infused String
 
 item.@.life_ingot.name=Life-infused Ingot
 item.@.nature_ingot.name=Nature-infused Ingot
@@ -58,6 +64,8 @@ item.@.wooden_gear.name=Wooden Gear
 item.@.iron_rod.name=Iron Rod
 item.@.tarnished_rod.name=Tarnished Rod
 item.@.arcane_rod.name=Arcane Rod
+item.@.lesser_soul_catcher.name=Lesser Soul Catcher
+item.@.greater_soul_catcher.name=Greater Soul Catcher
 item.@.biomechanical_gear.name=Bio-mechanical Gear
 item.@.biomechanical_chip.name=Bio-mechanical Chip
 item.@.biomechanical_circuit.name=Bio-mechanical Circuit

@@ -27,9 +27,12 @@ public class TheCrimsonForestClient implements ClientModInitializer {
 
     @EventListener
     private void registerTextures(TextureRegisterEvent event) {
+        TheCrimsonForest.ironRenderItem.setTexture(TheCrimsonForest.NAMESPACE.id("item/render/iron"));
         TheCrimsonForest.ironVinelashRenderItem.setTexture(TheCrimsonForest.NAMESPACE.id("item/render/iron_vinelash"));
         TheCrimsonForest.ironSoulRenderItem.setTexture(TheCrimsonForest.NAMESPACE.id("item/render/iron_soul"));
+        TheCrimsonForest.tarnishedRenderItem.setTexture(TheCrimsonForest.NAMESPACE.id("item/render/tarnished"));
         TheCrimsonForest.tarnishedSoulRenderItem.setTexture(TheCrimsonForest.NAMESPACE.id("item/render/tarnished_soul"));
+        TheCrimsonForest.arcaneRenderItem.setTexture(TheCrimsonForest.NAMESPACE.id("item/render/arcane"));
         TheCrimsonForest.arcaneSoulRenderItem.setTexture(TheCrimsonForest.NAMESPACE.id("item/render/arcane_soul"));
 
         TheCrimsonForest.soulShardItem.setTexture(TheCrimsonForest.NAMESPACE.id("item/soul/shard"));
@@ -41,7 +44,10 @@ public class TheCrimsonForestClient implements ClientModInitializer {
         TheCrimsonForest.corruptedSoulItem.setTexture(TheCrimsonForest.NAMESPACE.id("item/soul/corrupted"));
         TheCrimsonForest.endermanSoulItem.setTexture(TheCrimsonForest.NAMESPACE.id("item/soul/enderman"));
 
-        TheCrimsonForest.natureStringItem.setTexture(TheCrimsonForest.NAMESPACE.id("item/nature_string"));
+        TheCrimsonForest.lifeStringItem.setTexture(TheCrimsonForest.NAMESPACE.id("item/component/life_string"));
+        TheCrimsonForest.natureStringItem.setTexture(TheCrimsonForest.NAMESPACE.id("item/component/nature_string"));
+        TheCrimsonForest.arcaneStringItem.setTexture(TheCrimsonForest.NAMESPACE.id("item/component/arcane_string"));
+        TheCrimsonForest.soulStringItem.setTexture(TheCrimsonForest.NAMESPACE.id("item/component/soul_string"));
 
         TheCrimsonForest.lifeIngotItem.setTexture(TheCrimsonForest.NAMESPACE.id("item/ingot/life"));
         TheCrimsonForest.natureIngotItem.setTexture(TheCrimsonForest.NAMESPACE.id("item/ingot/nature"));
@@ -61,6 +67,8 @@ public class TheCrimsonForestClient implements ClientModInitializer {
         TheCrimsonForest.ironRodItem.setTexture(TheCrimsonForest.NAMESPACE.id("item/component/iron_rod"));
         TheCrimsonForest.tarnishedRodItem.setTexture(TheCrimsonForest.NAMESPACE.id("item/component/tarnished_rod"));
         TheCrimsonForest.arcaneRodItem.setTexture(TheCrimsonForest.NAMESPACE.id("item/component/arcane_rod"));
+        TheCrimsonForest.lesserSoulCatcherItem.setTexture(TheCrimsonForest.NAMESPACE.id("item/component/lesser_soul_catcher"));
+        TheCrimsonForest.greaterSoulCatcherItem.setTexture(TheCrimsonForest.NAMESPACE.id("item/component/greater_soul_catcher"));
         TheCrimsonForest.biomechanicalGearItem.setTexture(TheCrimsonForest.NAMESPACE.id("item/component/biomechanical_gear"));
         TheCrimsonForest.biomechanicalChipItem.setTexture(TheCrimsonForest.NAMESPACE.id("item/component/biomechanical_chip"));
         TheCrimsonForest.biomechanicalCircuitItem.setTexture(TheCrimsonForest.NAMESPACE.id("item/component/biomechanical_circuit"));

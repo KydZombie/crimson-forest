@@ -1,21 +1,19 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "PPS",
-    " / ",
-    "/  "
-  ],
-  "key": {
-    "P": {
-      "item": "crimsonforest:iron_plate"
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "crimsonforest:iron_render"
     },
-    "S": {
-      "item": "crimsonforest:nature_string"
+    {
+      "item": "crimsonforest:life_string"
     },
-    "/": {
-      "item": "crimsonforest:iron_rod"
+    {
+      "item": "minecraft:leather"
+    },
+    {
+      "item": "crimsonforest:arcane_string"
     }
-  },
+  ],
   "result": {
     "item": "crimsonforest:iron_essence_render"
   }

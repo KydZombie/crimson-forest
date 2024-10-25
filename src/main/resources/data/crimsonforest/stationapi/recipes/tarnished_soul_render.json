@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "crimsonforest:tarnished_render"
+    },
+    {
+      "item": "crimsonforest:soul_string"
+    },
+    {
+      "item": "crimsonforest:greater_soul_catcher"
+    }
+  ],
+  "result": {
+    "item": "crimsonforest:tarnished_soul_render"
+  }
+}
