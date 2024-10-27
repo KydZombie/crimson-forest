@@ -2,10 +2,7 @@ package io.github.kydzombie.crimsonforest;
 
 import com.matthewperiut.accessoryapi.api.AccessoryRegister;
 import io.github.kydzombie.crimsonforest.block.*;
-import io.github.kydzombie.crimsonforest.block.entity.BasinBlockEntity;
-import io.github.kydzombie.crimsonforest.block.entity.CrudeForgeBlockEntity;
-import io.github.kydzombie.crimsonforest.block.entity.CrudePressBlockEntity;
-import io.github.kydzombie.crimsonforest.block.entity.MortarAndPestleBlockEntity;
+import io.github.kydzombie.crimsonforest.block.entity.*;
 import io.github.kydzombie.crimsonforest.entity.VinelashAttackEntity;
 import io.github.kydzombie.crimsonforest.item.*;
 import io.github.kydzombie.crimsonforest.item.render.EssenceRenderItem;
@@ -18,10 +15,7 @@ import io.github.kydzombie.crimsonforest.item.thermos.NatureTunedThermosItem;
 import io.github.kydzombie.crimsonforest.magic.EssenceType;
 import io.github.kydzombie.crimsonforest.recipe.BasinRecipe;
 import io.github.kydzombie.crimsonforest.recipe.BasinRecipeRegistry;
-import io.github.kydzombie.crimsonforest.recipe.crude.CrudeForgeRecipe;
-import io.github.kydzombie.crimsonforest.recipe.crude.CrudeForgeRecipeRegistry;
-import io.github.kydzombie.crimsonforest.recipe.crude.CrudePressRecipe;
-import io.github.kydzombie.crimsonforest.recipe.crude.CrudePressRecipeRegistry;
+import io.github.kydzombie.crimsonforest.recipe.crude.*;
 import net.fabricmc.api.ModInitializer;
 import net.mine_diver.unsafeevents.listener.EventListener;
 import net.minecraft.block.Block;
@@ -50,7 +44,8 @@ public class TheCrimsonForest implements ModInitializer {
     public static MortarAndPestleBlock mortarAndPestleBlock;
     public static CrudePressBlock crudePressBlock;
     public static CrudeForgeBlock crudeForgeBlock;
-    public static TarnishedSoulInfuserBlock tarnishedSoulInfuserBlock;
+    public static CrudeSoulInfuserBlock crudeSoulInfuserBlock;
+    public static CrudeSoulInfuserBlock tarnishedSoulInfuserBlock;
     public static CrudePressBlock tarnishedPressBlock;
     public static CrudeForgeBlock tarnishedForgeBlock;
 
@@ -128,7 +123,8 @@ public class TheCrimsonForest implements ModInitializer {
         crudePressBlock = new CrudePressBlock(NAMESPACE.id("crude_press"), Material.STONE);
         crudeForgeBlock = new CrudeForgeBlock(NAMESPACE.id("crude_forge"), Material.STONE);
 
-        tarnishedSoulInfuserBlock = new TarnishedSoulInfuserBlock(NAMESPACE.id("tarnished_soul_infuser"), Material.STONE);
+        crudeSoulInfuserBlock = new CrudeSoulInfuserBlock(NAMESPACE.id("crude_soul_infuser"), Material.STONE);
+        tarnishedSoulInfuserBlock = new CrudeSoulInfuserBlock(NAMESPACE.id("tarnished_soul_infuser"), Material.STONE);
         tarnishedPressBlock = new CrudePressBlock(NAMESPACE.id("tarnished_press"), Material.STONE);
         tarnishedForgeBlock = new CrudeForgeBlock(NAMESPACE.id("tarnished_forge"), Material.STONE);
     }
@@ -139,6 +135,7 @@ public class TheCrimsonForest implements ModInitializer {
         event.register(MortarAndPestleBlockEntity.class, NAMESPACE.id("mortar_and_pestle").toString());
         event.register(CrudePressBlockEntity.class, NAMESPACE.id("crude_press").toString());
         event.register(CrudeForgeBlockEntity.class, NAMESPACE.id("crude_forge").toString());
+        event.register(CrudeSoulInfuserBlockEntity.class, NAMESPACE.id("crude_soul_infuser").toString());
     }
 
     @EventListener
@@ -154,13 +151,13 @@ public class TheCrimsonForest implements ModInitializer {
         arcaneSoulRenderItem = new SoulRenderItem(NAMESPACE.id("arcane_soul_render"), 512, 7, .5f);
 
         soulShardItem = new SoulShardItem(NAMESPACE.id("soul_shard"));
-        zombieSoulItem = new SoulItem(NAMESPACE.id("zombie_soul"));
-        spiderSoulItem = new SoulItem(NAMESPACE.id("spider_soul"));
-        skeletonSoulItem = new SoulItem(NAMESPACE.id("skeleton_soul"));
-        creeperSoulItem = new SoulItem(NAMESPACE.id("creeper_soul"));
-        passiveSoulItem = new SoulItem(NAMESPACE.id("passive_soul"));
-        corruptedSoulItem = new SoulItem(NAMESPACE.id("corrupted_soul"));
-        endermanSoulItem = new SoulItem(NAMESPACE.id("enderman_soul"));
+        zombieSoulItem = new SoulItem(NAMESPACE.id("zombie_soul"), 3);
+        spiderSoulItem = new SoulItem(NAMESPACE.id("spider_soul"), 3);
+        skeletonSoulItem = new SoulItem(NAMESPACE.id("skeleton_soul"), 3);
+        creeperSoulItem = new SoulItem(NAMESPACE.id("creeper_soul"), 4);
+        passiveSoulItem = new SoulItem(NAMESPACE.id("passive_soul"), 2);
+        corruptedSoulItem = new SoulItem(NAMESPACE.id("corrupted_soul"), 6);
+        endermanSoulItem = new SoulItem(NAMESPACE.id("enderman_soul"), 6);
 
         vialItem = new VialItem(NAMESPACE.id("vial"), 250);
 
@@ -199,8 +196,8 @@ public class TheCrimsonForest implements ModInitializer {
         ironRodItem = new CrimsonForestCraftingItem(NAMESPACE.id("iron_rod"));
         tarnishedRodItem = new CrimsonForestCraftingItem(NAMESPACE.id("tarnished_rod"));
         arcaneRodItem = new CrimsonForestCraftingItem(NAMESPACE.id("arcane_rod"));
-        lesserSoulCatcherItem = new CrimsonForestCraftingItem(NAMESPACE.id("lesser_soul_catcher"));
-        greaterSoulCatcherItem = new CrimsonForestCraftingItem(NAMESPACE.id("greater_soul_catcher"));
+        lesserSoulCatcherItem = new CrimsonForestCraftingItem(NAMESPACE.id("lesser_soul_catcher")).setMaxCount(1);
+        greaterSoulCatcherItem = new CrimsonForestCraftingItem(NAMESPACE.id("greater_soul_catcher")).setMaxCount(1);
         biomechanicalGearItem = new CrimsonForestCraftingItem(NAMESPACE.id("biomechanical_gear"));
         biomechanicalChipItem = new CrimsonForestCraftingItem(NAMESPACE.id("biomechanical_chip"));
         biomechanicalCircuitItem = new CrimsonForestCraftingItem(NAMESPACE.id("biomechanical_circuit"));
@@ -226,11 +223,17 @@ public class TheCrimsonForest implements ModInitializer {
         CrudePressRecipeRegistry.INSTANCE.addRecipe(new CrudePressRecipe(new ItemStack(lifeIngotItem, 2), new ItemStack(lifePlateItem), 200));
         CrudePressRecipeRegistry.INSTANCE.addRecipe(new CrudePressRecipe(new ItemStack(natureIngotItem, 2), new ItemStack(naturePlateItem), 200));
         CrudePressRecipeRegistry.INSTANCE.addRecipe(new CrudePressRecipe(new ItemStack(tarnishedIngotItem, 2), new ItemStack(tarnishedPlateItem), 400));
+        for (SoulItem soulType : SoulItem.SOUL_TYPES) {
+            CrudePressRecipeRegistry.INSTANCE.addRecipe(new CrudePressRecipe(new ItemStack(soulType), new ItemStack(soulShardItem, soulType.shardCount), 200));
+        }
 
         CrudeForgeRecipeRegistry.INSTANCE.addRecipe(new CrudeForgeRecipe(new ItemStack(arcaneStringItem), 120, new ItemStack(lifeStringItem), new ItemStack(natureStringItem)));
         CrudeForgeRecipeRegistry.INSTANCE.addRecipe(new CrudeForgeRecipe(new ItemStack(lifeIngotItem), 120, new ItemStack(Item.IRON_INGOT), vialItem.asStack(EssenceType.LIFE, 50)));
         CrudeForgeRecipeRegistry.INSTANCE.addRecipe(new CrudeForgeRecipe(new ItemStack(natureIngotItem), 120, new ItemStack(Item.IRON_INGOT), vialItem.asStack(EssenceType.NATURE, 50)));
         CrudeForgeRecipeRegistry.INSTANCE.addRecipe(new CrudeForgeRecipe(new ItemStack(tarnishedIngotItem), 240, new ItemStack(lifeIngotItem), new ItemStack(natureIngotItem)));
+
+        CrudeSoulInfuserRecipeRegistry.INSTANCE.addRecipe(new CrudeSoulInfuserRecipe(new ItemStack(greaterSoulCatcherItem), new ItemStack(lesserSoulCatcherItem), new ItemStack(soulShardItem, 4), 400));
+        CrudeSoulInfuserRecipeRegistry.INSTANCE.addRecipe(new CrudeSoulInfuserRecipe(new ItemStack(soulGearItem), new ItemStack(biomechanicalGearItem), new ItemStack(soulShardItem, 4), 200));
     }
 
     @EventListener

@@ -1,0 +1,9 @@
+{
+  "parent": "block/orientable_with_bottom",
+  "textures": {
+    "front": "crimsonforest:block/crude_soul_infuser_front",
+    "side": "crimsonforest:block/crude_machine_side",
+    "top": "crimsonforest:block/crude_machine_top",
+    "bottom": "crimsonforest:block/crude_machine_bottom"
+  }
+}

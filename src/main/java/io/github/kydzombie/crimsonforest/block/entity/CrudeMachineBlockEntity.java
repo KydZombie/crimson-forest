@@ -46,8 +46,15 @@ public abstract class CrudeMachineBlockEntity extends BlockEntity implements Sim
     protected @Nullable CrudeRecipeData getOutput(ItemStack[] inputItems) {
         CrudeRecipeData output = recipeRegistry.getOutput(inputItems);
         if (output != null) {
-            if (inventory[OUTPUT_SLOT] != null && !output.outputStack().isItemEqual(inventory[OUTPUT_SLOT]))
-                output = null;
+            ItemStack existingOutput = inventory[OUTPUT_SLOT];
+            ItemStack outputStack = output.outputStack();
+            if (existingOutput != null) {
+                if (!outputStack.isItemEqual(existingOutput) ||
+                        existingOutput.count + outputStack.count > existingOutput.getMaxCount()) {
+                    output = null;
+                }
+            }
+
         }
         return output;
     }
