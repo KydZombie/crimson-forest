@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class BasinRecipeRegistry {
     public static final BasinRecipeRegistry INSTANCE = new BasinRecipeRegistry();
 
-    private final ArrayList<BasinRecipe> recipes = new ArrayList<>();
+    public final ArrayList<BasinRecipe> recipes = new ArrayList<>();
 
     public void addRecipe(BasinRecipe recipe) {
         recipes.add(recipe);

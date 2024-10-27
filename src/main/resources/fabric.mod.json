@@ -32,6 +32,9 @@
     ],
     "data": [
       "io.github.kydzombie.crimsonforest.TheCrimsonForestDatagen"
+    ],
+    "alwaysmoreitems:plugin": [
+      "io.github.kydzombie.crimsonforest.compat.AMICompat"
     ]
   },
   "mixins": [

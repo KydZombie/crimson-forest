@@ -1,10 +1,13 @@
 package io.github.kydzombie.crimsonforest.recipe.crude;
 
+import lombok.Getter;
 import net.minecraft.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 public class CrudePressRecipe {
+    @Getter
     final ItemStack input;
+    @Getter
     final ItemStack output;
     final int cookTime;
 

@@ -82,4 +82,11 @@ fluid.@.water.name=Water
 fluid.@.lava.name=Lava
 
 essence.@.life.name=Life
+essence.@.life.count=%d mB Life Essence
 essence.@.nature.name=Nature
+essence.@.nature.count=%d mB Nature Essence
+
+description.@.vial=Can hold life & nature essence.
+description.@.mortar_and_pestle=Place flowers in and it will make nature essence.
+description.@.stone_basin_1=Place life or nature essence in and place another item in.
+description.@.stone_basin_2=The item will be infused with the essence.
