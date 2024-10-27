@@ -122,11 +122,12 @@ public class TheCrimsonForest implements ModInitializer {
 
         crudePressBlock = new CrudePressBlock(NAMESPACE.id("crude_press"), Material.STONE);
         crudeForgeBlock = new CrudeForgeBlock(NAMESPACE.id("crude_forge"), Material.STONE);
-
         crudeSoulInfuserBlock = new CrudeSoulInfuserBlock(NAMESPACE.id("crude_soul_infuser"), Material.STONE);
-        tarnishedSoulInfuserBlock = new CrudeSoulInfuserBlock(NAMESPACE.id("tarnished_soul_infuser"), Material.STONE);
-        tarnishedPressBlock = new CrudePressBlock(NAMESPACE.id("tarnished_press"), Material.STONE);
-        tarnishedForgeBlock = new CrudeForgeBlock(NAMESPACE.id("tarnished_forge"), Material.STONE);
+
+        // TODO: Tarnished machines
+//        tarnishedSoulInfuserBlock = new CrudeSoulInfuserBlock(NAMESPACE.id("tarnished_soul_infuser"), Material.STONE);
+//        tarnishedPressBlock = new CrudePressBlock(NAMESPACE.id("tarnished_press"), Material.STONE);
+//        tarnishedForgeBlock = new CrudeForgeBlock(NAMESPACE.id("tarnished_forge"), Material.STONE);
     }
 
     @EventListener
@@ -151,13 +152,13 @@ public class TheCrimsonForest implements ModInitializer {
         arcaneSoulRenderItem = new SoulRenderItem(NAMESPACE.id("arcane_soul_render"), 512, 7, .5f);
 
         soulShardItem = new SoulShardItem(NAMESPACE.id("soul_shard"));
-        zombieSoulItem = new SoulItem(NAMESPACE.id("zombie_soul"), 3);
-        spiderSoulItem = new SoulItem(NAMESPACE.id("spider_soul"), 3);
-        skeletonSoulItem = new SoulItem(NAMESPACE.id("skeleton_soul"), 3);
-        creeperSoulItem = new SoulItem(NAMESPACE.id("creeper_soul"), 4);
-        passiveSoulItem = new SoulItem(NAMESPACE.id("passive_soul"), 2);
-        corruptedSoulItem = new SoulItem(NAMESPACE.id("corrupted_soul"), 6);
-        endermanSoulItem = new SoulItem(NAMESPACE.id("enderman_soul"), 6);
+        zombieSoulItem = new SoulItem(NAMESPACE.id("zombie_soul"), 2);
+        spiderSoulItem = new SoulItem(NAMESPACE.id("spider_soul"), 2);
+        skeletonSoulItem = new SoulItem(NAMESPACE.id("skeleton_soul"), 2);
+        creeperSoulItem = new SoulItem(NAMESPACE.id("creeper_soul"), 3);
+        passiveSoulItem = new SoulItem(NAMESPACE.id("passive_soul"), 1);
+        corruptedSoulItem = new SoulItem(NAMESPACE.id("corrupted_soul"), 4);
+        endermanSoulItem = new SoulItem(NAMESPACE.id("enderman_soul"), 4);
 
         vialItem = new VialItem(NAMESPACE.id("vial"), 250);
 
@@ -232,6 +233,7 @@ public class TheCrimsonForest implements ModInitializer {
         CrudeForgeRecipeRegistry.INSTANCE.addRecipe(new CrudeForgeRecipe(new ItemStack(natureIngotItem), 120, new ItemStack(Item.IRON_INGOT), vialItem.asStack(EssenceType.NATURE, 50)));
         CrudeForgeRecipeRegistry.INSTANCE.addRecipe(new CrudeForgeRecipe(new ItemStack(tarnishedIngotItem), 240, new ItemStack(lifeIngotItem), new ItemStack(natureIngotItem)));
 
+        CrudeSoulInfuserRecipeRegistry.INSTANCE.addRecipe(new CrudeSoulInfuserRecipe(new ItemStack(soulStringItem), new ItemStack(arcaneStringItem), new ItemStack(soulShardItem, 2), 100));
         CrudeSoulInfuserRecipeRegistry.INSTANCE.addRecipe(new CrudeSoulInfuserRecipe(new ItemStack(greaterSoulCatcherItem), new ItemStack(lesserSoulCatcherItem), new ItemStack(soulShardItem, 4), 400));
         CrudeSoulInfuserRecipeRegistry.INSTANCE.addRecipe(new CrudeSoulInfuserRecipe(new ItemStack(soulGearItem), new ItemStack(biomechanicalGearItem), new ItemStack(soulShardItem, 4), 200));
     }
