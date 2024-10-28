@@ -1,4 +1,4 @@
-package io.github.kydzombie.crimsonforest.compat;
+package io.github.kydzombie.crimsonforest.compat.ami;
 
 import net.glasslauncher.mods.alwaysmoreitems.api.gui.*;
 import net.glasslauncher.mods.alwaysmoreitems.api.recipe.RecipeCategory;
@@ -54,14 +54,6 @@ public class BasinRecipeCategory implements RecipeCategory {
     @Override
     public void setRecipe(@NotNull RecipeLayout recipeLayout, @NotNull RecipeWrapper recipeWrapper) {
         GuiItemStackGroup guiItemStacks = recipeLayout.getItemStacks();
-
-        guiItemStacks.addTooltipCallback((slotIndex, input, ingredient, tooltip) -> {
-            if (input) {
-                tooltip.add(slotIndex + " Input itemStack");
-            } else {
-                tooltip.add(slotIndex + " Output itemStack");
-            }
-        });
 
         guiItemStacks.init(0, true, 0, 16);
         guiItemStacks.init(1, false, 60, 16);

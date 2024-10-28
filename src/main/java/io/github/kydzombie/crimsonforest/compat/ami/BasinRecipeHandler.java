@@ -1,4 +1,4 @@
-package io.github.kydzombie.crimsonforest.compat;
+package io.github.kydzombie.crimsonforest.compat.ami;
 
 import io.github.kydzombie.crimsonforest.recipe.BasinRecipe;
 import net.glasslauncher.mods.alwaysmoreitems.api.recipe.RecipeHandler;

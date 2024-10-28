@@ -1,7 +1,10 @@
-package io.github.kydzombie.crimsonforest.compat;
+package io.github.kydzombie.crimsonforest.compat.ami;
 
 import io.github.kydzombie.crimsonforest.TheCrimsonForest;
 import io.github.kydzombie.crimsonforest.recipe.BasinRecipeRegistry;
+import io.github.kydzombie.crimsonforest.recipe.crude.CrudeForgeRecipeRegistry;
+import io.github.kydzombie.crimsonforest.recipe.crude.CrudePressRecipeRegistry;
+import io.github.kydzombie.crimsonforest.recipe.crude.CrudeSoulInfuserRecipeRegistry;
 import net.glasslauncher.mods.alwaysmoreitems.api.*;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -48,6 +51,24 @@ public class AMICompat implements ModPluginProvider {
         modRegistry.addRecipeHandlers(new BasinRecipeHandler());
         modRegistry.addRecipes(
                 BasinRecipeRegistry.INSTANCE.recipes
+        );
+
+        modRegistry.addRecipeCategories(new CrudePressRecipeCategory());
+        modRegistry.addRecipeHandlers(new CrudePressRecipeHandler());
+        modRegistry.addRecipes(
+                CrudePressRecipeRegistry.INSTANCE.recipes
+        );
+
+        modRegistry.addRecipeCategories(new CrudeForgeRecipeCategory());
+        modRegistry.addRecipeHandlers(new CrudeForgeRecipeHandler());
+        modRegistry.addRecipes(
+                CrudeForgeRecipeRegistry.INSTANCE.recipes
+        );
+
+        modRegistry.addRecipeCategories(new CrudeSoulInfuserRecipeCategory());
+        modRegistry.addRecipeHandlers(new CrudeSoulInfuserRecipeHandler());
+        modRegistry.addRecipes(
+                CrudeSoulInfuserRecipeRegistry.INSTANCE.recipes
         );
     }
 

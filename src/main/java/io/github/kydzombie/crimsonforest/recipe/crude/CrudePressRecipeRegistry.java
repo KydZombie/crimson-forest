@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class CrudePressRecipeRegistry extends CrudeRecipeRegistry {
     public static final CrudePressRecipeRegistry INSTANCE = new CrudePressRecipeRegistry();
 
-    private final ArrayList<CrudePressRecipe> recipes = new ArrayList<>();
+    public final ArrayList<CrudePressRecipe> recipes = new ArrayList<>();
 
     public void addRecipe(CrudePressRecipe recipe) {
         recipes.add(recipe);

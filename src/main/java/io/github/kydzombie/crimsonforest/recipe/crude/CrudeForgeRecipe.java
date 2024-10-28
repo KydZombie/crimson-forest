@@ -2,14 +2,17 @@ package io.github.kydzombie.crimsonforest.recipe.crude;
 
 import io.github.kydzombie.crimsonforest.item.VialItem;
 import io.github.kydzombie.crimsonforest.magic.EssenceType;
+import lombok.Getter;
 import net.minecraft.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 public class CrudeForgeRecipe {
+    @Getter
     private final ItemStack output;
     private final int cookTicks;
+    @Getter
     private final ItemStack[] inputs;
 
     public CrudeForgeRecipe(ItemStack output, int cookTicks, ItemStack... inputs) {

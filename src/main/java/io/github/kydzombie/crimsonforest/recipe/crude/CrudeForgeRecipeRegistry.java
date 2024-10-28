@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class CrudeForgeRecipeRegistry extends CrudeRecipeRegistry {
     public static final CrudeForgeRecipeRegistry INSTANCE = new CrudeForgeRecipeRegistry();
 
-    private final ArrayList<CrudeForgeRecipe> recipes = new ArrayList<>();
+    public final ArrayList<CrudeForgeRecipe> recipes = new ArrayList<>();
 
     public void addRecipe(CrudeForgeRecipe recipe) {
         recipes.add(recipe);

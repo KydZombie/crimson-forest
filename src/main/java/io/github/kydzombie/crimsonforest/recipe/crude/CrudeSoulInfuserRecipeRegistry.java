@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class CrudeSoulInfuserRecipeRegistry extends CrudeRecipeRegistry {
     public static final CrudeSoulInfuserRecipeRegistry INSTANCE = new CrudeSoulInfuserRecipeRegistry();
 
-    private final ArrayList<CrudeSoulInfuserRecipe> recipes = new ArrayList<>();
+    public final ArrayList<CrudeSoulInfuserRecipe> recipes = new ArrayList<>();
 
     public void addRecipe(CrudeSoulInfuserRecipe recipe) {
         recipes.add(recipe);
