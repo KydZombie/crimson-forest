@@ -3,15 +3,15 @@
   "id": "crimsonforest",
   "version": "${version}",
   "name": "The Crimson Forest",
-  "description": "Idk right now. I'll get around to this later!",
+  "description": "A magitech mod based on life and nature essence. This is only a preview.",
   "authors": [
     "KydZombie"
   ],
   "contact": {
-    "homepage": "https://glass-launcher.net/",
-    "sources": "https://github.com/calmilamsy/stationapi-example-mod"
+    "sources": "https://github.com/KydZombie/crimson-forest",
+    "issues": "https://github.com/KydZombie/crimson-forest/issues"
   },
-  "license": "CC0-1.0",
+  "license": "MIT",
   "icon": "assets/crimsonforest/icon.png",
   "environment": "*",
   "entrypoints": {
