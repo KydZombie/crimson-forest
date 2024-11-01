@@ -25,8 +25,7 @@
       "io.github.kydzombie.crimsonforest.TheCrimsonForest"
     ],
     "stationapi:event_bus_client": [
-      "io.github.kydzombie.crimsonforest.TheCrimsonForestClient",
-      "io.github.kydzombie.crimsonforest.init.client.TheCrimsonForestGui"
+      "io.github.kydzombie.crimsonforest.TheCrimsonForestClient"
     ],
     "stationapi:event_bus_server": [
     ],

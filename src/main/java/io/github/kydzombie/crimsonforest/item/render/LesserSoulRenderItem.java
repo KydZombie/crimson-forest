@@ -16,7 +16,8 @@ public class LesserSoulRenderItem extends CrimsonWeaponItem {
 
     @Override
     protected void onKill(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        super.onKill(stack, target, attacker);
+        if (attacker.world.isRemote) return;
+
         if (target instanceof LivingEntity) {
             if (random.nextFloat() <= dropChance) {
                 target.dropItem(new ItemStack(TheCrimsonForest.soulShardItem), 0.0f);

@@ -12,6 +12,7 @@
   "server": [
   ],
   "client": [
+    "ClientWorldMixin"
   ],
   "injectors": {
     "defaultRequire": 1

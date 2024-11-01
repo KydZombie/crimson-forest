@@ -2,6 +2,7 @@ package io.github.kydzombie.crimsonforest.item.thermos;
 
 import io.github.kydzombie.crimsonforest.TheCrimsonForest;
 import io.github.kydzombie.crimsonforest.magic.EssenceType;
+import lombok.Getter;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
@@ -9,31 +10,37 @@ import net.minecraft.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 public class TunedThermosInventory implements Inventory {
-    @NotNull
-    public final ItemStack thermosStack;
-    @NotNull
-    public final TunedThermosItem thermosItem;
-    @NotNull
-    public final EssenceType essenceType;
+    @Getter
+    private boolean ready;
+    public ItemStack thermosStack;
+    public TunedThermosItem thermosItem;
+    public EssenceType essenceType;
 
     ItemStack[] inventory = new ItemStack[2];
 
     public TunedThermosInventory() {
         TheCrimsonForest.LOGGER.error("Created an empty infused thermos inventory. This should never be ran!");
 
-        //noinspection DataFlowIssue
         thermosStack = null;
-        //noinspection DataFlowIssue
         thermosItem = null;
-        //noinspection DataFlowIssue
         essenceType = null;
+        ready = false;
     }
 
     public TunedThermosInventory(@NotNull ItemStack thermosStack) {
-        this.thermosStack = thermosStack;
+        setThermosStack(thermosStack);
+//        this.thermosStack = thermosStack;
+//        thermosItem = (TunedThermosItem) thermosStack.getItem();
+//        essenceType = thermosItem.getEssenceTypes(thermosStack).get(0);
+//        ready = true;
+//        arcane = thermosStack.getItem() == TheCrimsonForest.lifeTunedArcaneThermosItem || thermosStack.getItem() == TheCrimsonForest.natureTunedArcaneThermosItem;
+    }
+
+    public void setThermosStack(ItemStack stack) {
+        thermosStack = stack;
         thermosItem = (TunedThermosItem) thermosStack.getItem();
         essenceType = thermosItem.getEssenceTypes(thermosStack).get(0);
-//        arcane = thermosStack.getItem() == TheCrimsonForest.lifeTunedArcaneThermosItem || thermosStack.getItem() == TheCrimsonForest.natureTunedArcaneThermosItem;
+        ready = true;
     }
 
     @Override
@@ -73,6 +80,7 @@ public class TunedThermosInventory implements Inventory {
 
     @Override
     public String getName() {
+        if (!ready) return "";
         return I18n.getTranslation(thermosStack.getTranslationKey() + ".name");
     }
 

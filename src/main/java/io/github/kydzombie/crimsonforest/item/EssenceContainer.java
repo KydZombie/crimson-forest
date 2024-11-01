@@ -18,21 +18,33 @@ public interface EssenceContainer {
         return true;
     }
 
-    default int giveEssence(ItemStack stack, EssenceType type, int amount) {
+    default int giveEssence(ItemStack stack, EssenceType type, int amount, boolean simulate) {
         int current = getEssence(stack, type);
         int given = Math.min(amount, getMaxEssence(stack, type) - current);
-        setEssence(stack, type, current + given);
+        if (!simulate) {
+            setEssence(stack, type, current + given);
+        }
         return given;
+    }
+
+    default int giveEssence(ItemStack stack, EssenceType type, int amount) {
+        return giveEssence(stack, type, amount, false);
     }
 
     default boolean canTakeEssence(ItemStack stack, EssenceType type) {
         return true;
     }
 
-    default int takeEssence(ItemStack stack, EssenceType type, int amount) {
+    default int takeEssence(ItemStack stack, EssenceType type, int amount, boolean simulate) {
         int current = getEssence(stack, type);
         int taken = Math.min(amount, current);
-        setEssence(stack, type, current - taken);
+        if (!simulate) {
+            setEssence(stack, type, current - taken);
+        }
         return taken;
+    }
+
+    default int takeEssence(ItemStack stack, EssenceType type, int amount) {
+        return takeEssence(stack, type, amount, false);
     }
 }

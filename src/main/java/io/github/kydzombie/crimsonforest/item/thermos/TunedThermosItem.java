@@ -5,12 +5,15 @@ import io.github.kydzombie.crimsonforest.TheCrimsonForest;
 import io.github.kydzombie.crimsonforest.gui.screen.TunedThermosScreenHandler;
 import io.github.kydzombie.crimsonforest.item.EssenceContainer;
 import io.github.kydzombie.crimsonforest.magic.EssenceType;
+import io.github.kydzombie.crimsonforest.packet.TunedThermosInventoryPacket;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.world.World;
 import net.modificationstation.stationapi.api.client.item.CustomTooltipProvider;
 import net.modificationstation.stationapi.api.gui.screen.container.GuiHelper;
+import net.modificationstation.stationapi.api.network.packet.PacketHelper;
 import net.modificationstation.stationapi.api.template.item.TemplateItem;
 import net.modificationstation.stationapi.api.util.Identifier;
 
@@ -58,6 +61,9 @@ public abstract class TunedThermosItem extends TemplateItem implements EssenceCo
         if (user.isSneaking()) {
             TunedThermosInventory thermosInventory = new TunedThermosInventory(stack);
             GuiHelper.openGUI(user, TheCrimsonForest.NAMESPACE.id("tuned_thermos"), thermosInventory, new TunedThermosScreenHandler(user.inventory, thermosInventory));
+            if (!world.isRemote) {
+                PacketHelper.sendTo(user, new TunedThermosInventoryPacket(stack.writeNbt(new NbtCompound())));
+            }
             user.swingHand();
         }
         return super.use(stack, world, user);

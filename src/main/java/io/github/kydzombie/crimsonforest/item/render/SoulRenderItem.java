@@ -22,7 +22,8 @@ public class SoulRenderItem extends CrimsonWeaponItem {
 
     @Override
     protected void onKill(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        super.onKill(stack, target, attacker);
+        if (attacker.world.isRemote) return;
+
         if (random.nextFloat() <= dropChance) {
             if (random.nextFloat() <= 0.1) {
                 target.dropItem(new ItemStack(TheCrimsonForest.corruptedSoulItem), 0.0f);

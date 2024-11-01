@@ -25,6 +25,7 @@ public class TunedThermosScreen extends HandledScreen {
 
     @Override
     protected void drawForeground() {
+        if (!inventory.isReady()) return;
         this.textRenderer.draw(inventory.getName(), 60, 6, 4210752);
         this.textRenderer.draw("Inventory", 8, this.backgroundHeight - 96 + 2, 4210752);
     }
@@ -37,6 +38,8 @@ public class TunedThermosScreen extends HandledScreen {
         int var3 = (width - backgroundWidth) / 2;
         int var4 = (height - backgroundHeight) / 2;
         drawTexture(var3, var4, 0, 0, backgroundWidth, backgroundHeight);
+
+        if (inventory.thermosItem == null) return;
 
         int essence = inventory.thermosItem.getEssence(inventory.thermosStack, inventory.essenceType);
         int maxMillibuckets = inventory.thermosItem.maxEssence;

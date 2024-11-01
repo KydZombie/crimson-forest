@@ -1,21 +1,29 @@
 package io.github.kydzombie.crimsonforest;
 
-import io.github.kydzombie.crimsonforest.block.entity.BasinBlockEntity;
-import io.github.kydzombie.crimsonforest.block.entity.MortarAndPestleBlockEntity;
+import io.github.kydzombie.crimsonforest.block.entity.*;
 import io.github.kydzombie.crimsonforest.client.BasinBlockEntityRenderer;
 import io.github.kydzombie.crimsonforest.client.MortarAndPestleBlockEntityRenderer;
 import io.github.kydzombie.crimsonforest.client.entity.VinelashAttackEntityRenderer;
 import io.github.kydzombie.crimsonforest.entity.VinelashAttackEntity;
+import io.github.kydzombie.crimsonforest.gui.screen.ingame.CrudeForgeScreen;
+import io.github.kydzombie.crimsonforest.gui.screen.ingame.CrudePressScreen;
+import io.github.kydzombie.crimsonforest.gui.screen.ingame.CrudeSoulInfuserScreen;
+import io.github.kydzombie.crimsonforest.gui.screen.ingame.TunedThermosScreen;
 import io.github.kydzombie.crimsonforest.item.render.EssenceRenderItem;
 import io.github.kydzombie.crimsonforest.item.thermos.FluidThermosItem;
+import io.github.kydzombie.crimsonforest.item.thermos.TunedThermosInventory;
 import io.github.kydzombie.crimsonforest.item.thermos.TunedThermosItem;
 import io.github.kydzombie.crimsonforest.magic.EssenceType;
 import net.fabricmc.api.ClientModInitializer;
 import net.mine_diver.unsafeevents.listener.EventListener;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.Inventory;
 import net.modificationstation.stationapi.api.client.event.block.entity.BlockEntityRendererRegisterEvent;
 import net.modificationstation.stationapi.api.client.event.render.entity.EntityRendererRegisterEvent;
 import net.modificationstation.stationapi.api.client.event.render.model.ItemModelPredicateProviderRegistryEvent;
 import net.modificationstation.stationapi.api.client.event.texture.TextureRegisterEvent;
+import net.modificationstation.stationapi.api.event.registry.GuiHandlerRegistryEvent;
+import uk.co.benjiweber.expressions.tuple.BiTuple;
 
 import java.util.List;
 
@@ -116,7 +124,7 @@ public class TheCrimsonForestClient implements ClientModInitializer {
                         return Math.max(0.01f, renderItem.getEssence(stack, EssenceType.LIFE) / (float) renderItem.getMaxEssence(stack, EssenceType.LIFE));
                     });
             event.registry.register(renderItem, TheCrimsonForest.NAMESPACE.id("blood_drip"),
-                    (stack, world, entity, seed) -> stack.getStationNbt().getInt(EssenceRenderItem.BLOOD_DRIP_TICKS_NBT) > 0 ? 1 : 0);
+                    (stack, world, entity, seed) -> renderItem.isDripping(stack) ? 1 : 0);
         }
     }
 
@@ -129,5 +137,30 @@ public class TheCrimsonForestClient implements ClientModInitializer {
     @EventListener
     private void registerEntityRenderers(EntityRendererRegisterEvent event) {
         event.renderers.put(VinelashAttackEntity.class, new VinelashAttackEntityRenderer());
+    }
+
+    @EventListener
+    private void registerGuiHandlers(GuiHandlerRegistryEvent event) {
+        event.registry.registerValueNoMessage(TheCrimsonForest.NAMESPACE.id("crude_press"), BiTuple.of(
+                (PlayerEntity player, Inventory inventory) -> new CrudePressScreen(player.inventory,
+                        (CrudePressBlockEntity) inventory), CrudePressBlockEntity::new)
+        );
+
+        event.registry.registerValueNoMessage(TheCrimsonForest.NAMESPACE.id("crude_forge"), BiTuple.of(
+                (PlayerEntity player, Inventory inventory) -> new CrudeForgeScreen(player.inventory,
+                        (CrudeForgeBlockEntity) inventory),
+                CrudeForgeBlockEntity::new)
+        );
+
+        event.registry.registerValueNoMessage(TheCrimsonForest.NAMESPACE.id("crude_soul_infuser"), BiTuple.of(
+                (PlayerEntity player, Inventory inventory) -> new CrudeSoulInfuserScreen(player.inventory,
+                        (CrudeSoulInfuserBlockEntity) inventory),
+                CrudeSoulInfuserBlockEntity::new)
+        );
+
+        event.registry.registerValueNoMessage(TheCrimsonForest.NAMESPACE.id("tuned_thermos"), BiTuple.of(
+                (PlayerEntity player, Inventory inventory) -> new TunedThermosScreen(player.inventory,
+                        (TunedThermosInventory) inventory),
+                TunedThermosInventory::new));
     }
 }

@@ -13,10 +13,12 @@ import net.minecraft.screen.slot.Slot;
 
 public class TunedThermosScreenHandler extends ScreenHandler implements TickableScreenHandler {
     public static int COOLDOWN_TICKS = 5;
+    private final boolean isRemote;
     public final TunedThermosInventory thermosInventory;
     public int cooldown = 0;
 
     public TunedThermosScreenHandler(PlayerInventory playerInventory, TunedThermosInventory thermosInventory) {
+        isRemote = playerInventory.player.world.isRemote;
         this.thermosInventory = thermosInventory;
 
         addSlot(new TunedThermosInputSlot(thermosInventory, 0, 55, 35, thermosInventory.essenceType));
@@ -54,10 +56,13 @@ public class TunedThermosScreenHandler extends ScreenHandler implements Tickable
     }
 
     public void tick() {
+        if (isRemote) return;
         if (cooldown > 0) {
             cooldown--;
             return;
         }
+
+        if (!thermosInventory.isReady()) return;
 
         EssenceType thermosEssenceType = thermosInventory.essenceType;
         int thermosEssence = thermosInventory.thermosItem.getEssence(thermosInventory.thermosStack, thermosEssenceType);

@@ -1,8 +1,10 @@
 package io.github.kydzombie.crimsonforest.block.entity;
 
 import io.github.kydzombie.crimsonforest.TheCrimsonForest;
+import io.github.kydzombie.crimsonforest.packet.MortarAndPestleUpdatePacket;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.packet.Packet;
 
 public class MortarAndPestleBlockEntity extends BlockEntity {
     public static final int MAX_ESSENCE = 1000;
@@ -28,5 +30,10 @@ public class MortarAndPestleBlockEntity extends BlockEntity {
     public void writeNbt(NbtCompound nbt) {
         super.writeNbt(nbt);
         nbt.putInt(ESSENCE_NBT, essence);
+    }
+
+    @Override
+    public Packet createUpdatePacket() {
+        return new MortarAndPestleUpdatePacket(x, y, z, essence);
     }
 }

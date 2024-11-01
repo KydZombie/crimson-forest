@@ -1,6 +1,7 @@
 package io.github.kydzombie.crimsonforest.block.entity;
 
 import io.github.kydzombie.crimsonforest.magic.EssenceType;
+import io.github.kydzombie.crimsonforest.packet.BasinBlockUpdatePacket;
 import io.github.kydzombie.crimsonforest.recipe.BasinRecipe;
 import io.github.kydzombie.crimsonforest.recipe.BasinRecipeRegistry;
 import lombok.Getter;
@@ -12,6 +13,7 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.packet.Packet;
 
 public class BasinBlockEntity extends BlockEntity implements SimpleInventory {
     @Getter
@@ -27,7 +29,6 @@ public class BasinBlockEntity extends BlockEntity implements SimpleInventory {
      */
     private int recipeProgress = 0;
 
-    @Environment(EnvType.CLIENT)
     public ItemEntity renderedItem = null;
 
     public void setEssence(EssenceType essenceType, int essence) {
@@ -52,9 +53,14 @@ public class BasinBlockEntity extends BlockEntity implements SimpleInventory {
 
         if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
             if (inventory[0] == null || renderedItem == null || renderedItem.stack == null || !renderedItem.stack.isItemEqual(inventory[0])) {
-                renderedItem = null;
+                resetRenderedItem();
             }
         }
+    }
+
+    @Environment(EnvType.CLIENT)
+    private void resetRenderedItem() {
+        renderedItem = null;
     }
 
     @Override
@@ -85,6 +91,11 @@ public class BasinBlockEntity extends BlockEntity implements SimpleInventory {
             setStack(0, recipe.output().copy());
             recipeProgress = 0;
         }
+    }
+
+    @Override
+    public Packet createUpdatePacket() {
+        return new BasinBlockUpdatePacket(x, y, z, essenceType, essence, inventory[0] == null ? new NbtCompound() : inventory[0].writeNbt(new NbtCompound()));
     }
 
     @Override

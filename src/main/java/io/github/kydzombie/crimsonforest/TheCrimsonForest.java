@@ -13,6 +13,10 @@ import io.github.kydzombie.crimsonforest.item.thermos.FluidThermosItem;
 import io.github.kydzombie.crimsonforest.item.thermos.LifeTunedThermosItem;
 import io.github.kydzombie.crimsonforest.item.thermos.NatureTunedThermosItem;
 import io.github.kydzombie.crimsonforest.magic.EssenceType;
+import io.github.kydzombie.crimsonforest.packet.BasinBlockUpdatePacket;
+import io.github.kydzombie.crimsonforest.packet.MortarAndPestleUpdatePacket;
+import io.github.kydzombie.crimsonforest.packet.PlaySoundAtPlayerPacket;
+import io.github.kydzombie.crimsonforest.packet.TunedThermosInventoryPacket;
 import io.github.kydzombie.crimsonforest.recipe.BasinRecipe;
 import io.github.kydzombie.crimsonforest.recipe.BasinRecipeRegistry;
 import io.github.kydzombie.crimsonforest.recipe.crude.*;
@@ -24,9 +28,11 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.modificationstation.stationapi.api.event.block.entity.BlockEntityRegisterEvent;
 import net.modificationstation.stationapi.api.event.entity.EntityRegister;
+import net.modificationstation.stationapi.api.event.network.packet.PacketRegisterEvent;
 import net.modificationstation.stationapi.api.event.registry.BlockRegistryEvent;
 import net.modificationstation.stationapi.api.event.registry.ItemRegistryEvent;
 import net.modificationstation.stationapi.api.mod.entrypoint.Entrypoint;
+import net.modificationstation.stationapi.api.network.packet.IdentifiablePacket;
 import net.modificationstation.stationapi.api.util.Namespace;
 import net.modificationstation.stationapi.api.util.Null;
 import org.apache.logging.log4j.Logger;
@@ -226,7 +232,7 @@ public class TheCrimsonForest implements ModInitializer {
         CrudePressRecipeRegistry.INSTANCE.addRecipe(new CrudePressRecipe(new ItemStack(tarnishedIngotItem, 2), new ItemStack(tarnishedPlateItem), 400));
         for (SoulItem soulType : SoulItem.SOUL_TYPES) {
             CrudePressRecipeRegistry.INSTANCE.addRecipe(new CrudePressRecipe(new ItemStack(soulType), new ItemStack(soulShardItem, soulType.shardCount), 200));
-        }
+        } 
 
         CrudeForgeRecipeRegistry.INSTANCE.addRecipe(new CrudeForgeRecipe(new ItemStack(arcaneStringItem), 120, new ItemStack(lifeStringItem), new ItemStack(natureStringItem)));
         CrudeForgeRecipeRegistry.INSTANCE.addRecipe(new CrudeForgeRecipe(new ItemStack(lifeIngotItem), 120, new ItemStack(Item.IRON_INGOT), vialItem.asStack(EssenceType.LIFE, 50)));
@@ -241,6 +247,15 @@ public class TheCrimsonForest implements ModInitializer {
     @EventListener
     private void registerEntities(EntityRegister event) {
         event.register(VinelashAttackEntity.class, NAMESPACE.id("vinelash_attack").toString());
+    }
+
+    @EventListener
+    private void registerPackets(PacketRegisterEvent event) {
+        IdentifiablePacket.register(NAMESPACE.id("basin_block_update"), true, false, BasinBlockUpdatePacket::new);
+        IdentifiablePacket.register(NAMESPACE.id("mortar_and_pestle_update"), true, false, MortarAndPestleUpdatePacket::new);
+        IdentifiablePacket.register(NAMESPACE.id("tuned_thermos_inventory"), true, false, TunedThermosInventoryPacket::new);
+
+        IdentifiablePacket.register(NAMESPACE.id("play_sound_at_player"), true, false, PlaySoundAtPlayerPacket::new);
     }
 
 //    @EventListener
