@@ -32,10 +32,12 @@ import net.minecraft.item.ItemStack;
 import net.modificationstation.stationapi.api.event.block.entity.BlockEntityRegisterEvent;
 import net.modificationstation.stationapi.api.event.entity.EntityRegister;
 import net.modificationstation.stationapi.api.event.network.packet.PacketRegisterEvent;
+import net.modificationstation.stationapi.api.event.recipe.RecipeRegisterEvent;
 import net.modificationstation.stationapi.api.event.registry.BlockRegistryEvent;
 import net.modificationstation.stationapi.api.event.registry.ItemRegistryEvent;
 import net.modificationstation.stationapi.api.mod.entrypoint.Entrypoint;
 import net.modificationstation.stationapi.api.network.packet.IdentifiablePacket;
+import net.modificationstation.stationapi.api.recipe.CraftingRegistry;
 import net.modificationstation.stationapi.api.util.Namespace;
 import net.modificationstation.stationapi.api.util.Null;
 import org.apache.logging.log4j.Logger;
@@ -264,6 +266,15 @@ public class TheCrimsonForest implements ModInitializer {
             ItemStack stack = new ItemStack(wardingAmuletItem);
             wardingAmuletItem.setMob(stack, mobName);
             CrudeSoulInfuserRecipeRegistry.INSTANCE.addRecipe(new CrudeSoulInfuserRecipe(stack, new ItemStack(wardingAmuletItem), new ItemStack(soulItem, 8), 800));
+        }
+    }
+
+    @EventListener
+    private void registerRecipes(RecipeRegisterEvent event) {
+        if (event.recipeId == RecipeRegisterEvent.Vanilla.CRAFTING_SHAPED.type()) {
+            if (FabricLoader.getInstance().isModLoaded("telsdrinks")) {
+                CraftingRegistry.addShapedRecipe(new ItemStack(goldThermosItem), " S ", "PBP", " P ", 'S', squidSoulItem, 'P', goldPlateItem, 'B', Item.BUCKET);
+            }
         }
     }
 

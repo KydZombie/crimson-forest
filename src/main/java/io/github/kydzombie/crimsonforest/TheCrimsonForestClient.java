@@ -142,10 +142,12 @@ public class TheCrimsonForestClient implements ClientModInitializer {
 
     @EventListener
     private void registerItemColors(ItemColorsRegisterEvent event) {
-        event.itemColors.register((stack, tintIndex) -> {
-            if (tintIndex != 1) return 0xFFFFFF;
-            return TheCrimsonForest.goldThermosItem.getDrinkType(stack).color;
-        }, TheCrimsonForest.goldThermosItem);
+        if (FabricLoader.getInstance().isModLoaded("telsdrinks")) {
+            event.itemColors.register((stack, tintIndex) -> {
+                if (tintIndex != 1) return 0xFFFFFF;
+                return TheCrimsonForest.goldThermosItem.getDrinkType(stack).color;
+            }, TheCrimsonForest.goldThermosItem);
+        }
     }
 
     @EventListener
