@@ -27,8 +27,7 @@ public class FluidThermosItem extends ThermosItem implements CustomTooltipProvid
 
     public FluidThermosItem(Identifier identifier, int maxMillibuckets) {
         super(identifier, maxMillibuckets);
-        setTranslationKey(identifier);
-        setMaxCount(1);
+
     }
 
     public int getMillibuckets(ItemStack stack) {

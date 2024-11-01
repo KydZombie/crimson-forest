@@ -1,8 +1,6 @@
 package io.github.kydzombie.crimsonforest.gui.screen.ingame;
 
-import io.github.kydzombie.crimsonforest.block.entity.CrudeForgeBlockEntity;
 import io.github.kydzombie.crimsonforest.block.entity.CrudeSoulInfuserBlockEntity;
-import io.github.kydzombie.crimsonforest.gui.screen.CrudeForgeScreenHandler;
 import io.github.kydzombie.crimsonforest.gui.screen.CrudeSoulInfuserScreenHandler;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.entity.player.PlayerInventory;
@@ -18,7 +16,7 @@ public class CrudeSoulInfuserScreen extends HandledScreen {
 
     @Override
     protected void drawForeground() {
-        this.textRenderer.draw("Crude Forge", 60, 6, 4210752);
+        this.textRenderer.draw("Crude Soul Infuser", 45, 6, 4210752);
         this.textRenderer.draw("Inventory", 8, this.backgroundHeight - 96 + 2, 4210752);
     }
 

@@ -27,8 +27,6 @@ public abstract class TunedThermosItem extends TemplateItem implements EssenceCo
 
     public TunedThermosItem(Identifier identifier, EssenceType essenceType, int maxEssence) {
         super(identifier);
-        setTranslationKey(identifier);
-        setMaxCount(1);
         this.essenceType = essenceType;
         this.maxEssence = maxEssence;
     }

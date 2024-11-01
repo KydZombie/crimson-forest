@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "LIN",
+    "GSG",
+    "EEE"
+  ],
+  "key": {
+    "L": {
+      "item": "crimsonforest:life_plate"
+    },
+    "N": {
+      "item": "crimsonforest:nature_plate"
+    },
+    "G": {
+      "item": "crimsonforest:soul_gear"
+    },
+    "I": {
+      "item": "crimsonforest:iron_plate"
+    },
+    "E": {
+      "item": "crimsonforest:essence_bonded_bricks"
+    },
+    "S": {
+      "item": "crimsonforest:soul_shard"
+    }
+  },
+  "result": {
+    "item": "crimsonforest:crude_soul_infuser"
+  }
+}

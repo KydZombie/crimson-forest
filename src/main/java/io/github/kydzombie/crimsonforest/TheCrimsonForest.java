@@ -1,6 +1,7 @@
 package io.github.kydzombie.crimsonforest;
 
 import com.matthewperiut.accessoryapi.api.AccessoryRegister;
+import com.mojang.datafixers.util.Pair;
 import io.github.kydzombie.crimsonforest.block.*;
 import io.github.kydzombie.crimsonforest.block.entity.*;
 import io.github.kydzombie.crimsonforest.entity.VinelashAttackEntity;
@@ -9,6 +10,7 @@ import io.github.kydzombie.crimsonforest.item.render.EssenceRenderItem;
 import io.github.kydzombie.crimsonforest.item.render.LesserSoulRenderItem;
 import io.github.kydzombie.crimsonforest.item.render.SoulRenderItem;
 import io.github.kydzombie.crimsonforest.item.render.VinelashRenderItem;
+import io.github.kydzombie.crimsonforest.item.thermos.DrinkThermosItem;
 import io.github.kydzombie.crimsonforest.item.thermos.FluidThermosItem;
 import io.github.kydzombie.crimsonforest.item.thermos.LifeTunedThermosItem;
 import io.github.kydzombie.crimsonforest.item.thermos.NatureTunedThermosItem;
@@ -21,6 +23,7 @@ import io.github.kydzombie.crimsonforest.recipe.BasinRecipe;
 import io.github.kydzombie.crimsonforest.recipe.BasinRecipeRegistry;
 import io.github.kydzombie.crimsonforest.recipe.crude.*;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.loader.api.FabricLoader;
 import net.mine_diver.unsafeevents.listener.EventListener;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -72,6 +75,7 @@ public class TheCrimsonForest implements ModInitializer {
     public static SoulItem skeletonSoulItem;
     public static SoulItem creeperSoulItem;
     public static SoulItem passiveSoulItem;
+    public static SoulItem squidSoulItem;
     public static SoulItem corruptedSoulItem;
     public static SoulItem endermanSoulItem;
 
@@ -82,6 +86,10 @@ public class TheCrimsonForest implements ModInitializer {
     public static FluidThermosItem arcaneThermosItem;
     public static LifeTunedThermosItem lifeTunedArcaneThermosItem;
     public static NatureTunedThermosItem natureTunedArcaneThermosItem;
+
+    public static DrinkThermosItem goldThermosItem;
+
+    public static WardingAmuletItem wardingAmuletItem;
 
     public static CrimsonForestCraftingItem lifeStringItem;
     public static CrimsonForestCraftingItem natureStringItem;
@@ -117,6 +125,7 @@ public class TheCrimsonForest implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        AccessoryRegister.requestSlot("pendant", 1);
         AccessoryRegister.add("thermos", "assets/crimsonforest/accessoryapi/accessory_icon_atlas.png", 0, 0);
     }
 
@@ -163,6 +172,7 @@ public class TheCrimsonForest implements ModInitializer {
         skeletonSoulItem = new SoulItem(NAMESPACE.id("skeleton_soul"), 2);
         creeperSoulItem = new SoulItem(NAMESPACE.id("creeper_soul"), 3);
         passiveSoulItem = new SoulItem(NAMESPACE.id("passive_soul"), 1);
+        squidSoulItem = new SoulItem(NAMESPACE.id("squid_soul"), 1);
         corruptedSoulItem = new SoulItem(NAMESPACE.id("corrupted_soul"), 4);
         endermanSoulItem = new SoulItem(NAMESPACE.id("enderman_soul"), 4);
 
@@ -179,6 +189,12 @@ public class TheCrimsonForest implements ModInitializer {
         arcaneThermosItem = new FluidThermosItem(NAMESPACE.id("arcane_thermos"), arcaneMaxMillibuckets);
         lifeTunedArcaneThermosItem = new LifeTunedThermosItem(NAMESPACE.id("life_tuned_arcane_thermos"), arcaneMaxMillibuckets);
         natureTunedArcaneThermosItem = new NatureTunedThermosItem(NAMESPACE.id("nature_tuned_arcane_thermos"), arcaneMaxMillibuckets);
+
+        if (FabricLoader.getInstance().isModLoaded("telsdrinks")) {
+            goldThermosItem = new DrinkThermosItem(NAMESPACE.id("gold_thermos"), 4000);
+        }
+
+        wardingAmuletItem = new WardingAmuletItem(NAMESPACE.id("warding_amulet"));
 
         lifeStringItem = new CrimsonForestCraftingItem(NAMESPACE.id("life_string"));
         natureStringItem = new CrimsonForestCraftingItem(NAMESPACE.id("nature_string"));
@@ -232,7 +248,7 @@ public class TheCrimsonForest implements ModInitializer {
         CrudePressRecipeRegistry.INSTANCE.addRecipe(new CrudePressRecipe(new ItemStack(tarnishedIngotItem, 2), new ItemStack(tarnishedPlateItem), 400));
         for (SoulItem soulType : SoulItem.SOUL_TYPES) {
             CrudePressRecipeRegistry.INSTANCE.addRecipe(new CrudePressRecipe(new ItemStack(soulType), new ItemStack(soulShardItem, soulType.shardCount), 200));
-        } 
+        }
 
         CrudeForgeRecipeRegistry.INSTANCE.addRecipe(new CrudeForgeRecipe(new ItemStack(arcaneStringItem), 120, new ItemStack(lifeStringItem), new ItemStack(natureStringItem)));
         CrudeForgeRecipeRegistry.INSTANCE.addRecipe(new CrudeForgeRecipe(new ItemStack(lifeIngotItem), 120, new ItemStack(Item.IRON_INGOT), vialItem.asStack(EssenceType.LIFE, 50)));
@@ -241,7 +257,14 @@ public class TheCrimsonForest implements ModInitializer {
 
         CrudeSoulInfuserRecipeRegistry.INSTANCE.addRecipe(new CrudeSoulInfuserRecipe(new ItemStack(soulStringItem), new ItemStack(arcaneStringItem), new ItemStack(soulShardItem, 2), 100));
         CrudeSoulInfuserRecipeRegistry.INSTANCE.addRecipe(new CrudeSoulInfuserRecipe(new ItemStack(greaterSoulCatcherItem), new ItemStack(lesserSoulCatcherItem), new ItemStack(soulShardItem, 4), 400));
-        CrudeSoulInfuserRecipeRegistry.INSTANCE.addRecipe(new CrudeSoulInfuserRecipe(new ItemStack(soulGearItem), new ItemStack(biomechanicalGearItem), new ItemStack(soulShardItem, 4), 200));
+        CrudeSoulInfuserRecipeRegistry.INSTANCE.addRecipe(new CrudeSoulInfuserRecipe(new ItemStack(soulGearItem), new ItemStack(biomechanicalGearItem), new ItemStack(soulShardItem, 2), 200));
+        for (var pair : new Pair[]{ new Pair<>(zombieSoulItem, "zombie"), new Pair<>(skeletonSoulItem, "skeleton"), new Pair<>(spiderSoulItem, "spider"), new Pair<>(creeperSoulItem, "creeper") }) {
+            SoulItem soulItem = (SoulItem) pair.getFirst();
+            String mobName = (String) pair.getSecond();
+            ItemStack stack = new ItemStack(wardingAmuletItem);
+            wardingAmuletItem.setMob(stack, mobName);
+            CrudeSoulInfuserRecipeRegistry.INSTANCE.addRecipe(new CrudeSoulInfuserRecipe(stack, new ItemStack(wardingAmuletItem), new ItemStack(soulItem, 8), 800));
+        }
     }
 
     @EventListener

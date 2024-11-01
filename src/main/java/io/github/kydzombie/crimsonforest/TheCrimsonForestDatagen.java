@@ -33,6 +33,21 @@ public class TheCrimsonForestDatagen implements DataEntrypoint {
                     }
                 }
 
+                Identifier goldLayer = TheCrimsonForest.NAMESPACE.id("item/thermos/gold");
+                for (int i = 0; i < TEXTURES_PER_FLUID; i++) {
+                    Identifier drinkLayer = TheCrimsonForest.NAMESPACE.id("item/thermos/drink_" + i);
+                    generated()
+                            .texture("layer0", goldLayer)
+                            .texture("layer1", drinkLayer)
+                            .save("thermos/gold/drink_" + i, this, context);
+
+                    generated()
+                            .texture("layer0", goldLayer)
+                            .texture("layer1", drinkLayer)
+                            .texture("layer2", TheCrimsonForest.NAMESPACE.id("item/thermos/drink_hot"))
+                            .save("thermos/gold/drink_" + i + "_hot", this, context);
+                }
+
                 for (EssenceType essenceType : EssenceType.values()) {
                     for (int i = 0; i < TEXTURES_PER_ESSENCE; i++) {
                         Identifier essenceLayer = TheCrimsonForest.NAMESPACE.id("item/thermos/" + essenceType.name().toLowerCase() + "_" + i);

@@ -37,9 +37,11 @@ public class SoulRenderItem extends CrimsonWeaponItem {
                 target.dropItem(new ItemStack(TheCrimsonForest.skeletonSoulItem), 0.0f);
             } else if (target instanceof CreeperEntity) {
                 target.dropItem(new ItemStack(TheCrimsonForest.creeperSoulItem), 0.0f);
-            } else if (target instanceof AnimalEntity || target instanceof SquidEntity) {
+            } else if (target instanceof AnimalEntity) {
                 target.dropItem(new ItemStack(TheCrimsonForest.passiveSoulItem), 0.0f);
-            } else if (target instanceof LivingEntity) {
+            } else if (target instanceof SquidEntity) {
+                target.dropItem(new ItemStack(TheCrimsonForest.squidSoulItem), 0.0f);
+            }else if (target instanceof LivingEntity) {
                 target.dropItem(new ItemStack(TheCrimsonForest.soulShardItem), 0.0f);
             }
         }

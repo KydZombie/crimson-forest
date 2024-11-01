@@ -2,18 +2,18 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     " S ",
-    "SAS",
+    "SGS",
     " S "
   ],
   "key": {
     "S": {
       "item": "crimsonforest:soul_shard"
     },
-    "A": {
-      "item": "crimsonforest:arcane_string"
+    "G": {
+      "item": "crimsonforest:biomechanical_gear"
     }
   },
   "result": {
-    "item": "crimsonforest:soul_string"
+    "item": "crimsonforest:soul_gear"
   }
 }

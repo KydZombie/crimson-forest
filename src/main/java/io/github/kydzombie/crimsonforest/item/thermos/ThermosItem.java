@@ -11,6 +11,8 @@ public abstract class ThermosItem extends TemplateItem {
 
     public ThermosItem(Identifier identifier, int maxMillibuckets) {
         super(identifier);
+        setTranslationKey(identifier);
+        setMaxCount(1);
         this.maxMillibuckets = maxMillibuckets;
     }
 }

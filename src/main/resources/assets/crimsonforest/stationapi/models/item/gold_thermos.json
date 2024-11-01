@@ -1,0 +1,78 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "crimsonforest:item/thermos/gold"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "crimsonforest:hot": 0,
+        "crimsonforest:fluid_amount": 0.01
+      },
+      "model": "crimsonforest:item/thermos/gold/drink_0"
+    },
+    {
+      "predicate": {
+        "crimsonforest:hot": 0,
+        "crimsonforest:fluid_amount": 0.25
+      },
+      "model": "crimsonforest:item/thermos/gold/drink_1"
+    },
+    {
+      "predicate": {
+        "crimsonforest:hot": 0,
+        "crimsonforest:fluid_amount": 0.5
+      },
+      "model": "crimsonforest:item/thermos/gold/drink_2"
+    },
+    {
+      "predicate": {
+        "crimsonforest:hot": 0,
+        "crimsonforest:fluid_amount": 0.75
+      },
+      "model": "crimsonforest:item/thermos/gold/drink_3"
+    },
+    {
+      "predicate": {
+        "crimsonforest:hot": 0,
+        "crimsonforest:fluid_amount": 1
+      },
+      "model": "crimsonforest:item/thermos/gold/drink_4"
+    },
+    {
+      "predicate": {
+        "crimsonforest:hot": 1,
+        "crimsonforest:fluid_amount": 0.01
+      },
+      "model": "crimsonforest:item/thermos/gold/drink_0_hot"
+    },
+    {
+      "predicate": {
+        "crimsonforest:hot": 1,
+        "crimsonforest:fluid_amount": 0.25
+      },
+      "model": "crimsonforest:item/thermos/gold/drink_1_hot"
+    },
+    {
+      "predicate": {
+        "crimsonforest:hot": 1,
+        "crimsonforest:fluid_amount": 0.5
+      },
+      "model": "crimsonforest:item/thermos/gold/drink_2_hot"
+    },
+    {
+      "predicate": {
+        "crimsonforest:hot": 1,
+        "crimsonforest:fluid_amount": 0.75
+      },
+      "model": "crimsonforest:item/thermos/gold/drink_3_hot"
+    },
+    {
+      "predicate": {
+        "crimsonforest:hot": 1,
+        "crimsonforest:fluid_amount": 1
+      },
+      "model": "crimsonforest:item/thermos/gold/drink_4_hot"
+    }
+  ]
+}

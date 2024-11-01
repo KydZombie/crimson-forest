@@ -26,6 +26,7 @@ item.@.spider_soul.name=Silken Soul
 item.@.skeleton_soul.name=Hollow Soul
 item.@.creeper_soul.name=Explosive Soul
 item.@.passive_soul.name=Passive Soul
+item.@.squid_soul.name=Inky Soul
 item.@.corrupted_soul.name=Corrupted Soul
 item.@.enderman_soul.name=Void-touched Soul
 
@@ -41,9 +42,31 @@ item.@.nature_tuned_iron_thermos.name=Nature-tuned Iron Thermos
 item.@.arcane_thermos.name=Arcane Thermos
 item.@.life_tuned_arcane_thermos.name=Life-tuned Arcane Thermos
 item.@.nature_tuned_arcane_thermos.name=Nature-tuned Arcane Thermos
+item.@.gold_thermos.name=Golden Thermos
 thermos.@.empty_text=Empty
 fluid_thermos.@.fluid_text=%1$d mB of %2$s
 essence_thermos.@.fluid_text=%d mB
+
+drink.@.steamed_milk.name=Steamed Milk
+drink.@.apple_cider.name=Apple Cider
+drink.@.hot_cider.name=Hot Cider
+drink.@.poison.name=Poison
+drink.@.hot_cocoa.name=Hot Cocoa
+drink.@.hot_chocolate.name=Hot Chocolate
+drink.@.latte.name=Latte
+drink.@.mocha.name=Mocha
+drink.@.pumpkin_spice_latte.name=Pumpkin Spice Latte
+drink.@.dandelion_tea.name=Dandelion Tea
+drink.@.rose_tea.name=Rose Tea
+
+item.@.warding_amulet.name=Warding Amulet
+item.@.warding_amulet.empty_text=Insert a soul for protection.
+item.@.warding_amulet.protection_text=Provides protection against %s.
+
+mob.@.zombie.plural=Zombies
+mob.@.creeper.plural=Creepers
+mob.@.skeleton.plural=Skeletons
+mob.@.spider.plural=Spiders
 
 item.@.life_string.name=Life-infused String
 item.@.nature_string.name=Nature-infused String
@@ -90,3 +113,5 @@ description.@.vial=Can hold life & nature essence.
 description.@.mortar_and_pestle=Place flowers in and it will make nature essence.
 description.@.stone_basin_1=Place life or nature essence in and place another item in.
 description.@.stone_basin_2=The item will be infused with the essence.
+description.@.soul_shard_drop=Dropped by killing mobs with a lesser soulrender, or by putting mob souls in the press.
+description.@.soul_drop=Dropped by killing its respective mob with a greater soulrender.

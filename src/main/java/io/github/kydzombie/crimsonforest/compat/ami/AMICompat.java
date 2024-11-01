@@ -1,6 +1,7 @@
 package io.github.kydzombie.crimsonforest.compat.ami;
 
 import io.github.kydzombie.crimsonforest.TheCrimsonForest;
+import io.github.kydzombie.crimsonforest.item.SoulItem;
 import io.github.kydzombie.crimsonforest.recipe.BasinRecipeRegistry;
 import io.github.kydzombie.crimsonforest.recipe.crude.CrudeForgeRecipeRegistry;
 import io.github.kydzombie.crimsonforest.recipe.crude.CrudePressRecipeRegistry;
@@ -9,6 +10,9 @@ import net.glasslauncher.mods.alwaysmoreitems.api.*;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.modificationstation.stationapi.api.util.Identifier;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class AMICompat implements ModPluginProvider {
     @Override
@@ -45,6 +49,14 @@ public class AMICompat implements ModPluginProvider {
                 new ItemStack(TheCrimsonForest.stoneBasinBlock),
                 "description.crimsonforest.stone_basin_1",
                 "description.crimsonforest.stone_basin_2"
+        );
+        modRegistry.addDescription(
+                new ItemStack(TheCrimsonForest.soulShardItem),
+                "description.crimsonforest.soul_shard_drop"
+        );
+        modRegistry.addDescription(
+                SoulItem.SOUL_TYPES.stream().map(ItemStack::new).toList(),
+                "description.crimsonforest.soul_drop"
         );
 
         modRegistry.addRecipeCategories(new BasinRecipeCategory());

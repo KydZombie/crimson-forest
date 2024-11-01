@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " S ",
+    "PBP",
+    " P "
+  ],
+  "key": {
+    "P": {
+      "item": "crimsonforest:gold_plate"
+    },
+    "B": {
+        "item": "minecraft:bucket"
+    },
+    "S": {
+      "item": "crimsonforest:squid_soul"
+    }
+  },
+  "result": {
+    "item": "crimsonforest:gold_thermos"
+  }
+}

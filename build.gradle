@@ -102,6 +102,9 @@ dependencies {
 	modImplementation("com.github.emmathemartian:stapi-datagen:${project.stapi_datagen_version}") { transitive false }
 	modImplementation("maven.modrinth:always-more-items:${project.alwaysmoreitems_version}") { transitive false }
 
+	// Compat mods
+	modImplementation("maven.modrinth:telsdrinks-stationapi:${project.telsdrinks_version}") { transitive false }
+
 	// Runtime Convenience
 	modRuntimeOnly "com.github.GeyserMC:MCAuthLib:d9d773e5d50327c33898c65cd545a4f6ef3ba1b5" // needed for mojang fix
 	modRuntimeOnly ("maven.modrinth:mojangfix-stationapi-edition:${project.mojang_fix_stapi_version}") { transitive false }

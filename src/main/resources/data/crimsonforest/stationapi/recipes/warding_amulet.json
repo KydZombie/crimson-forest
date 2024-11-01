@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SAS",
+    "AGA",
+    "LTN"
+  ],
+  "key": {
+    "S": {
+      "item": "crimsonforest:soul_string"
+    },
+    "A": {
+      "item": "crimsonforest:arcane_string"
+    },
+    "G": {
+      "item": "minecraft:golden_apple"
+    },
+    "L": {
+      "item": "crimsonforest:life_plate"
+    },
+    "T": {
+      "item": "crimsonforest:tarnished_plate"
+    },
+    "N": {
+      "item": "crimsonforest:nature_plate"
+    }
+  },
+  "result": {
+    "item": "crimsonforest:warding_amulet"
+  }
+}
