@@ -2,6 +2,7 @@ package io.github.kydzombie.crimsonforest.packet;
 
 import io.github.kydzombie.crimsonforest.TheCrimsonForest;
 import io.github.kydzombie.crimsonforest.magic.EssenceType;
+import io.github.kydzombie.crimsonforest.mixin.NbtCompoundAccessor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.glasslauncher.mods.alwaysmoreitems.network.NetworkHelper;
@@ -54,7 +55,7 @@ public class BasinBlockUpdatePacket extends Packet implements IdentifiablePacket
             };
             essence = stream.readInt();
             itemNbt = new NbtCompound();
-            itemNbt.read(stream);
+            ((NbtCompoundAccessor) itemNbt).invokeRead(stream);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

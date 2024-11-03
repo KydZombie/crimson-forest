@@ -19,8 +19,6 @@ loom {
 			client()
 		}
 	}
-
-	accessWidenerPath = file("src/main/resources/crimsonforest.accessWidener")
 }
 
 repositories {

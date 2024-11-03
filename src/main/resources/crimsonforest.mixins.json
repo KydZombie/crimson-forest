@@ -8,6 +8,7 @@
     "ItemStackMixin",
     "LivingEntityMixin",
     "MonsterEntityMixin",
+    "NbtCompoundAccessor",
     "PlayerMixin",
     "SpiderEntityMixin"
   ],

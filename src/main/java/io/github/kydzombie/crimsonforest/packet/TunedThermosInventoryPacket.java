@@ -2,6 +2,7 @@ package io.github.kydzombie.crimsonforest.packet;
 
 import io.github.kydzombie.crimsonforest.TheCrimsonForest;
 import io.github.kydzombie.crimsonforest.gui.screen.TunedThermosScreenHandler;
+import io.github.kydzombie.crimsonforest.mixin.NbtCompoundAccessor;
 import net.glasslauncher.mods.alwaysmoreitems.network.NetworkHelper;
 import net.minecraft.client.network.ClientNetworkHandler;
 import net.minecraft.entity.player.PlayerEntity;
@@ -31,7 +32,7 @@ public class TunedThermosInventoryPacket extends Packet implements IdentifiableP
     @Override
     public void read(DataInputStream stream) {
         itemNbt = new NbtCompound();
-        itemNbt.read(stream);
+        ((NbtCompoundAccessor) itemNbt).invokeRead(stream);
     }
 
     @Override
