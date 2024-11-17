@@ -12,8 +12,7 @@ import io.github.kydzombie.crimsonforest.item.render.SoulRenderItem;
 import io.github.kydzombie.crimsonforest.item.render.VinelashRenderItem;
 import io.github.kydzombie.crimsonforest.item.thermos.DrinkThermosItem;
 import io.github.kydzombie.crimsonforest.item.thermos.FluidThermosItem;
-import io.github.kydzombie.crimsonforest.item.thermos.LifeTunedThermosItem;
-import io.github.kydzombie.crimsonforest.item.thermos.NatureTunedThermosItem;
+import io.github.kydzombie.crimsonforest.item.thermos.TunedThermosItem;
 import io.github.kydzombie.crimsonforest.magic.EssenceType;
 import io.github.kydzombie.crimsonforest.packet.BasinBlockUpdatePacket;
 import io.github.kydzombie.crimsonforest.packet.MortarAndPestleUpdatePacket;
@@ -83,11 +82,13 @@ public class TheCrimsonForest implements ModInitializer {
 
     public static VialItem vialItem;
     public static FluidThermosItem ironThermosItem;
-    public static LifeTunedThermosItem lifeTunedIronThermosItem;
-    public static NatureTunedThermosItem natureTunedIronThermosItem;
-    public static FluidThermosItem arcaneThermosItem;
-    public static LifeTunedThermosItem lifeTunedArcaneThermosItem;
-    public static NatureTunedThermosItem natureTunedArcaneThermosItem;
+    public static TunedThermosItem lifeTunedIronThermosItem;
+    public static TunedThermosItem natureTunedIronThermosItem;
+    public static TunedThermosItem pureTunedIronThermosItem;
+    public static TunedThermosItem umbralTunedIronThermosItem;
+//    public static FluidThermosItem arcaneThermosItem;
+//    public static TunedThermosItem lifeTunedArcaneThermosItem;
+//    public static TunedThermosItem natureTunedArcaneThermosItem;
 
     public static DrinkThermosItem goldThermosItem;
 
@@ -183,14 +184,16 @@ public class TheCrimsonForest implements ModInitializer {
         int ironMaxMillibuckets = 4000;
 
         ironThermosItem = new FluidThermosItem(NAMESPACE.id("iron_thermos"), ironMaxMillibuckets);
-        lifeTunedIronThermosItem = new LifeTunedThermosItem(NAMESPACE.id("life_tuned_iron_thermos"), ironMaxMillibuckets);
-        natureTunedIronThermosItem = new NatureTunedThermosItem(NAMESPACE.id("nature_tuned_iron_thermos"), ironMaxMillibuckets);
+        lifeTunedIronThermosItem = new TunedThermosItem(NAMESPACE.id("life_tuned_iron_thermos"), EssenceType.LIFE, ironMaxMillibuckets);
+        natureTunedIronThermosItem = new TunedThermosItem(NAMESPACE.id("nature_tuned_iron_thermos"), EssenceType.NATURE, ironMaxMillibuckets);
+        pureTunedIronThermosItem = new TunedThermosItem(NAMESPACE.id("pure_tuned_iron_thermos"), EssenceType.PURE, ironMaxMillibuckets);
+        umbralTunedIronThermosItem = new TunedThermosItem(NAMESPACE.id("umbral_tuned_iron_thermos"), EssenceType.UMBRAL, ironMaxMillibuckets);
 
-        int arcaneMaxMillibuckets = 8000;
-
-        arcaneThermosItem = new FluidThermosItem(NAMESPACE.id("arcane_thermos"), arcaneMaxMillibuckets);
-        lifeTunedArcaneThermosItem = new LifeTunedThermosItem(NAMESPACE.id("life_tuned_arcane_thermos"), arcaneMaxMillibuckets);
-        natureTunedArcaneThermosItem = new NatureTunedThermosItem(NAMESPACE.id("nature_tuned_arcane_thermos"), arcaneMaxMillibuckets);
+//        int arcaneMaxMillibuckets = 8000;
+//
+//        arcaneThermosItem = new FluidThermosItem(NAMESPACE.id("arcane_thermos"), arcaneMaxMillibuckets);
+//        lifeTunedArcaneThermosItem = new LifeTunedThermosItem(NAMESPACE.id("life_tuned_arcane_thermos"), arcaneMaxMillibuckets);
+//        natureTunedArcaneThermosItem = new NatureTunedThermosItem(NAMESPACE.id("nature_tuned_arcane_thermos"), arcaneMaxMillibuckets);
 
         if (FabricLoader.getInstance().isModLoaded("telsdrinks")) {
             goldThermosItem = new DrinkThermosItem(NAMESPACE.id("gold_thermos"), 4000);

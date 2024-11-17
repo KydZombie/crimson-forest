@@ -1,7 +1,7 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "crimsonforest:item/thermos/iron"
+    "layer0": "crimsonforest:item/thermos/iron_base"
   },
   "overrides": [
     {

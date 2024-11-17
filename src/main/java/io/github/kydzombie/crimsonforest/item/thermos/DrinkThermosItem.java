@@ -13,13 +13,10 @@ import net.minecraft.world.World;
 import net.modificationstation.stationapi.api.block.BlockState;
 import net.modificationstation.stationapi.api.client.item.CustomTooltipProvider;
 import net.modificationstation.stationapi.api.util.Identifier;
-import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-public class DrinkThermosItem extends ThermosItem implements CustomTooltipProvider {
-    public static final String FLUID_KEY = TheCrimsonForest.NAMESPACE.id("fluid_type").toString();
-
+public class DrinkThermosItem extends ThermosItem<DrinkThermosItem.DrinkType> implements CustomTooltipProvider {
     public enum DrinkType {
-        NONE(false, 0x000000, null, null, 0),
         STEAMED_MILK(true, 0xFFFFFF, BlockListener.MILK_KETTLE, BlockListener.CUP_OF_MILK, 1),
         APPLE_CIDER(false, 0xA05B27, BlockListener.APPLE_KETTLE, BlockListener.APPLE_CIDER, 1),
         HOT_CIDER(true, 0xA05B27, BlockListener.APPLE_KETTLE, BlockListener.APPLE_CIDER, 2),
@@ -64,66 +61,44 @@ public class DrinkThermosItem extends ThermosItem implements CustomTooltipProvid
     }
 
     public DrinkThermosItem(Identifier identifier, int maxMillibuckets) {
-        super(identifier, maxMillibuckets);
-    }
-
-    public int getMillibuckets(ItemStack stack) {
-        return stack.getStationNbt().getInt(MILLIBUCKETS_KEY);
-    }
-
-    public @NotNull DrinkType getDrinkType(ItemStack stack) {
-        if (!stack.getStationNbt().contains(FLUID_KEY)) return DrinkType.NONE;
-        byte drinkType = stack.getStationNbt().getByte(FLUID_KEY);
-        if (drinkType < 0 || drinkType >= DrinkType.values().length) return DrinkType.NONE;
-        return DrinkType.values()[drinkType];
-    }
-
-    public void setDrink(ItemStack stack, DrinkType drinkType, int millibuckets) {
-        if (drinkType == DrinkType.NONE || millibuckets <= 0) {
-            stack.getStationNbt().putByte(FLUID_KEY, (byte) 0);
-            stack.getStationNbt().putInt(MILLIBUCKETS_KEY, 0);
-            return;
-        }
-
-        stack.getStationNbt().putByte(FLUID_KEY, (byte) drinkType.ordinal());
-        stack.getStationNbt().putInt(MILLIBUCKETS_KEY, millibuckets);
+        super(identifier, maxMillibuckets, DrinkType.class);
     }
 
     @Override
     public ItemStack use(ItemStack stack, World world, PlayerEntity user) {
-        DrinkType drinkType = getDrinkType(stack);
-        int currentMillibuckets = getMillibuckets(stack);
-        if (drinkType == DrinkType.NONE || currentMillibuckets <= 0) return super.use(stack, world, user);
+        @Nullable var fluid = getFluid(stack);
+        if (fluid == null) return super.use(stack, world, user);
         world.playSound(user.x, user.y, user.z, "telsdrinks:drink", 1.0F, 1.0F);
 
-        int healAmount = drinkType.healAmount;
+        int healAmount = fluid.fluidType().healAmount;
         if (healAmount > 0) {
             user.heal(healAmount);
         } else if (healAmount < 0) {
             user.damage(null, -healAmount);
         }
 
-        setDrink(stack, drinkType, currentMillibuckets - 1000);
+        setFluid(stack, fluid.fluidType(), fluid.millibuckets() - 1000);
 
         return super.use(stack, world, user);
     }
 
     @Override
     public boolean useOnBlock(ItemStack stack, PlayerEntity user, World world, int x, int y, int z, int side) {
-        DrinkType currentDrinkType = getDrinkType(stack);
-        int currentMillibuckets = getMillibuckets(stack);
+        var fluid = getFluid(stack);
+        DrinkType currentDrinkType = fluid == null ? null : fluid.fluidType();
+        int currentMillibuckets = fluid == null ? 0 : fluid.millibuckets();
         if (currentMillibuckets >= maxMillibuckets) return false;
         Block block = world.getBlockState(x, y, z).getBlock();
         System.out.println(block.getTranslatedName());
         if (block instanceof Kettle) {
             for (DrinkType drinkType : DrinkType.values()) {
-                if (currentDrinkType != DrinkType.NONE && drinkType != currentDrinkType) continue;
+                if (currentDrinkType != null && drinkType != currentDrinkType) continue;
                 if (drinkType.kettleBlock != block) continue;
                 boolean hot = world.getBlockId(x, y - 1, z) == Block.LAVA.id || world.getBlockId(x, y - 1, z) == Block.FLOWING_LAVA.id || world.getBlockId(x, y - 1, z) == Block.FIRE.id || world.getBlockId(x, y - 1, z) == Block.LIT_FURNACE.id;
                 if (drinkType != DrinkType.POISON && hot != drinkType.hot) continue;
                 KettleBlockEntity blockEntity = (KettleBlockEntity) world.getBlockEntity(x, y, z);
                 if (blockEntity.takeLiquidOut()) {
-                    setDrink(stack, drinkType, currentMillibuckets + 1000);
+                    setFluid(stack, drinkType, currentMillibuckets + 1000);
                 } else {
                     return false;
                 }
@@ -131,11 +106,11 @@ public class DrinkThermosItem extends ThermosItem implements CustomTooltipProvid
             }
         } else if (block instanceof Mug) {
             for (DrinkType drinkType : DrinkType.values()) {
-                if (currentDrinkType != DrinkType.NONE && drinkType != currentDrinkType) continue;
+                if (currentDrinkType != null && drinkType != currentDrinkType) continue;
                 if (drinkType.mugBlock != block) continue;
                 BlockState state = world.getBlockState(x, y, z);
                 if (state.get(Mug.EMPTY) || drinkType.hasHotState && state.get(Mug.HOT) != drinkType.hot) continue;
-                setDrink(stack, drinkType, currentMillibuckets + 1000);
+                setFluid(stack, drinkType, currentMillibuckets + 1000);
                 world.setBlock(x, y, z, BlockListener.EMPTY_MUG.id);
                 return true;
             }
@@ -146,9 +121,8 @@ public class DrinkThermosItem extends ThermosItem implements CustomTooltipProvid
 
     @Override
     public String[] getTooltip(ItemStack stack, String originalTooltip) {
-        DrinkType drinkType = getDrinkType(stack);
-        int millibuckets = getMillibuckets(stack);
-        if (drinkType == DrinkType.NONE) {
+        var fluid = getFluid(stack);
+        if (fluid == null) {
             return new String[]{
                     originalTooltip,
                     I18n.getTranslation("thermos.crimsonforest.empty_text")
@@ -159,8 +133,8 @@ public class DrinkThermosItem extends ThermosItem implements CustomTooltipProvid
                 originalTooltip,
                 I18n.getTranslation(
                         "fluid_thermos.crimsonforest.fluid_text",
-                        millibuckets,
-                        I18n.getTranslation("drink.crimsonforest." + drinkType.toString().toLowerCase() + ".name")
+                        fluid.millibuckets(),
+                        I18n.getTranslation("drink.crimsonforest." + fluid.fluidType().toString().toLowerCase() + ".name")
                 )
         };
     }

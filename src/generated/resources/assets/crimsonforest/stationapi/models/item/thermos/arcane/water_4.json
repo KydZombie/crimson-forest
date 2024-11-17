@@ -1,1 +1,1 @@
-{"parent":"minecraft:item/generated","textures":{"layer0":"crimsonforest:item/thermos/arcane","layer1":"crimsonforest:item/thermos/water_4"}}
+{"parent":"minecraft:item/generated","textures":{"layer0":"crimsonforest:item/thermos/arcane_base","layer1":"crimsonforest:item/thermos/water_4"}}

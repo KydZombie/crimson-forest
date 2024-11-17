@@ -18,22 +18,22 @@ public class TheCrimsonForestDatagen implements DataEntrypoint {
 
             @Override
             public void run(DataGenContext context) {
-                for (FluidThermosItem.FluidType fluidType : FluidThermosItem.FluidType.values()) {
+                for (FluidThermosItem.BucketFluid fluidType : FluidThermosItem.BucketFluid.values()) {
                     for (int i = 0; i < TEXTURES_PER_FLUID; i++) {
                         Identifier fluidLayer = TheCrimsonForest.NAMESPACE.id("item/thermos/" + fluidType.name().toLowerCase() + "_" + i);
                         generated()
-                                .texture("layer0", TheCrimsonForest.NAMESPACE.id("item/thermos/iron"))
+                                .texture("layer0", TheCrimsonForest.NAMESPACE.id("item/thermos/iron_base"))
                                 .texture("layer1", fluidLayer)
                                 .save("thermos/iron/" + fluidType.name().toLowerCase() + "_" + i, this, context);
 
                         generated()
-                                .texture("layer0", TheCrimsonForest.NAMESPACE.id("item/thermos/arcane"))
+                                .texture("layer0", TheCrimsonForest.NAMESPACE.id("item/thermos/arcane_base"))
                                 .texture("layer1", fluidLayer)
                                 .save("thermos/arcane/" + fluidType.name().toLowerCase() + "_" + i, this, context);
                     }
                 }
 
-                Identifier goldLayer = TheCrimsonForest.NAMESPACE.id("item/thermos/gold");
+                Identifier goldLayer = TheCrimsonForest.NAMESPACE.id("item/thermos/gold_base");
                 for (int i = 0; i < TEXTURES_PER_FLUID; i++) {
                     Identifier drinkLayer = TheCrimsonForest.NAMESPACE.id("item/thermos/drink_" + i);
                     generated()
@@ -52,12 +52,12 @@ public class TheCrimsonForestDatagen implements DataEntrypoint {
                     for (int i = 0; i < TEXTURES_PER_ESSENCE; i++) {
                         Identifier essenceLayer = TheCrimsonForest.NAMESPACE.id("item/thermos/" + essenceType.name().toLowerCase() + "_" + i);
                         generated()
-                                .texture("layer0", TheCrimsonForest.NAMESPACE.id("item/thermos/iron"))
+                                .texture("layer0", TheCrimsonForest.NAMESPACE.id("item/thermos/iron_base"))
                                 .texture("layer1", essenceLayer)
                                 .save("thermos/iron/" + essenceType.name().toLowerCase() + "_" + i, this, context);
 
                         generated()
-                                .texture("layer0", TheCrimsonForest.NAMESPACE.id("item/thermos/arcane"))
+                                .texture("layer0", TheCrimsonForest.NAMESPACE.id("item/thermos/arcane_base"))
                                 .texture("layer1", essenceLayer)
                                 .save("thermos/arcane/" + essenceType.name().toLowerCase() + "_" + i, this, context);
                     }
@@ -85,13 +85,6 @@ public class TheCrimsonForestDatagen implements DataEntrypoint {
                                 .texture("layer1", TheCrimsonForest.NAMESPACE.id("item/render/essence/vial_" + i))
                                 .texture("layer2", TheCrimsonForest.NAMESPACE.id("item/render/essence/blood_drip"))
                                 .save("render/essence/" + materialType + "_vial_" + i + "_blood_drip", this, context);
-                    }
-                }
-
-                for (String essenceType : new String[]{"life", "nature"}) {
-                    for (String fillAmount : new String[]{"partial", "full"}) {
-                        handheld().texture("layer0", TheCrimsonForest.NAMESPACE.id("item/vial/" + essenceType + "_" + fillAmount))
-                                .save("vial/" + essenceType + "_" + fillAmount, this, context);
                     }
                 }
             }

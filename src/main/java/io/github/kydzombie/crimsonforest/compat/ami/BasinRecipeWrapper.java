@@ -29,7 +29,7 @@ public class BasinRecipeWrapper implements RecipeWrapper {
 
     @Override
     public void drawInfo(@NotNull Minecraft minecraft, int i, int i1, int i2, int i3) {
-        String essenceText = I18n.getTranslation(recipe.essenceType().translationKey + ".count", recipe.essence());
+        String essenceText = I18n.getTranslation(recipe.essenceType().identifier + ".count", recipe.essence());
         minecraft.textRenderer.draw(essenceText, 0, 0, 0xFFFFFF);
     }
 

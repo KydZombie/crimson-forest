@@ -1,0 +1,29 @@
+{
+  "parent": "crimsonforest:item/thermos/iron/pure_0",
+  "overrides": [
+    {
+      "predicate": {
+        "crimsonforest:fluid_amount": 0.25
+      },
+      "model": "crimsonforest:item/thermos/iron/pure_1"
+    },
+    {
+      "predicate": {
+        "crimsonforest:fluid_amount": 0.5
+      },
+      "model": "crimsonforest:item/thermos/iron/pure_2"
+    },
+    {
+      "predicate": {
+        "crimsonforest:fluid_amount": 0.75
+      },
+      "model": "crimsonforest:item/thermos/iron/pure_3"
+    },
+    {
+      "predicate": {
+        "crimsonforest:fluid_amount": 1
+      },
+      "model": "crimsonforest:item/thermos/iron/pure_4"
+    }
+  ]
+}

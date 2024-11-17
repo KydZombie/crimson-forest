@@ -1,1 +1,1 @@
-{"parent":"minecraft:item/generated","textures":{"layer0":"crimsonforest:item/thermos/iron","layer1":"crimsonforest:item/thermos/life_3"}}
+{"parent":"minecraft:item/generated","textures":{"layer0":"crimsonforest:item/thermos/iron_base","layer1":"crimsonforest:item/thermos/life_3"}}

@@ -15,15 +15,19 @@ public class CowEntityMixin {
     private void crimsonforest_milkWithThermos(PlayerEntity player, CallbackInfoReturnable<Boolean> cir) {
         ItemStack stack = player.inventory.getSelectedItem();
         if (stack != null && stack.getItem() instanceof FluidThermosItem thermos) {
-            FluidThermosItem.FluidType currentFluidType = thermos.getFluidType(stack);
-            if (currentFluidType == FluidThermosItem.FluidType.NONE) {
-                thermos.setFluidType(stack, FluidThermosItem.FluidType.MILK);
-            }
-            int currentMillibuckets = thermos.getMillibuckets(stack);
-            if (currentMillibuckets < thermos.maxMillibuckets) {
-                thermos.setMillibuckets(stack, Math.min(currentMillibuckets + FluidThermosItem.BUCKET_AMOUNT, thermos.maxMillibuckets));
+            var fluid = thermos.getFluid(stack);
+            if (fluid == null) {
+                thermos.setFluid(stack, FluidThermosItem.BucketFluid.MILK, FluidThermosItem.BUCKET_AMOUNT);
                 player.swingHand();
+            } else {
+                FluidThermosItem.BucketFluid currentFluidType = fluid.fluidType();
+                int currentMillibuckets = fluid.millibuckets();
+                if (currentMillibuckets < thermos.maxMillibuckets) {
+                    thermos.setFluid(stack, currentFluidType, Math.min(currentMillibuckets + FluidThermosItem.BUCKET_AMOUNT, thermos.maxMillibuckets));
+                    player.swingHand();
+                }
             }
+
         }
     }
 }

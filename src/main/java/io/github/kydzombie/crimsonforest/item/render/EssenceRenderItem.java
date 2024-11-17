@@ -6,7 +6,7 @@ import io.github.kydzombie.crimsonforest.custom.SoundEffect;
 import io.github.kydzombie.crimsonforest.item.CrimsonWeaponItem;
 import io.github.kydzombie.crimsonforest.item.EssenceContainer;
 import io.github.kydzombie.crimsonforest.item.HasBreakEvent;
-import io.github.kydzombie.crimsonforest.item.thermos.LifeTunedThermosItem;
+import io.github.kydzombie.crimsonforest.item.thermos.TunedThermosItem;
 import io.github.kydzombie.crimsonforest.magic.EssenceType;
 import io.github.kydzombie.crimsonforest.packet.PlaySoundAtPlayerPacket;
 import net.minecraft.client.resource.language.I18n;
@@ -189,7 +189,7 @@ public class EssenceRenderItem extends CrimsonWeaponItem implements EssenceConta
             ItemStack[] accessories = AccessoryAccess.getAccessories(player, "thermos");
             for (ItemStack accessoryStack : accessories) {
                 if (accessoryStack == null) continue;
-                if (accessoryStack.getItem() instanceof LifeTunedThermosItem thermos) {
+                if (accessoryStack.getItem() instanceof TunedThermosItem thermos && thermos.canGiveEssence(accessoryStack, EssenceType.LIFE)) {
                     int essenceGiven = thermos.giveEssence(accessoryStack, EssenceType.LIFE, getEssence(stack, EssenceType.LIFE));
 
                     if (essenceGiven > 0) {

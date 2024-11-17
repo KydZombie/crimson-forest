@@ -11,9 +11,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.modificationstation.stationapi.api.util.Identifier;
 
-import java.util.Arrays;
-import java.util.List;
-
 public class AMICompat implements ModPluginProvider {
     @Override
     public String getName() {

@@ -1,6 +1,8 @@
 package io.github.kydzombie.crimsonforest.item;
 
+import io.github.kydzombie.crimsonforest.TheCrimsonForest;
 import io.github.kydzombie.crimsonforest.magic.EssenceType;
+import net.glasslauncher.mods.alwaysmoreitems.api.SubItemProvider;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -9,7 +11,9 @@ import net.minecraft.world.World;
 import net.modificationstation.stationapi.api.client.item.CustomTooltipProvider;
 import net.modificationstation.stationapi.api.template.item.TemplateItem;
 import net.modificationstation.stationapi.api.util.Identifier;
+import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class VialItem extends TemplateItem implements EssenceContainer, CustomTooltipProvider {
@@ -22,6 +26,31 @@ public class VialItem extends TemplateItem implements EssenceContainer, CustomTo
         setTranslationKey(identifier);
         setMaxCount(8);
         this.maxEssence = maxEssence;
+        setHasSubtypes(true);
+    }
+
+    @SubItemProvider
+    public List<ItemStack> getSubItems() {
+        ArrayList<ItemStack> list = new ArrayList<>();
+        list.add(new ItemStack(this));
+        for (EssenceType essence : EssenceType.values()) {
+            System.out.println("essence = " + essence);
+            list.add(asStack(essence, maxEssence));
+        }
+        return list;
+    }
+
+    @Override
+    public int getTextureId(ItemStack itemStack) {
+        List<EssenceType> essenceTypes = getEssenceTypes(itemStack);
+        if (essenceTypes.isEmpty()) return textureId;
+        @NotNull EssenceType primary = essenceTypes.get(0);
+        boolean partial = getEssence(itemStack, primary) >= maxEssence;
+        if (partial) {
+            return primary.vialFullTexture;
+        } else {
+            return primary.vialPartialTexture;
+        }
     }
 
     public ItemStack asStack(EssenceType type, int amount) {

@@ -1,9 +1,5 @@
 {
-  "parent": "item/generated",
-  "textures": {
-    "layer0": "crimsonforest:item/thermos/iron",
-    "layer1": "crimsonforest:item/thermos/life_0"
-  },
+  "parent": "crimsonforest:item/thermos/iron/life_0",
   "overrides": [
     {
       "predicate": {

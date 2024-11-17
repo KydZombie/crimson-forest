@@ -1,7 +1,7 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "crimsonforest:item/thermos/gold"
+    "layer0": "crimsonforest:item/thermos/gold_base"
   },
   "overrides": [
     {

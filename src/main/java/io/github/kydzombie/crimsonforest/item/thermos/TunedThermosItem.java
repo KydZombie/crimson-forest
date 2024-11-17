@@ -19,7 +19,7 @@ import net.modificationstation.stationapi.api.util.Identifier;
 
 import java.util.List;
 
-public abstract class TunedThermosItem extends TemplateItem implements EssenceContainer, Accessory, CustomTooltipProvider {
+public class TunedThermosItem extends TemplateItem implements EssenceContainer, Accessory, CustomTooltipProvider {
     public static final String ESSENCE_KEY = TheCrimsonForest.NAMESPACE.id("essence_amount").toString();
     private static final String[] ACCESSORY_TYPES = new String[]{"thermos"};
     public final int maxEssence;

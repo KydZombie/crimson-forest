@@ -1,1 +1,1 @@
-{"parent":"minecraft:item/generated","textures":{"layer0":"crimsonforest:item/thermos/gold","layer1":"crimsonforest:item/thermos/drink_1"}}
+{"parent":"minecraft:item/generated","textures":{"layer0":"crimsonforest:item/thermos/gold_base","layer1":"crimsonforest:item/thermos/drink_1"}}

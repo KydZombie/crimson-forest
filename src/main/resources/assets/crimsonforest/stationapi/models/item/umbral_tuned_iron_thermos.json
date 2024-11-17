@@ -1,0 +1,29 @@
+{
+  "parent": "crimsonforest:item/thermos/iron/umbral_0",
+  "overrides": [
+    {
+      "predicate": {
+        "crimsonforest:fluid_amount": 0.25
+      },
+      "model": "crimsonforest:item/thermos/iron/umbral_1"
+    },
+    {
+      "predicate": {
+        "crimsonforest:fluid_amount": 0.5
+      },
+      "model": "crimsonforest:item/thermos/iron/umbral_2"
+    },
+    {
+      "predicate": {
+        "crimsonforest:fluid_amount": 0.75
+      },
+      "model": "crimsonforest:item/thermos/iron/umbral_3"
+    },
+    {
+      "predicate": {
+        "crimsonforest:fluid_amount": 1
+      },
+      "model": "crimsonforest:item/thermos/iron/umbral_4"
+    }
+  ]
+}

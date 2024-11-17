@@ -24,6 +24,7 @@ import net.modificationstation.stationapi.api.client.event.color.item.ItemColors
 import net.modificationstation.stationapi.api.client.event.render.entity.EntityRendererRegisterEvent;
 import net.modificationstation.stationapi.api.client.event.render.model.ItemModelPredicateProviderRegistryEvent;
 import net.modificationstation.stationapi.api.client.event.texture.TextureRegisterEvent;
+import net.modificationstation.stationapi.api.client.texture.atlas.Atlases;
 import net.modificationstation.stationapi.api.event.registry.GuiHandlerRegistryEvent;
 import uk.co.benjiweber.expressions.tuple.BiTuple;
 
@@ -37,6 +38,12 @@ public class TheCrimsonForestClient implements ClientModInitializer {
 
     @EventListener
     private void registerTextures(TextureRegisterEvent event) {
+        TheCrimsonForest.vialItem.setTexture(TheCrimsonForest.NAMESPACE.id("item/vial/empty"));
+        for (EssenceType essenceType : EssenceType.values()) {
+            essenceType.vialPartialTexture = Atlases.getGuiItems().addTexture(TheCrimsonForest.NAMESPACE.id("item/vial/" + essenceType.name().toLowerCase() + "_partial")).index;
+            essenceType.vialFullTexture = Atlases.getGuiItems().addTexture(TheCrimsonForest.NAMESPACE.id("item/vial/" + essenceType.name().toLowerCase() + "_full")).index;
+        }
+
         TheCrimsonForest.ironRenderItem.setTexture(TheCrimsonForest.NAMESPACE.id("item/render/iron"));
         TheCrimsonForest.ironVinelashRenderItem.setTexture(TheCrimsonForest.NAMESPACE.id("item/render/iron_vinelash"));
         TheCrimsonForest.ironSoulRenderItem.setTexture(TheCrimsonForest.NAMESPACE.id("item/render/iron_soul"));
@@ -92,17 +99,6 @@ public class TheCrimsonForestClient implements ClientModInitializer {
 
     @EventListener
     private void registerItemModelPredicates(ItemModelPredicateProviderRegistryEvent event) {
-        event.registry.register(TheCrimsonForest.vialItem, TheCrimsonForest.NAMESPACE.id("essence_type"), (stack, world, entity, seed) -> {
-            List<EssenceType> essenceTypes = TheCrimsonForest.vialItem.getEssenceTypes(stack);
-            if (essenceTypes.isEmpty()) return 0;
-            return essenceTypes.get(0) == EssenceType.LIFE ? 0.5f : 1;
-        });
-        event.registry.register(TheCrimsonForest.vialItem, TheCrimsonForest.NAMESPACE.id("full"), (stack, world, entity, seed) -> {
-            List<EssenceType> essenceTypes = TheCrimsonForest.vialItem.getEssenceTypes(stack);
-            if (essenceTypes.isEmpty()) return 0;
-            return TheCrimsonForest.vialItem.getEssence(stack, essenceTypes.get(0)) == TheCrimsonForest.vialItem.maxEssence ? 1 : 0;
-        });
-
         for (EssenceRenderItem renderItem : new EssenceRenderItem[]{TheCrimsonForest.woodenEssenceRenderItem, TheCrimsonForest.ironEssenceRenderItem}) {
             event.registry.register(renderItem, TheCrimsonForest.NAMESPACE.id("vial"),
                     (stack, world, entity, seed) -> {
@@ -113,17 +109,29 @@ public class TheCrimsonForestClient implements ClientModInitializer {
                     (stack, world, entity, seed) -> renderItem.isDripping(stack) ? 1 : 0);
         }
 
-        for (FluidThermosItem thermos : new FluidThermosItem[]{TheCrimsonForest.ironThermosItem, TheCrimsonForest.arcaneThermosItem}) {
+        for (FluidThermosItem thermos : new FluidThermosItem[]{
+                TheCrimsonForest.ironThermosItem,
+//                TheCrimsonForest.arcaneThermosItem
+        }) {
             event.registry.register(thermos, TheCrimsonForest.NAMESPACE.id("fluid_type"),
-                    (stack, world, entity, seed) -> thermos.getFluidType(stack).getPredicateValue());
+                    (stack, world, entity, seed) -> {
+                var fluid = thermos.getFluid(stack);
+                if (fluid == null) return 0;
+                return fluid.fluidType().getPredicateValue();
+            });
 
             event.registry.register(thermos, TheCrimsonForest.NAMESPACE.id("fluid_amount"),
-                    (stack, world, entity, seed) -> thermos.getMillibuckets(stack) / (float) thermos.maxMillibuckets);
+                    (stack, world, entity, seed) -> {
+                var fluid = thermos.getFluid(stack);
+                if (fluid == null) return 0;
+                return fluid.millibuckets() / (float) thermos.maxMillibuckets;
+            });
         }
 
         for (TunedThermosItem thermos : new TunedThermosItem[]{
                 TheCrimsonForest.lifeTunedIronThermosItem, TheCrimsonForest.natureTunedIronThermosItem,
-                TheCrimsonForest.lifeTunedArcaneThermosItem, TheCrimsonForest.natureTunedArcaneThermosItem
+                TheCrimsonForest.pureTunedIronThermosItem, TheCrimsonForest.umbralTunedIronThermosItem,
+//                TheCrimsonForest.lifeTunedArcaneThermosItem, TheCrimsonForest.natureTunedArcaneThermosItem
         }) {
             event.registry.register(thermos, TheCrimsonForest.NAMESPACE.id("fluid_amount"),
                     (stack, world, entity, seed) -> {
@@ -134,9 +142,17 @@ public class TheCrimsonForestClient implements ClientModInitializer {
 
         if (FabricLoader.getInstance().isModLoaded("telsdrinks")) {
             event.registry.register(TheCrimsonForest.goldThermosItem, TheCrimsonForest.NAMESPACE.id("hot"),
-                    (stack, world, entity, seed) -> TheCrimsonForest.goldThermosItem.getDrinkType(stack).hasHotTexture() ? 1 : 0);
+                    (stack, world, entity, seed) -> {
+                var fluid = TheCrimsonForest.goldThermosItem.getFluid(stack);
+                if (fluid == null) return 0;
+                return fluid.fluidType().hasHotTexture() ? 1 : 0;
+            });
             event.registry.register(TheCrimsonForest.goldThermosItem, TheCrimsonForest.NAMESPACE.id("fluid_amount"),
-                    (stack, world, entity, seed) -> TheCrimsonForest.goldThermosItem.getMillibuckets(stack) / (float) TheCrimsonForest.goldThermosItem.maxMillibuckets);
+                    (stack, world, entity, seed) -> {
+                var fluid = TheCrimsonForest.goldThermosItem.getFluid(stack);
+                if (fluid == null) return 0;
+                return fluid.millibuckets() / (float) TheCrimsonForest.goldThermosItem.maxMillibuckets;
+            });
         }
     }
 
@@ -145,7 +161,9 @@ public class TheCrimsonForestClient implements ClientModInitializer {
         if (FabricLoader.getInstance().isModLoaded("telsdrinks")) {
             event.itemColors.register((stack, tintIndex) -> {
                 if (tintIndex != 1) return 0xFFFFFF;
-                return TheCrimsonForest.goldThermosItem.getDrinkType(stack).color;
+                var fluid = TheCrimsonForest.goldThermosItem.getFluid(stack);
+                if (fluid == null) return 0xFFFFFF;
+                return fluid.fluidType().color;
             }, TheCrimsonForest.goldThermosItem);
         }
     }
