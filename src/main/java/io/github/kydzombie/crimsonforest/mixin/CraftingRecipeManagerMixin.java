@@ -69,12 +69,22 @@ public class CraftingRecipeManagerMixin {
                 if (fluid == null) {
                     for (DrinkThermosItem.DrinkType value : DrinkThermosItem.DrinkType.values()) {
                         if (value.mugBlock.asItem().id == stack.getItem().id) {
+                            if (value.hasHotState) {
+                                if ((value.hot ? 1 : 0) != stack.getDamage()) {
+                                    continue;
+                                }
+                            }
                             fluid = new FluidInstance<>(value, 1000);
                             found = true;
                         }
                     }
                 } else {
                     if (fluid.fluidType().mugBlock.asItem().id == stack.getItem().id) {
+                        if (fluid.fluidType().hasHotState) {
+                            if ((fluid.fluidType().hot ? 1 : 0) != stack.getDamage()) {
+                                return null;
+                            }
+                        }
                         if (fluid.millibuckets() + 1000 > thermosItem.maxMillibuckets) return null;
                         fluid = fluid.add(1000);
                         found = true;
