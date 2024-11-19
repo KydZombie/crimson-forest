@@ -2,7 +2,7 @@ package io.github.kydzombie.crimsonforest.gui.screen;
 
 import io.github.kydzombie.crimsonforest.gui.screen.slot.OutputSlot;
 import io.github.kydzombie.crimsonforest.gui.screen.slot.TunedThermosInputSlot;
-import io.github.kydzombie.crimsonforest.item.EssenceContainer;
+import io.github.kydzombie.crimsonforest.item.HasItemEssenceStorage;
 import io.github.kydzombie.crimsonforest.item.thermos.TunedThermosInventory;
 import io.github.kydzombie.crimsonforest.magic.EssenceType;
 import net.minecraft.entity.player.PlayerEntity;
@@ -65,24 +65,24 @@ public class TunedThermosScreenHandler extends ScreenHandler implements Tickable
         if (!thermosInventory.isReady()) return;
 
         EssenceType thermosEssenceType = thermosInventory.essenceType;
-        int thermosEssence = thermosInventory.thermosItem.getEssence(thermosInventory.thermosStack, thermosEssenceType);
-        int thermosMaxEssence = thermosInventory.thermosItem.getMaxEssence(thermosInventory.thermosStack, thermosEssenceType);
+        long thermosEssence = thermosInventory.thermosItem.getEssence(thermosInventory.thermosStack, thermosEssenceType);
+        long thermosMaxEssence = thermosInventory.thermosItem.getMaxEssence(thermosInventory.thermosStack, thermosEssenceType);
         ItemStack inputStack = thermosInventory.getStack(0);
         ItemStack outputStack = thermosInventory.getStack(1);
         if (inputStack == null || (outputStack != null && outputStack.count >= outputStack.getMaxCount())) return;
         if (outputStack != null) return; // TODO: Stacks of vials
-        if (inputStack.getItem() instanceof EssenceContainer container) {
-            int containerMaxEssence = container.getMaxEssence(inputStack, thermosEssenceType);
-            int containerEssence = container.getEssence(inputStack, thermosEssenceType);
+        if (inputStack.getItem() instanceof HasItemEssenceStorage container) {
+            long containerMaxEssence = container.getMaxEssence(inputStack, thermosEssenceType);
+            long containerEssence = container.getEssence(inputStack, thermosEssenceType);
             ItemStack newOutput = inputStack.copy();
             if (containerEssence > 0 && thermosEssence < thermosMaxEssence) { // Extract essence from item
                 if (container.canTakeEssence(newOutput, thermosEssenceType)) {
-                    int amountTaken = container.takeEssence(newOutput, thermosEssenceType, thermosMaxEssence - thermosEssence);
+                    long amountTaken = container.takeEssence(newOutput, thermosEssenceType, thermosMaxEssence - thermosEssence);
                     thermosInventory.thermosItem.giveEssence(thermosInventory.thermosStack, thermosEssenceType, amountTaken);
                 }
             } else { // Insert essence into item
                 if (container.canGiveEssence(newOutput, thermosEssenceType)) {
-                    int amountTaken = thermosInventory.thermosItem.takeEssence(thermosInventory.thermosStack, thermosEssenceType, containerMaxEssence - containerEssence);
+                    long amountTaken = thermosInventory.thermosItem.takeEssence(thermosInventory.thermosStack, thermosEssenceType, containerMaxEssence - containerEssence);
                     container.giveEssence(newOutput, thermosEssenceType, amountTaken);
                 }
             }

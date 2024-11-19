@@ -1,5 +1,6 @@
 package io.github.kydzombie.crimsonforest.mixin;
 
+import io.github.kydzombie.crimsonforest.fluid.FluidHelper;
 import io.github.kydzombie.crimsonforest.item.thermos.FluidThermosItem;
 import net.minecraft.entity.passive.CowEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -17,13 +18,13 @@ public class CowEntityMixin {
         if (stack != null && stack.getItem() instanceof FluidThermosItem thermos) {
             var fluid = thermos.getFluid(stack);
             if (fluid == null) {
-                thermos.setFluid(stack, FluidThermosItem.BucketFluid.MILK, FluidThermosItem.BUCKET_AMOUNT);
+                thermos.setFluid(stack, FluidThermosItem.BucketFluid.MILK, FluidHelper.BUCKET_AMOUNT);
                 player.swingHand();
             } else {
                 FluidThermosItem.BucketFluid currentFluidType = fluid.fluidType();
-                int currentMillibuckets = fluid.millibuckets();
-                if (currentMillibuckets < thermos.maxMillibuckets) {
-                    thermos.setFluid(stack, currentFluidType, Math.min(currentMillibuckets + FluidThermosItem.BUCKET_AMOUNT, thermos.maxMillibuckets));
+                long currentDrops = fluid.drops();
+                if (currentDrops < thermos.maxDrops) {
+                    thermos.setFluid(stack, currentFluidType, Math.min(currentDrops + FluidHelper.BUCKET_AMOUNT, thermos.maxDrops));
                     player.swingHand();
                 }
             }

@@ -46,6 +46,12 @@ public class CrudeSoulInfuserBlock extends TemplateBlockWithEntity {
     }
 
     @Override
+    public void onBreak(World world, int x, int y, int z) {
+        ((CrudeSoulInfuserBlockEntity) world.getBlockEntity(x, y, z)).dropInventory();
+        super.onBreak(world, x, y, z);
+    }
+
+    @Override
     protected BlockEntity createBlockEntity() {
         return new CrudeSoulInfuserBlockEntity();
     }

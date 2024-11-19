@@ -1,11 +1,9 @@
 package io.github.kydzombie.crimsonforest.mixin;
 
-import com.github.telvarost.telsdrinks.item.MugBlockItem;
-import io.github.kydzombie.crimsonforest.TheCrimsonForest;
+import io.github.kydzombie.crimsonforest.fluid.FluidHelper;
 import io.github.kydzombie.crimsonforest.item.VialItem;
 import io.github.kydzombie.crimsonforest.item.thermos.DrinkThermosItem;
 import io.github.kydzombie.crimsonforest.item.thermos.FluidInstance;
-import io.github.kydzombie.crimsonforest.item.thermos.FluidThermosItem;
 import io.github.kydzombie.crimsonforest.item.thermos.ThermosItem;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
@@ -74,7 +72,7 @@ public class CraftingRecipeManagerMixin {
                                     continue;
                                 }
                             }
-                            fluid = new FluidInstance<>(value, 1000);
+                            fluid = new FluidInstance<>(value, FluidHelper.BOTTLE_AMOUNT);
                             found = true;
                         }
                     }
@@ -85,8 +83,8 @@ public class CraftingRecipeManagerMixin {
                                 return null;
                             }
                         }
-                        if (fluid.millibuckets() + 1000 > thermosItem.maxMillibuckets) return null;
-                        fluid = fluid.add(1000);
+                        if (fluid.drops() + FluidHelper.BOTTLE_AMOUNT > thermosItem.maxDrops) return null;
+                        fluid = fluid.add(FluidHelper.BOTTLE_AMOUNT);
                         found = true;
                     } else {
                         return null;

@@ -17,13 +17,13 @@ public class MortarAndPestleUpdatePacket extends Packet implements IdentifiableP
     public int x;
     public int y;
     public int z;
-    public int essence;
+    public long essence;
 
     public static ArrayList<MortarAndPestleUpdatePacket> pending = new ArrayList<>();
 
     public MortarAndPestleUpdatePacket() {}
 
-    public MortarAndPestleUpdatePacket(int x, int y, int z, int essence) {
+    public MortarAndPestleUpdatePacket(int x, int y, int z, long essence) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -36,7 +36,7 @@ public class MortarAndPestleUpdatePacket extends Packet implements IdentifiableP
             this.x = stream.readInt();
             this.y = stream.readInt();
             this.z = stream.readInt();
-            this.essence = stream.readInt();
+            this.essence = stream.readLong();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -48,7 +48,7 @@ public class MortarAndPestleUpdatePacket extends Packet implements IdentifiableP
             stream.writeInt(this.x);
             stream.writeInt(this.y);
             stream.writeInt(this.z);
-            stream.writeInt(this.essence);
+            stream.writeLong(this.essence);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -68,7 +68,7 @@ public class MortarAndPestleUpdatePacket extends Packet implements IdentifiableP
 
     @Override
     public int size() {
-        return 16;
+        return 20;
     }
 
     @Override

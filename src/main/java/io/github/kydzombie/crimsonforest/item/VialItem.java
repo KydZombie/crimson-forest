@@ -1,6 +1,5 @@
 package io.github.kydzombie.crimsonforest.item;
 
-import io.github.kydzombie.crimsonforest.TheCrimsonForest;
 import io.github.kydzombie.crimsonforest.magic.EssenceType;
 import net.glasslauncher.mods.alwaysmoreitems.api.SubItemProvider;
 import net.minecraft.client.resource.language.I18n;
@@ -16,12 +15,12 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VialItem extends TemplateItem implements EssenceContainer, CustomTooltipProvider {
+public class VialItem extends TemplateItem implements HasItemEssenceStorage, CustomTooltipProvider {
     private static final String ESSENCE_TYPE_NBT = "crimsonforest:essence_type";
     private static final String ESSENCE_AMOUNT_NBT = "crimsonforest:essence_amount";
-    public final int maxEssence;
+    public final long maxEssence;
 
-    public VialItem(Identifier identifier, int maxEssence) {
+    public VialItem(Identifier identifier, long maxEssence) {
         super(identifier);
         setTranslationKey(identifier);
         setMaxCount(8);
@@ -53,7 +52,7 @@ public class VialItem extends TemplateItem implements EssenceContainer, CustomTo
         }
     }
 
-    public ItemStack asStack(EssenceType type, int amount) {
+    public ItemStack asStack(EssenceType type, long amount) {
         ItemStack vialStack = new ItemStack(this);
         if (amount != 0) {
             setEssence(vialStack, type, amount);
@@ -69,7 +68,7 @@ public class VialItem extends TemplateItem implements EssenceContainer, CustomTo
     }
 
     @Override
-    public int getMaxEssence(ItemStack stack, EssenceType type) {
+    public long getMaxEssence(ItemStack stack, EssenceType type) {
         List<EssenceType> essenceTypes = getEssenceTypes(stack);
         if (essenceTypes.isEmpty()) return maxEssence;
         if (type != essenceTypes.get(0)) return 0;
@@ -77,20 +76,20 @@ public class VialItem extends TemplateItem implements EssenceContainer, CustomTo
     }
 
     @Override
-    public int getEssence(ItemStack stack, EssenceType type) {
+    public long getEssence(ItemStack stack, EssenceType type) {
         List<EssenceType> essenceTypes = getEssenceTypes(stack);
         if (essenceTypes.isEmpty()) return 0;
         if (type != essenceTypes.get(0)) return 0;
-        return stack.getStationNbt().getInt(ESSENCE_AMOUNT_NBT);
+        return stack.getStationNbt().getLong(ESSENCE_AMOUNT_NBT);
     }
 
     @Override
-    public void setEssence(ItemStack stack, EssenceType type, int value) {
+    public void setEssence(ItemStack stack, EssenceType type, long value) {
         List<EssenceType> essenceTypes = getEssenceTypes(stack);
         if (essenceTypes.isEmpty()) {
             stack.getStationNbt().putByte(ESSENCE_TYPE_NBT, (byte) (type == EssenceType.LIFE ? 1 : 2));
         } else if (type != essenceTypes.get(0)) return;
-        stack.getStationNbt().putInt(ESSENCE_AMOUNT_NBT, value);
+        stack.getStationNbt().putLong(ESSENCE_AMOUNT_NBT, value);
         if (value <= 0) stack.getStationNbt().putByte(ESSENCE_TYPE_NBT, (byte) 0);
     }
 

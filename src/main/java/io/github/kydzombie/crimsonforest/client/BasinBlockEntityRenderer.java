@@ -26,7 +26,7 @@ public class BasinBlockEntityRenderer extends BlockEntityRenderer {
     public void render(BlockEntity blockEntity, double x, double y, double z, float tickDelta) {
         BasinBlockEntity basin = ((BasinBlockEntity) blockEntity);
         EssenceType essenceType = basin.getEssenceType();
-        int essence = basin.getEssence();
+        long essence = basin.getEssence();
 
         GL11.glPushMatrix();
 
@@ -49,7 +49,7 @@ public class BasinBlockEntityRenderer extends BlockEntityRenderer {
             GL11.glEnable(GL11.GL_BLEND);
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
             double percent = (essence / (float) BasinBlockEntity.MAX_ESSENCE);
-            // TODO: Add percent == 0.5 check if needed
+            if (essence == BasinBlockEntity.MAX_ESSENCE / 2) percent += 0.01f;
 
             double draw_y = y + MIN_VERTICAL + ((MAX_VERTICAL - MIN_VERTICAL) * percent);
 

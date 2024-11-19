@@ -1,7 +1,7 @@
 package io.github.kydzombie.crimsonforest.block;
 
 import io.github.kydzombie.crimsonforest.block.entity.BasinBlockEntity;
-import io.github.kydzombie.crimsonforest.item.EssenceContainer;
+import io.github.kydzombie.crimsonforest.item.HasItemEssenceStorage;
 import io.github.kydzombie.crimsonforest.magic.EssenceType;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.material.Material;
@@ -39,7 +39,7 @@ public class BasinBlock extends TemplateBlockWithEntity {
                 player.inventory.addStack(basinStack);
                 basin.setStack(0, null);
                 return true;
-            } else if (stack.getItem() instanceof EssenceContainer container) {
+            } else if (stack.getItem() instanceof HasItemEssenceStorage container) {
                 boolean multiple = stack.count > 1;
                 ItemStack newStack = stack;
                 if (multiple) {
@@ -49,7 +49,7 @@ public class BasinBlock extends TemplateBlockWithEntity {
 
                 List<EssenceType> containerEssenceTypes = container.getEssenceTypes(stack);
                 EssenceType basinEssenceType = basin.getEssenceType();
-                int basinEssence = basin.getEssence();
+                long basinEssence = basin.getEssence();
 
                 System.out.println("basinEssenceType = " + basinEssenceType);
                 System.out.println("basinEssence = " + basinEssence);
@@ -69,7 +69,7 @@ public class BasinBlock extends TemplateBlockWithEntity {
 
                     if (container.canGiveEssence(stack, essenceType)) {
                         System.out.println("Can give");
-                        int givenEssence = container.giveEssence(newStack, essenceType, basinEssence);
+                        long givenEssence = container.giveEssence(newStack, essenceType, basinEssence);
                         if (givenEssence > 0) {
                             basin.setEssence(essenceType, basinEssence - givenEssence);
                             if (multiple) {
@@ -84,7 +84,7 @@ public class BasinBlock extends TemplateBlockWithEntity {
 
                     if (container.canTakeEssence(stack, essenceType)) {
                         System.out.println("Can take");
-                        int takenEssence = container.takeEssence(newStack, essenceType, BasinBlockEntity.MAX_ESSENCE - basinEssence);
+                        long takenEssence = container.takeEssence(newStack, essenceType, BasinBlockEntity.MAX_ESSENCE - basinEssence);
                         if (takenEssence > 0) {
                             basin.setEssence(essenceType, basinEssence + takenEssence);
                             if (multiple) {

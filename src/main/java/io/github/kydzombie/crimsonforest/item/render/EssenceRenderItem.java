@@ -4,7 +4,7 @@ import com.matthewperiut.accessoryapi.api.helper.AccessoryAccess;
 import io.github.kydzombie.crimsonforest.TheCrimsonForest;
 import io.github.kydzombie.crimsonforest.custom.SoundEffect;
 import io.github.kydzombie.crimsonforest.item.CrimsonWeaponItem;
-import io.github.kydzombie.crimsonforest.item.EssenceContainer;
+import io.github.kydzombie.crimsonforest.item.HasItemEssenceStorage;
 import io.github.kydzombie.crimsonforest.item.HasBreakEvent;
 import io.github.kydzombie.crimsonforest.item.thermos.TunedThermosItem;
 import io.github.kydzombie.crimsonforest.magic.EssenceType;
@@ -22,16 +22,16 @@ import net.modificationstation.stationapi.api.util.Identifier;
 
 import java.util.List;
 
-public class EssenceRenderItem extends CrimsonWeaponItem implements EssenceContainer, CustomTooltipProvider, HasBreakEvent {
+public class EssenceRenderItem extends CrimsonWeaponItem implements HasItemEssenceStorage, CustomTooltipProvider, HasBreakEvent {
     public static final String BLOOD_DRIP_TIMER_NBT = "crimsonforest:blood_drip_timer";
     private static final int BLOOD_DRIP_MILLISECONDS = 4 * 1000;
     private static final String VIAL_NBT = "crimsonforest:has_vial";
     private static final String ESSENCE_NBT = "crimsonforest:essence";
-    private final int millibucketsPerKill;
+    private final long dropsPerKill;
 
-    public EssenceRenderItem(Identifier identifier, int durability, int attackDamage, int millibucketsPerKill) {
+    public EssenceRenderItem(Identifier identifier, int durability, int attackDamage, long dropsPerKill) {
         super(identifier, durability, attackDamage);
-        this.millibucketsPerKill = millibucketsPerKill;
+        this.dropsPerKill = dropsPerKill;
     }
 
     public boolean isDripping(ItemStack stack) {
@@ -43,7 +43,7 @@ public class EssenceRenderItem extends CrimsonWeaponItem implements EssenceConta
     @Override
     protected void onKill(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         if (attacker.world.isRemote) return;
-        int given = giveEssence(stack, EssenceType.LIFE, millibucketsPerKill);
+        long given = giveEssence(stack, EssenceType.LIFE, dropsPerKill);
         if (given <= 0) return;
         System.out.println("kill");
         if (!attacker.world.isRemote) {
@@ -74,15 +74,15 @@ public class EssenceRenderItem extends CrimsonWeaponItem implements EssenceConta
         return stack.getStationNbt().getBoolean(VIAL_NBT);
     }
 
-    public void putVial(ItemStack stack, int value) {
+    public void putVial(ItemStack stack, long value) {
         stack.getStationNbt().putBoolean(VIAL_NBT, true);
-        stack.getStationNbt().putInt(ESSENCE_NBT, value);
+        stack.getStationNbt().putLong(ESSENCE_NBT, value);
     }
 
     public ItemStack removeVial(ItemStack stack) {
         if (!hasVial(stack)) return null;
 
-        int essence = getEssence(stack, EssenceType.LIFE);
+        long essence = getEssence(stack, EssenceType.LIFE);
         setEssence(stack, EssenceType.LIFE, 0);
         stack.getStationNbt().putBoolean(VIAL_NBT, false);
         return TheCrimsonForest.vialItem.asStack(EssenceType.LIFE, essence);
@@ -98,21 +98,21 @@ public class EssenceRenderItem extends CrimsonWeaponItem implements EssenceConta
     }
 
     @Override
-    public int getMaxEssence(ItemStack stack, EssenceType type) {
+    public long getMaxEssence(ItemStack stack, EssenceType type) {
         if (type != EssenceType.LIFE || !hasVial(stack)) return 0;
         return TheCrimsonForest.vialItem.maxEssence;
     }
 
     @Override
-    public int getEssence(ItemStack stack, EssenceType type) {
+    public long getEssence(ItemStack stack, EssenceType type) {
         if (type != EssenceType.LIFE || !hasVial(stack)) return 0;
-        return stack.getStationNbt().getInt(ESSENCE_NBT);
+        return stack.getStationNbt().getLong(ESSENCE_NBT);
     }
 
     @Override
-    public void setEssence(ItemStack stack, EssenceType type, int value) {
+    public void setEssence(ItemStack stack, EssenceType type, long value) {
         if (type != EssenceType.LIFE || !hasVial(stack)) return;
-        stack.getStationNbt().putInt(ESSENCE_NBT, value);
+        stack.getStationNbt().putLong(ESSENCE_NBT, value);
     }
 
     @Override
@@ -148,7 +148,7 @@ public class EssenceRenderItem extends CrimsonWeaponItem implements EssenceConta
                 ItemStack invStack = user.inventory.getStack(i);
                 if (invStack == null) continue;
                 if (invStack.itemId == TheCrimsonForest.vialItem.id) {
-                    int vialEssence = TheCrimsonForest.vialItem.getEssence(invStack, EssenceType.LIFE);
+                    long vialEssence = TheCrimsonForest.vialItem.getEssence(invStack, EssenceType.LIFE);
                     if (vialEssence >=
                             TheCrimsonForest.vialItem.getMaxEssence(invStack, EssenceType.LIFE))
                         continue;
@@ -190,7 +190,7 @@ public class EssenceRenderItem extends CrimsonWeaponItem implements EssenceConta
             for (ItemStack accessoryStack : accessories) {
                 if (accessoryStack == null) continue;
                 if (accessoryStack.getItem() instanceof TunedThermosItem thermos && thermos.canGiveEssence(accessoryStack, EssenceType.LIFE)) {
-                    int essenceGiven = thermos.giveEssence(accessoryStack, EssenceType.LIFE, getEssence(stack, EssenceType.LIFE));
+                    long essenceGiven = thermos.giveEssence(accessoryStack, EssenceType.LIFE, getEssence(stack, EssenceType.LIFE));
 
                     if (essenceGiven > 0) {
                         takeEssence(stack, EssenceType.LIFE, essenceGiven);

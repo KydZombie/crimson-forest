@@ -1,5 +1,6 @@
 package io.github.kydzombie.crimsonforest.block.entity;
 
+import io.github.kydzombie.crimsonforest.fluid.FluidHelper;
 import io.github.kydzombie.crimsonforest.magic.EssenceType;
 import io.github.kydzombie.crimsonforest.packet.BasinBlockUpdatePacket;
 import io.github.kydzombie.crimsonforest.recipe.BasinRecipe;
@@ -21,9 +22,9 @@ public class BasinBlockEntity extends BlockEntity implements SimpleInventory {
     ItemStack[] inventory = new ItemStack[1];
     @Getter
     private EssenceType essenceType;
-    public static final int MAX_ESSENCE = 100;
+    public static final long MAX_ESSENCE = FluidHelper.BOTTLE_AMOUNT * 2;
     @Getter
-    private int essence = 0;
+    private long essence = 0;
     /**
      * The progress of the recipe, in essence spent
      */
@@ -31,7 +32,7 @@ public class BasinBlockEntity extends BlockEntity implements SimpleInventory {
 
     public ItemEntity renderedItem = null;
 
-    public void setEssence(EssenceType essenceType, int essence) {
+    public void setEssence(EssenceType essenceType, long essence) {
         if (essenceType == null || essence <= 0) {
             this.essenceType = null;
             this.essence = 0;
@@ -108,7 +109,7 @@ public class BasinBlockEntity extends BlockEntity implements SimpleInventory {
         } else {
             this.essenceType = EssenceType.values()[essenceType];
         }
-        essence = nbt.getInt("essence_amount");
+        essence = nbt.getLong("essence_amount");
     }
 
     @Override
@@ -120,6 +121,6 @@ public class BasinBlockEntity extends BlockEntity implements SimpleInventory {
         } else {
             nbt.putByte("essence_type", (byte) essenceType.ordinal());
         }
-        nbt.putInt("essence_amount", essence);
+        nbt.putLong("essence_amount", essence);
     }
 }

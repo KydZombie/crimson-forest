@@ -18,4 +18,8 @@ public enum EssenceType {
         this.identifier = identifier;
         this.color = color;
     }
+
+    public String getTranslationKey() {
+        return "essence." + identifier.namespace + "." + identifier.path;
+    }
 }

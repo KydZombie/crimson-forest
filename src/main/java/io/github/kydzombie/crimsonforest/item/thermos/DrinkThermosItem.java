@@ -5,6 +5,7 @@ import com.github.telvarost.telsdrinks.block.Mug;
 import com.github.telvarost.telsdrinks.blockentity.KettleBlockEntity;
 import com.github.telvarost.telsdrinks.events.BlockListener;
 import cyclops.function.Consumer5;
+import io.github.kydzombie.crimsonforest.fluid.FluidHelper;
 import net.minecraft.block.Block;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.Entity;
@@ -73,8 +74,8 @@ public class DrinkThermosItem extends ThermosItem<DrinkThermosItem.DrinkType> im
         }
     }
 
-    public DrinkThermosItem(Identifier identifier, int maxMillibuckets) {
-        super(identifier, maxMillibuckets, DrinkType.class);
+    public DrinkThermosItem(Identifier identifier, long maxDrops) {
+        super(identifier, maxDrops, DrinkType.class);
     }
 
     @Override
@@ -94,7 +95,7 @@ public class DrinkThermosItem extends ThermosItem<DrinkThermosItem.DrinkType> im
             fluid.fluidType().onDrink.accept(user, world, (int) user.x, (int) user.y, (int) user.z);
         }
 
-        setFluid(stack, fluid.fluidType(), fluid.millibuckets() - 1000);
+        setFluid(stack, fluid.fluidType(), fluid.drops() - FluidHelper.BOTTLE_AMOUNT);
 
         return super.use(stack, world, user);
     }
@@ -103,8 +104,8 @@ public class DrinkThermosItem extends ThermosItem<DrinkThermosItem.DrinkType> im
     public boolean useOnBlock(ItemStack stack, PlayerEntity user, World world, int x, int y, int z, int side) {
         var fluid = getFluid(stack);
         DrinkType currentDrinkType = fluid == null ? null : fluid.fluidType();
-        int currentMillibuckets = fluid == null ? 0 : fluid.millibuckets();
-        if (currentMillibuckets >= maxMillibuckets) return false;
+        long currentDrops = fluid == null ? 0 : fluid.drops();
+        if (currentDrops >= maxDrops) return false;
         Block block = world.getBlockState(x, y, z).getBlock();
         System.out.println(block.getTranslatedName());
         if (block instanceof Kettle) {
@@ -115,7 +116,7 @@ public class DrinkThermosItem extends ThermosItem<DrinkThermosItem.DrinkType> im
                 if (drinkType != DrinkType.POISON && hot != drinkType.hot) continue;
                 KettleBlockEntity blockEntity = (KettleBlockEntity) world.getBlockEntity(x, y, z);
                 if (blockEntity.takeLiquidOut(world, x, y, z, 2)) {
-                    setFluid(stack, drinkType, currentMillibuckets + 1000);
+                    setFluid(stack, drinkType, currentDrops + FluidHelper.BOTTLE_AMOUNT);
                 } else {
                     return false;
                 }
@@ -129,7 +130,7 @@ public class DrinkThermosItem extends ThermosItem<DrinkThermosItem.DrinkType> im
                 if (drinkType.mugBlock != block) continue;
                 BlockState state = world.getBlockState(x, y, z);
                 if (state.getBlock() == BlockListener.EMPTY_MUG || drinkType.hasHotState && state.get(Mug.HOT) != drinkType.hot) continue;
-                setFluid(stack, drinkType, currentMillibuckets + 1000);
+                setFluid(stack, drinkType, currentDrops + FluidHelper.BOTTLE_AMOUNT);
                 world.setBlock(x, y, z, BlockListener.EMPTY_MUG.id);
                 return true;
             }
@@ -151,8 +152,8 @@ public class DrinkThermosItem extends ThermosItem<DrinkThermosItem.DrinkType> im
         return new String[]{
                 originalTooltip,
                 I18n.getTranslation(
-                        "fluid_thermos.crimsonforest.fluid_text",
-                        fluid.millibuckets(),
+                        "drink_thermos.crimsonforest.fluid_text",
+                        (float) fluid.drops() / FluidHelper.BOTTLE_AMOUNT,
                         I18n.getTranslation("drink.crimsonforest." + fluid.fluidType().toString().toLowerCase() + ".name")
                 )
         };

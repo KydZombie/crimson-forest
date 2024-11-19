@@ -15,7 +15,7 @@ public class MortarAndPestleBlockEntityRenderer extends BlockEntityRenderer {
 
     @Override
     public void render(BlockEntity blockEntity, double x, double y, double z, float tickDelta) {
-        int essence = ((MortarAndPestleBlockEntity) blockEntity).getEssence();
+        long essence = ((MortarAndPestleBlockEntity) blockEntity).getEssence();
         if (essence <= 0) return;
 
         GL11.glPushMatrix();

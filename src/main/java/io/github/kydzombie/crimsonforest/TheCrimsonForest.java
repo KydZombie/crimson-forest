@@ -5,6 +5,7 @@ import com.mojang.datafixers.util.Pair;
 import io.github.kydzombie.crimsonforest.block.*;
 import io.github.kydzombie.crimsonforest.block.entity.*;
 import io.github.kydzombie.crimsonforest.entity.VinelashAttackEntity;
+import io.github.kydzombie.crimsonforest.fluid.FluidHelper;
 import io.github.kydzombie.crimsonforest.item.*;
 import io.github.kydzombie.crimsonforest.item.render.EssenceRenderItem;
 import io.github.kydzombie.crimsonforest.item.render.LesserSoulRenderItem;
@@ -159,9 +160,9 @@ public class TheCrimsonForest implements ModInitializer {
 
     @EventListener
     private void registerItems(ItemRegistryEvent event) {
-        woodenEssenceRenderItem = new EssenceRenderItem(NAMESPACE.id("wooden_essence_render"), 32, 4, 25);
+        woodenEssenceRenderItem = new EssenceRenderItem(NAMESPACE.id("wooden_essence_render"), 32, 4, FluidHelper.BOTTLE_AMOUNT / 10);
         ironRenderItem = new CrimsonWeaponItem(NAMESPACE.id("iron_render"), 350, 6);
-        ironEssenceRenderItem = new EssenceRenderItem(NAMESPACE.id("iron_essence_render"), 250, 6, 50);
+        ironEssenceRenderItem = new EssenceRenderItem(NAMESPACE.id("iron_essence_render"), 250, 6, FluidHelper.BOTTLE_AMOUNT / 5);
         ironVinelashRenderItem = new VinelashRenderItem(NAMESPACE.id("iron_vinelash_render"), 250, 6);
         ironSoulRenderItem = new LesserSoulRenderItem(NAMESPACE.id("iron_soul_render"), 125, 6, .25f);
         tarnishedRenderItem = new CrimsonWeaponItem(NAMESPACE.id("tarnished_render"), 512, 7);
@@ -179,15 +180,17 @@ public class TheCrimsonForest implements ModInitializer {
         corruptedSoulItem = new SoulItem(NAMESPACE.id("corrupted_soul"), 4);
         endermanSoulItem = new SoulItem(NAMESPACE.id("enderman_soul"), 4);
 
-        vialItem = new VialItem(NAMESPACE.id("vial"), 250);
+        vialItem = new VialItem(NAMESPACE.id("vial"), FluidHelper.BOTTLE_AMOUNT);
 
-        int ironMaxMillibuckets = 4000;
 
-        ironThermosItem = new FluidThermosItem(NAMESPACE.id("iron_thermos"), ironMaxMillibuckets);
-        lifeTunedIronThermosItem = new TunedThermosItem(NAMESPACE.id("life_tuned_iron_thermos"), EssenceType.LIFE, ironMaxMillibuckets);
-        natureTunedIronThermosItem = new TunedThermosItem(NAMESPACE.id("nature_tuned_iron_thermos"), EssenceType.NATURE, ironMaxMillibuckets);
-        pureTunedIronThermosItem = new TunedThermosItem(NAMESPACE.id("pure_tuned_iron_thermos"), EssenceType.PURE, ironMaxMillibuckets);
-        umbralTunedIronThermosItem = new TunedThermosItem(NAMESPACE.id("umbral_tuned_iron_thermos"), EssenceType.UMBRAL, ironMaxMillibuckets);
+
+        ironThermosItem = new FluidThermosItem(NAMESPACE.id("iron_thermos"), FluidHelper.BUCKET_AMOUNT * 4);
+
+        long ironMaxEssence = FluidHelper.BOTTLE_AMOUNT * 4;
+        lifeTunedIronThermosItem = new TunedThermosItem(NAMESPACE.id("life_tuned_iron_thermos"), EssenceType.LIFE, ironMaxEssence);
+        natureTunedIronThermosItem = new TunedThermosItem(NAMESPACE.id("nature_tuned_iron_thermos"), EssenceType.NATURE, ironMaxEssence);
+        pureTunedIronThermosItem = new TunedThermosItem(NAMESPACE.id("pure_tuned_iron_thermos"), EssenceType.PURE, ironMaxEssence);
+        umbralTunedIronThermosItem = new TunedThermosItem(NAMESPACE.id("umbral_tuned_iron_thermos"), EssenceType.UMBRAL, ironMaxEssence);
 
 //        int arcaneMaxMillibuckets = 8000;
 //
@@ -196,7 +199,7 @@ public class TheCrimsonForest implements ModInitializer {
 //        natureTunedArcaneThermosItem = new NatureTunedThermosItem(NAMESPACE.id("nature_tuned_arcane_thermos"), arcaneMaxMillibuckets);
 
         if (FabricLoader.getInstance().isModLoaded("telsdrinks")) {
-            goldThermosItem = new DrinkThermosItem(NAMESPACE.id("gold_thermos"), 4000);
+            goldThermosItem = new DrinkThermosItem(NAMESPACE.id("gold_thermos"), FluidHelper.BOTTLE_AMOUNT * 4);
         }
 
         wardingAmuletItem = new WardingAmuletItem(NAMESPACE.id("warding_amulet"));
@@ -233,16 +236,16 @@ public class TheCrimsonForest implements ModInitializer {
         soulChipItem = new CrimsonForestCraftingItem(NAMESPACE.id("soul_chip"));
         soulCircuitItem = new CrimsonForestCraftingItem(NAMESPACE.id("soul_circuit"));
 
-        BasinRecipeRegistry.INSTANCE.addRecipe(new BasinRecipe(new ItemStack(Item.STRING), EssenceType.LIFE, 10, new ItemStack(lifeStringItem)));
-        BasinRecipeRegistry.INSTANCE.addRecipe(new BasinRecipe(new ItemStack(Item.STRING), EssenceType.NATURE, 10, new ItemStack(natureStringItem)));
-        BasinRecipeRegistry.INSTANCE.addRecipe(new BasinRecipe(new ItemStack(Block.BRICKS), EssenceType.LIFE, 25, new ItemStack(essenceBondedBricksBlock)));
-        BasinRecipeRegistry.INSTANCE.addRecipe(new BasinRecipe(new ItemStack(Block.BRICKS), EssenceType.NATURE, 25, new ItemStack(essenceBondedBricksBlock)));
-        BasinRecipeRegistry.INSTANCE.addRecipe(new BasinRecipe(new ItemStack(woodenGearItem), EssenceType.LIFE, 50, new ItemStack(biomechanicalGearItem)));
-        BasinRecipeRegistry.INSTANCE.addRecipe(new BasinRecipe(new ItemStack(woodenGearItem), EssenceType.NATURE, 50, new ItemStack(biomechanicalGearItem)));
-        BasinRecipeRegistry.INSTANCE.addRecipe(new BasinRecipe(new ItemStack(Item.IRON_INGOT), EssenceType.LIFE, 100, new ItemStack(lifeIngotItem)));
-        BasinRecipeRegistry.INSTANCE.addRecipe(new BasinRecipe(new ItemStack(Item.IRON_INGOT), EssenceType.NATURE, 100, new ItemStack(natureIngotItem)));
-        BasinRecipeRegistry.INSTANCE.addRecipe(new BasinRecipe(new ItemStack(ironThermosItem), EssenceType.LIFE, 100, new ItemStack(lifeTunedIronThermosItem)));
-        BasinRecipeRegistry.INSTANCE.addRecipe(new BasinRecipe(new ItemStack(ironThermosItem), EssenceType.NATURE, 100, new ItemStack(natureTunedIronThermosItem)));
+        BasinRecipeRegistry.INSTANCE.addRecipe(new BasinRecipe(new ItemStack(Item.STRING), EssenceType.LIFE, FluidHelper.BOTTLE_AMOUNT / 10, new ItemStack(lifeStringItem)));
+        BasinRecipeRegistry.INSTANCE.addRecipe(new BasinRecipe(new ItemStack(Item.STRING), EssenceType.NATURE, FluidHelper.BOTTLE_AMOUNT / 10, new ItemStack(natureStringItem)));
+        BasinRecipeRegistry.INSTANCE.addRecipe(new BasinRecipe(new ItemStack(Block.BRICKS), EssenceType.LIFE, FluidHelper.BOTTLE_AMOUNT / 2, new ItemStack(essenceBondedBricksBlock)));
+        BasinRecipeRegistry.INSTANCE.addRecipe(new BasinRecipe(new ItemStack(Block.BRICKS), EssenceType.NATURE, FluidHelper.BOTTLE_AMOUNT / 2, new ItemStack(essenceBondedBricksBlock)));
+        BasinRecipeRegistry.INSTANCE.addRecipe(new BasinRecipe(new ItemStack(woodenGearItem), EssenceType.LIFE, FluidHelper.BOTTLE_AMOUNT / 3, new ItemStack(biomechanicalGearItem)));
+        BasinRecipeRegistry.INSTANCE.addRecipe(new BasinRecipe(new ItemStack(woodenGearItem), EssenceType.NATURE, FluidHelper.BOTTLE_AMOUNT / 3, new ItemStack(biomechanicalGearItem)));
+        BasinRecipeRegistry.INSTANCE.addRecipe(new BasinRecipe(new ItemStack(Item.IRON_INGOT), EssenceType.LIFE, FluidHelper.BOTTLE_AMOUNT * 3 / 2, new ItemStack(lifeIngotItem)));
+        BasinRecipeRegistry.INSTANCE.addRecipe(new BasinRecipe(new ItemStack(Item.IRON_INGOT), EssenceType.NATURE, FluidHelper.BOTTLE_AMOUNT * 3 / 2, new ItemStack(natureIngotItem)));
+        BasinRecipeRegistry.INSTANCE.addRecipe(new BasinRecipe(new ItemStack(ironThermosItem), EssenceType.LIFE, FluidHelper.BOTTLE_AMOUNT / 10, new ItemStack(lifeTunedIronThermosItem)));
+        BasinRecipeRegistry.INSTANCE.addRecipe(new BasinRecipe(new ItemStack(ironThermosItem), EssenceType.NATURE, FluidHelper.BOTTLE_AMOUNT / 10, new ItemStack(natureTunedIronThermosItem)));
 
         CrudePressRecipeRegistry.INSTANCE.addRecipe(new CrudePressRecipe(new ItemStack(Item.CLAY), new ItemStack(clayPlateItem), 60));
         CrudePressRecipeRegistry.INSTANCE.addRecipe(new CrudePressRecipe(new ItemStack(Item.BRICK), new ItemStack(brickPlateItem), 120));
@@ -256,8 +259,8 @@ public class TheCrimsonForest implements ModInitializer {
         }
 
         CrudeForgeRecipeRegistry.INSTANCE.addRecipe(new CrudeForgeRecipe(new ItemStack(arcaneStringItem), 120, new ItemStack(lifeStringItem), new ItemStack(natureStringItem)));
-        CrudeForgeRecipeRegistry.INSTANCE.addRecipe(new CrudeForgeRecipe(new ItemStack(lifeIngotItem), 120, new ItemStack(Item.IRON_INGOT), vialItem.asStack(EssenceType.LIFE, 50)));
-        CrudeForgeRecipeRegistry.INSTANCE.addRecipe(new CrudeForgeRecipe(new ItemStack(natureIngotItem), 120, new ItemStack(Item.IRON_INGOT), vialItem.asStack(EssenceType.NATURE, 50)));
+        CrudeForgeRecipeRegistry.INSTANCE.addRecipe(new CrudeForgeRecipe(new ItemStack(lifeIngotItem), 120, new ItemStack(Item.IRON_INGOT), vialItem.asStack(EssenceType.LIFE, FluidHelper.BOTTLE_AMOUNT / 5)));
+        CrudeForgeRecipeRegistry.INSTANCE.addRecipe(new CrudeForgeRecipe(new ItemStack(natureIngotItem), 120, new ItemStack(Item.IRON_INGOT), vialItem.asStack(EssenceType.NATURE, FluidHelper.BOTTLE_AMOUNT / 5)));
         CrudeForgeRecipeRegistry.INSTANCE.addRecipe(new CrudeForgeRecipe(new ItemStack(tarnishedIngotItem), 240, new ItemStack(lifeIngotItem), new ItemStack(natureIngotItem)));
 
         CrudeSoulInfuserRecipeRegistry.INSTANCE.addRecipe(new CrudeSoulInfuserRecipe(new ItemStack(soulStringItem), new ItemStack(arcaneStringItem), new ItemStack(soulShardItem, 2), 100));

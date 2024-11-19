@@ -18,7 +18,7 @@ item.@.tarnished_soul_render.name=Tarnished Soulrender
 item.@.arcane_render.name=Arcane Render
 item.@.arcane_soul_render.name=Soulrender
 essence_render.@.no_vial_text=No vial inserted.
-essence_render.@.essence_text=Life Essence: %d mB
+essence_render.@.essence_text=Life Essence: %d Drops
 
 item.@.soul_shard.name=Soul Shard
 item.@.zombie_soul.name=Rotting Soul
@@ -34,7 +34,7 @@ item.@.vial.name=Vial
 item.@.vial.empty=Empty Vial
 item.@.vial.life=Vial of Life Essence
 item.@.vial.nature=Vial of Nature Essence
-vial.@.essence_text=%d mB
+vial.@.essence_text=%d Drops
 
 item.@.iron_thermos.name=Iron Thermos
 item.@.life_tuned_iron_thermos.name=Life-tuned Iron Thermos
@@ -48,8 +48,9 @@ item.@.pure_tuned_arcane_thermos.name=Pure-tuned Arcane Thermos
 item.@.umbral_tuned_arcane_thermos.name=Umbral-tuned Arcane Thermos
 item.@.gold_thermos.name=Golden Thermos
 thermos.@.empty_text=Empty
-fluid_thermos.@.fluid_text=%1$d mB of %2$s
-essence_thermos.@.fluid_text=%d mB
+fluid_thermos.@.fluid_text=%1$.2f Buckets of %2$s
+drink_thermos.@.fluid_text=%1$.2f Cups of %2$s
+essence_thermos.@.fluid_text=%d Drops
 
 drink.@.steamed_milk.name=Steamed Milk
 drink.@.apple_cider.name=Apple Cider
@@ -109,15 +110,15 @@ fluid.@.water.name=Water
 fluid.@.lava.name=Lava
 
 essence.@.life.name=Life
-essence.@.life.count=%d mB Life Essence
+essence.@.life.drops=%d Drops of Life Essence
 essence.@.nature.name=Nature
-essence.@.nature.count=%d mB Nature Essence
+essence.@.nature.drops=%d Drops of Nature Essence
 essence.@.pure.name=Pure
-essence.@.pure.count=%d mB Pure Essence
+essence.@.pure.drops=%d Drops of Pure Essence
 essence.@.umbral.name=Umbral
-essence.@.umbral.count=%d mB Umbral Essence
+essence.@.umbral.drops=%d Drops of Umbral Essence
 
-description.@.vial=Can hold life & nature essence.
+description.@.vial=Can hold 3000 drops of life & nature essence.
 description.@.mortar_and_pestle=Place flowers in and it will make nature essence.
 description.@.stone_basin_1=Place life or nature essence in and place another item in.
 description.@.stone_basin_2=The item will be infused with the essence.

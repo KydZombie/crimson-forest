@@ -24,7 +24,7 @@ public class BasinBlockUpdatePacket extends Packet implements IdentifiablePacket
     public int y;
     public int z;
     public EssenceType essenceType;
-    public int essence;
+    public long essence;
     public NbtCompound itemNbt;
     private int dataLength;
 
@@ -32,7 +32,7 @@ public class BasinBlockUpdatePacket extends Packet implements IdentifiablePacket
 
     public BasinBlockUpdatePacket() {}
 
-    public BasinBlockUpdatePacket(int x, int y, int z, EssenceType essenceType, int essence, NbtCompound itemNbt) {
+    public BasinBlockUpdatePacket(int x, int y, int z, EssenceType essenceType, long essence, NbtCompound itemNbt) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -75,7 +75,7 @@ public class BasinBlockUpdatePacket extends Packet implements IdentifiablePacket
             } else {
                 stream.writeInt(0);
             }
-            stream.writeInt(essence);
+            stream.writeLong(essence);
             this.dataLength = NetworkHelper.writeAndGetNbtLength(this.itemNbt, stream);
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -96,7 +96,7 @@ public class BasinBlockUpdatePacket extends Packet implements IdentifiablePacket
 
     @Override
     public int size() {
-        return 16 + dataLength;
+        return 20 + dataLength;
     }
 
     @Override

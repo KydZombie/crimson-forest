@@ -1,5 +1,6 @@
 package io.github.kydzombie.crimsonforest.item.thermos;
 
+import io.github.kydzombie.crimsonforest.fluid.FluidHelper;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.Block;
@@ -22,8 +23,8 @@ import java.util.HashMap;
 
 public class FluidThermosItem extends ThermosItem<FluidThermosItem.BucketFluid> implements CustomTooltipProvider {
 
-    public FluidThermosItem(Identifier identifier, int maxMillibuckets) {
-        super(identifier, maxMillibuckets, BucketFluid.class);
+    public FluidThermosItem(Identifier identifier, long maxDrops) {
+        super(identifier, maxDrops, BucketFluid.class);
     }
 
     /**
@@ -31,7 +32,7 @@ public class FluidThermosItem extends ThermosItem<FluidThermosItem.BucketFluid> 
      *
      * @return true if there is liquid, so no other checks should be performed.
      */
-    boolean attemptPickupBlock(ItemStack stack, BucketFluid currentFluidType, int currentMillibuckets, World world, int x, int y, int z, PlayerEntity user) {
+    boolean attemptPickupBlock(ItemStack stack, BucketFluid currentFluidType, long currentDrops, World world, int x, int y, int z, PlayerEntity user) {
         if (!world.canInteract(user, x, y, z)) return false;
 
         Material material = world.getMaterial(x, y, z);
@@ -40,11 +41,11 @@ public class FluidThermosItem extends ThermosItem<FluidThermosItem.BucketFluid> 
 
         if ((currentFluidType != null && currentFluidType != fluidType) ||
                 world.getBlockMeta(x, y, z) != 0 || // Make sure not flowing
-                currentMillibuckets + BUCKET_AMOUNT > maxMillibuckets)
+                currentDrops + FluidHelper.BUCKET_AMOUNT > maxDrops)
             return true;
 
         world.setBlock(x, y, z, 0);
-        setFluid(stack, fluidType, currentMillibuckets + BUCKET_AMOUNT);
+        setFluid(stack, fluidType, currentDrops + FluidHelper.BUCKET_AMOUNT);
         user.swingHand();
         return true;
     }
@@ -54,8 +55,8 @@ public class FluidThermosItem extends ThermosItem<FluidThermosItem.BucketFluid> 
      *
      * @return true if place was successful
      */
-    boolean attemptPlace(ItemStack stack, BucketFluid currentFluidType, int currentMillibuckets, World world, int x, int y, int z, int side, PlayerEntity user, Vec3d var13) {
-        if (currentMillibuckets < BUCKET_AMOUNT) return false;
+    boolean attemptPlace(ItemStack stack, BucketFluid currentFluidType, long currentDrops, World world, int x, int y, int z, int side, PlayerEntity user, Vec3d var13) {
+        if (currentDrops < FluidHelper.BUCKET_AMOUNT) return false;
 
         if (!world.isAir(x, y, z) && world.getMaterial(x, y, z).isSolid()) {
             Vec3i offset = Direction.byId(side).getVector();
@@ -76,7 +77,7 @@ public class FluidThermosItem extends ThermosItem<FluidThermosItem.BucketFluid> 
             world.setBlock(x, y, z, currentFluidType.FLOWING_BLOCK_ID, 0);
         }
 
-        setFluid(stack, currentFluidType, currentMillibuckets - BUCKET_AMOUNT);
+        setFluid(stack, currentFluidType, currentDrops - FluidHelper.BUCKET_AMOUNT);
         user.swingHand();
         return true;
     }
@@ -102,7 +103,7 @@ public class FluidThermosItem extends ThermosItem<FluidThermosItem.BucketFluid> 
 
         var fluid = getFluid(stack);
         BucketFluid currentFluidType = fluid == null ? null : fluid.fluidType();
-        int currentMillibuckets = fluid == null ? 0 : fluid.millibuckets();
+        long currentMillibuckets = fluid == null ? 0 : fluid.drops();
 
         if (hit == null) return stack;
 
@@ -125,7 +126,7 @@ public class FluidThermosItem extends ThermosItem<FluidThermosItem.BucketFluid> 
     public String[] getTooltip(ItemStack stack, String originalTooltip) {
         var fluid = getFluid(stack);
         BucketFluid fluidType = fluid == null ? null : fluid.fluidType();
-        int millibuckets = fluid == null ? 0 : fluid.millibuckets();
+        long drops = fluid == null ? 0 : fluid.drops();
         if (fluidType == null) {
             return new String[]{
                     originalTooltip,
@@ -136,7 +137,7 @@ public class FluidThermosItem extends ThermosItem<FluidThermosItem.BucketFluid> 
                 originalTooltip,
                 I18n.getTranslation(
                         "fluid_thermos.crimsonforest.fluid_text",
-                        millibuckets,
+                        (float) drops / FluidHelper.BUCKET_AMOUNT,
                         I18n.getTranslation("fluid.crimsonforest." + fluidType.toString().toLowerCase() + ".name")
                 )
         };

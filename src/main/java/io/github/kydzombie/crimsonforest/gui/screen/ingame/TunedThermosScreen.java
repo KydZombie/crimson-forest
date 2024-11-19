@@ -41,9 +41,9 @@ public class TunedThermosScreen extends HandledScreen {
 
         if (inventory.thermosItem == null) return;
 
-        int essence = inventory.thermosItem.getEssence(inventory.thermosStack, inventory.essenceType);
-        int maxMillibuckets = inventory.thermosItem.maxEssence;
-        int bar_height = (int) ((essence / (float) maxMillibuckets) * FULL_BAR_HEIGHT);
+        long essence = inventory.thermosItem.getEssence(inventory.thermosStack, inventory.essenceType);
+        long maxDrops = inventory.thermosItem.maxEssence;
+        int bar_height = (int) ((essence / (float) maxDrops) * FULL_BAR_HEIGHT);
         int bar_offset = (FULL_BAR_HEIGHT - bar_height);
 
         if (inventory.essenceType == EssenceType.LIFE) {

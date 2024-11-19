@@ -3,7 +3,7 @@ package io.github.kydzombie.crimsonforest.item.thermos;
 import com.matthewperiut.accessoryapi.api.Accessory;
 import io.github.kydzombie.crimsonforest.TheCrimsonForest;
 import io.github.kydzombie.crimsonforest.gui.screen.TunedThermosScreenHandler;
-import io.github.kydzombie.crimsonforest.item.EssenceContainer;
+import io.github.kydzombie.crimsonforest.item.HasItemEssenceStorage;
 import io.github.kydzombie.crimsonforest.magic.EssenceType;
 import io.github.kydzombie.crimsonforest.packet.TunedThermosInventoryPacket;
 import net.minecraft.client.resource.language.I18n;
@@ -19,13 +19,13 @@ import net.modificationstation.stationapi.api.util.Identifier;
 
 import java.util.List;
 
-public class TunedThermosItem extends TemplateItem implements EssenceContainer, Accessory, CustomTooltipProvider {
+public class TunedThermosItem extends TemplateItem implements HasItemEssenceStorage, Accessory, CustomTooltipProvider {
     public static final String ESSENCE_KEY = TheCrimsonForest.NAMESPACE.id("essence_amount").toString();
     private static final String[] ACCESSORY_TYPES = new String[]{"thermos"};
-    public final int maxEssence;
+    public final long maxEssence;
     private final EssenceType essenceType;
 
-    public TunedThermosItem(Identifier identifier, EssenceType essenceType, int maxEssence) {
+    public TunedThermosItem(Identifier identifier, EssenceType essenceType, long maxEssence) {
         super(identifier);
         setTranslationKey(identifier);
         setMaxCount(1);
@@ -39,21 +39,21 @@ public class TunedThermosItem extends TemplateItem implements EssenceContainer, 
     }
 
     @Override
-    public int getMaxEssence(ItemStack stack, EssenceType type) {
+    public long getMaxEssence(ItemStack stack, EssenceType type) {
         if (type != essenceType) return 0;
         return maxEssence;
     }
 
     @Override
-    public int getEssence(ItemStack stack, EssenceType type) {
+    public long getEssence(ItemStack stack, EssenceType type) {
         if (type != essenceType) return 0;
-        return stack.getStationNbt().getInt(ESSENCE_KEY);
+        return stack.getStationNbt().getLong(ESSENCE_KEY);
     }
 
     @Override
-    public void setEssence(ItemStack stack, EssenceType type, int value) {
+    public void setEssence(ItemStack stack, EssenceType type, long value) {
         if (type != essenceType) return;
-        stack.getStationNbt().putInt(ESSENCE_KEY, value);
+        stack.getStationNbt().putLong(ESSENCE_KEY, value);
     }
 
     @Override
@@ -76,7 +76,7 @@ public class TunedThermosItem extends TemplateItem implements EssenceContainer, 
 
     @Override
     public String[] getTooltip(ItemStack stack, String originalTooltip) {
-        int essence = getEssence(stack, essenceType);
+        long essence = getEssence(stack, essenceType);
         if (essence == 0) {
             return new String[]{
                     originalTooltip,

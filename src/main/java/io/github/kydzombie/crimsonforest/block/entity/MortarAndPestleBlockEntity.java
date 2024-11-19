@@ -9,13 +9,13 @@ import net.minecraft.network.packet.Packet;
 public class MortarAndPestleBlockEntity extends BlockEntity {
     public static final int MAX_ESSENCE = 1000;
     public static String ESSENCE_NBT = TheCrimsonForest.NAMESPACE.id("essence").toString();
-    private int essence = 0;
+    private long essence = 0;
 
-    public int getEssence() {
+    public long getEssence() {
         return essence;
     }
 
-    public void setEssence(int essence) {
+    public void setEssence(long essence) {
         this.essence = Math.max(Math.min(MAX_ESSENCE, essence), 0);
         markDirty();
     }
@@ -23,13 +23,13 @@ public class MortarAndPestleBlockEntity extends BlockEntity {
     @Override
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
-        essence = nbt.getInt(ESSENCE_NBT);
+        essence = nbt.getLong(ESSENCE_NBT);
     }
 
     @Override
     public void writeNbt(NbtCompound nbt) {
         super.writeNbt(nbt);
-        nbt.putInt(ESSENCE_NBT, essence);
+        nbt.putLong(ESSENCE_NBT, essence);
     }
 
     @Override

@@ -28,8 +28,6 @@ import net.modificationstation.stationapi.api.client.texture.atlas.Atlases;
 import net.modificationstation.stationapi.api.event.registry.GuiHandlerRegistryEvent;
 import uk.co.benjiweber.expressions.tuple.BiTuple;
 
-import java.util.List;
-
 public class TheCrimsonForestClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
@@ -124,7 +122,7 @@ public class TheCrimsonForestClient implements ClientModInitializer {
                     (stack, world, entity, seed) -> {
                 var fluid = thermos.getFluid(stack);
                 if (fluid == null) return 0;
-                return fluid.millibuckets() / (float) thermos.maxMillibuckets;
+                return fluid.drops() / (float) thermos.maxDrops;
             });
         }
 
@@ -151,7 +149,7 @@ public class TheCrimsonForestClient implements ClientModInitializer {
                     (stack, world, entity, seed) -> {
                 var fluid = TheCrimsonForest.goldThermosItem.getFluid(stack);
                 if (fluid == null) return 0;
-                return fluid.millibuckets() / (float) TheCrimsonForest.goldThermosItem.maxMillibuckets;
+                return fluid.drops() / (float) TheCrimsonForest.goldThermosItem.maxDrops;
             });
         }
     }
