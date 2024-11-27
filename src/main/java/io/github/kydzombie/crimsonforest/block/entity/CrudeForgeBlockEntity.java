@@ -8,7 +8,7 @@ import net.minecraft.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class CrudeForgeBlockEntity extends CrudeMachineBlockEntity implements SimpleInventory {
+public class CrudeForgeBlockEntity extends CrudeMachineBlockEntity {
     public CrudeForgeBlockEntity() {
         super(2, 0.25f, CrudeForgeRecipeRegistry.INSTANCE);
     }
@@ -25,7 +25,7 @@ public class CrudeForgeBlockEntity extends CrudeMachineBlockEntity implements Si
             ItemStack stack = inputStacksTaken[i];
             if (stack == null) continue;
             if (stack.getItem() instanceof VialItem vialItem) {
-                ItemStack existingStack = inventory[2 + i];
+                ItemStack existingStack = getStack(2 + i);
                 EssenceType essenceType = vialItem.getEssenceTypes(stack).get(0);
                 vialItem.takeEssence(existingStack, essenceType, vialItem.getEssence(stack, essenceType));
             } else {

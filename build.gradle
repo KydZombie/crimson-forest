@@ -99,6 +99,7 @@ dependencies {
 	modImplementation("com.github.matthewperiut:accessory-api:${project.accessory_api_version}") { transitive false }
 	modImplementation("com.github.emmathemartian:stapi-datagen:${project.stapi_datagen_version}") { transitive false }
 	modImplementation("maven.modrinth:always-more-items:${project.alwaysmoreitems_version}") { transitive false }
+	modImplementation("com.github.KydZombie:cairn:${project.cairn_version}") { transitive false }
 
 	// Compat mods
 	modImplementation("maven.modrinth:telsdrinks-stationapi:${project.telsdrinks_version}") { transitive false }

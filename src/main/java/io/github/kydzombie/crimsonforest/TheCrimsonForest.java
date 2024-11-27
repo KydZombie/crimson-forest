@@ -2,6 +2,7 @@ package io.github.kydzombie.crimsonforest;
 
 import com.matthewperiut.accessoryapi.api.AccessoryRegister;
 import com.mojang.datafixers.util.Pair;
+import io.github.kydzombie.cairn.api.recipe.CustomCraftingRecipeManager;
 import io.github.kydzombie.crimsonforest.block.*;
 import io.github.kydzombie.crimsonforest.block.entity.*;
 import io.github.kydzombie.crimsonforest.entity.VinelashAttackEntity;
@@ -11,12 +12,9 @@ import io.github.kydzombie.crimsonforest.item.render.EssenceRenderItem;
 import io.github.kydzombie.crimsonforest.item.render.LesserSoulRenderItem;
 import io.github.kydzombie.crimsonforest.item.render.SoulRenderItem;
 import io.github.kydzombie.crimsonforest.item.render.VinelashRenderItem;
-import io.github.kydzombie.crimsonforest.item.thermos.DrinkThermosItem;
-import io.github.kydzombie.crimsonforest.item.thermos.FluidThermosItem;
-import io.github.kydzombie.crimsonforest.item.thermos.TunedThermosItem;
+import io.github.kydzombie.crimsonforest.item.thermos.*;
 import io.github.kydzombie.crimsonforest.magic.EssenceType;
 import io.github.kydzombie.crimsonforest.packet.BasinBlockUpdatePacket;
-import io.github.kydzombie.crimsonforest.packet.MortarAndPestleUpdatePacket;
 import io.github.kydzombie.crimsonforest.packet.PlaySoundAtPlayerPacket;
 import io.github.kydzombie.crimsonforest.packet.TunedThermosInventoryPacket;
 import io.github.kydzombie.crimsonforest.recipe.BasinRecipe;
@@ -281,6 +279,80 @@ public class TheCrimsonForest implements ModInitializer {
             if (FabricLoader.getInstance().isModLoaded("telsdrinks")) {
                 CraftingRegistry.addShapedRecipe(new ItemStack(goldThermosItem), " S ", "PBP", " P ", 'S', squidSoulItem, 'P', goldPlateItem, 'B', Item.BUCKET);
             }
+        } else if (event.recipeId == CustomCraftingRecipeManager.RECIPE_ID) {
+            CustomCraftingRecipeManager.registerRecipe((inventory) -> {
+                ItemStack vial = null;
+                for (int i = 0; i < inventory.size(); i++) {
+                    ItemStack stack = inventory.getStack(i);
+                    if (stack == null) continue;
+                    if (stack.getItem() instanceof VialItem) {
+                        // If multiple thermi are used, it is invalid
+                        if (vial != null) return null;
+                        vial = stack;
+                        break;
+                    }
+                }
+                if (vial == null) return null;
+
+                return new ItemStack(vial.getItem());
+            });
+
+            CustomCraftingRecipeManager.registerRecipe((inventory) -> {
+                ItemStack thermos = null;
+                for (int i = 0; i < inventory.size(); i++) {
+                    ItemStack stack = inventory.getStack(i);
+                    if (stack == null) continue;
+                    if (stack.getItem() instanceof ThermosItem<?>) {
+                        // If multiple thermi are used, it is invalid
+                        if (thermos != null) return null;
+                        thermos = stack;
+                        break;
+                    }
+                }
+                if (thermos == null) return null;
+
+                if (thermos.getItem() instanceof DrinkThermosItem thermosItem) {
+                    boolean found = false;
+                    var fluid = thermosItem.getFluid(thermos);
+                    for (int i = 0; i < inventory.size(); i++) {
+                        ItemStack stack = inventory.getStack(i);
+                        if (stack == null || stack.getItem() instanceof ThermosItem<?>) continue;
+                        if (fluid == null) {
+                            for (DrinkThermosItem.DrinkType value : DrinkThermosItem.DrinkType.values()) {
+                                if (value.mugBlock.asItem().id == stack.getItem().id) {
+                                    if (value.hasHotState) {
+                                        if ((value.hot ? 1 : 0) != stack.getDamage()) {
+                                            continue;
+                                        }
+                                    }
+                                    fluid = new FluidInstance<>(value, FluidHelper.BOTTLE_AMOUNT);
+                                    found = true;
+                                }
+                            }
+                        } else {
+                            if (fluid.fluidType().mugBlock.asItem().id == stack.getItem().id) {
+                                if (fluid.fluidType().hasHotState) {
+                                    if ((fluid.fluidType().hot ? 1 : 0) != stack.getDamage()) {
+                                        return null;
+                                    }
+                                }
+                                if (fluid.drops() + FluidHelper.BOTTLE_AMOUNT > thermosItem.maxDrops) return null;
+                                fluid = fluid.add(FluidHelper.BOTTLE_AMOUNT);
+                                found = true;
+                            } else {
+                                return null;
+                            }
+                        }
+                    }
+                    if (found) {
+                        ItemStack newThermos = new ItemStack(thermos.getItem());
+                        thermosItem.setFluid(newThermos, fluid);
+                        return newThermos;
+                    }
+                }
+
+                return new ItemStack(thermos.getItem());
+            });
         }
     }
 
@@ -292,7 +364,6 @@ public class TheCrimsonForest implements ModInitializer {
     @EventListener
     private void registerPackets(PacketRegisterEvent event) {
         IdentifiablePacket.register(NAMESPACE.id("basin_block_update"), true, false, BasinBlockUpdatePacket::new);
-        IdentifiablePacket.register(NAMESPACE.id("mortar_and_pestle_update"), true, false, MortarAndPestleUpdatePacket::new);
         IdentifiablePacket.register(NAMESPACE.id("tuned_thermos_inventory"), true, false, TunedThermosInventoryPacket::new);
 
         IdentifiablePacket.register(NAMESPACE.id("play_sound_at_player"), true, false, PlaySoundAtPlayerPacket::new);

@@ -1,5 +1,6 @@
 package io.github.kydzombie.crimsonforest.item.render;
 
+import io.github.kydzombie.cairn.api.item.ItemKillHandler;
 import io.github.kydzombie.crimsonforest.TheCrimsonForest;
 import io.github.kydzombie.crimsonforest.item.CrimsonWeaponItem;
 import net.minecraft.entity.LivingEntity;
@@ -12,7 +13,7 @@ import net.minecraft.entity.passive.SquidEntity;
 import net.minecraft.item.ItemStack;
 import net.modificationstation.stationapi.api.util.Identifier;
 
-public class SoulRenderItem extends CrimsonWeaponItem {
+public class SoulRenderItem extends CrimsonWeaponItem implements ItemKillHandler {
     private final float dropChance;
 
     public SoulRenderItem(Identifier identifier, int durability, int attackDamage, float dropChance) {
@@ -21,7 +22,7 @@ public class SoulRenderItem extends CrimsonWeaponItem {
     }
 
     @Override
-    protected void onKill(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+    public void onKill(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         if (attacker.world.isRemote) return;
 
         if (random.nextFloat() <= dropChance) {

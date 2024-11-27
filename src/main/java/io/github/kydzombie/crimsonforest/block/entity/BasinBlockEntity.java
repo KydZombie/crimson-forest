@@ -1,30 +1,34 @@
 package io.github.kydzombie.crimsonforest.block.entity;
 
+import io.github.kydzombie.cairn.api.storage.AutoNbt;
+import io.github.kydzombie.cairn.api.storage.HasItemStorage;
+import io.github.kydzombie.cairn.api.storage.ItemStorage;
 import io.github.kydzombie.crimsonforest.fluid.FluidHelper;
 import io.github.kydzombie.crimsonforest.magic.EssenceType;
 import io.github.kydzombie.crimsonforest.packet.BasinBlockUpdatePacket;
 import io.github.kydzombie.crimsonforest.recipe.BasinRecipe;
 import io.github.kydzombie.crimsonforest.recipe.BasinRecipeRegistry;
 import lombok.Getter;
-import lombok.Setter;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.ItemEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.packet.Packet;
 
-public class BasinBlockEntity extends BlockEntity implements SimpleInventory {
+public class BasinBlockEntity extends BlockEntity implements HasItemStorage {
+    @AutoNbt
     @Getter
-    @Setter
-    ItemStack[] inventory = new ItemStack[1];
+    ItemStorage itemStorage = new ItemStorage(1);
+
     @Getter
     private EssenceType essenceType;
     public static final long MAX_ESSENCE = FluidHelper.BOTTLE_AMOUNT * 2;
+
     @Getter
     private long essence = 0;
+
     /**
      * The progress of the recipe, in essence spent
      */
@@ -53,7 +57,7 @@ public class BasinBlockEntity extends BlockEntity implements SimpleInventory {
         super.markDirty();
 
         if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
-            if (inventory[0] == null || renderedItem == null || renderedItem.stack == null || !renderedItem.stack.isItemEqual(inventory[0])) {
+            if (getStack(0) == null || renderedItem == null || renderedItem.stack == null || !renderedItem.stack.isItemEqual(getStack(0))) {
                 resetRenderedItem();
             }
         }
@@ -68,7 +72,7 @@ public class BasinBlockEntity extends BlockEntity implements SimpleInventory {
     public void tick() {
         super.tick();
 
-        if (inventory[0] == null) {
+        if (getStack(0) == null) {
             recipeProgress = 0;
             return;
         }
@@ -77,7 +81,7 @@ public class BasinBlockEntity extends BlockEntity implements SimpleInventory {
             return;
         }
 
-        BasinRecipe recipe = BasinRecipeRegistry.INSTANCE.getRecipe(inventory[0], essenceType);
+        BasinRecipe recipe = BasinRecipeRegistry.INSTANCE.getRecipe(getStack(0), essenceType);
 
         if (recipe == null) {
             recipeProgress = 0;
@@ -94,15 +98,16 @@ public class BasinBlockEntity extends BlockEntity implements SimpleInventory {
         }
     }
 
+    // TODO: Replace with UpdatePacketReceiver<BasinData>
     @Override
     public Packet createUpdatePacket() {
-        return new BasinBlockUpdatePacket(x, y, z, essenceType, essence, inventory[0] == null ? new NbtCompound() : inventory[0].writeNbt(new NbtCompound()));
+        return new BasinBlockUpdatePacket(x, y, z, essenceType, essence, getStack(0) == null ? new NbtCompound() : getStack(0).writeNbt(new NbtCompound()));
     }
 
     @Override
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
-        readInventoryNbt(nbt);
+
         byte essenceType = nbt.contains("essence_type") ? nbt.getByte("essence_type") : -1;
         if (essenceType < 0) {
             this.essenceType = null;
@@ -115,7 +120,7 @@ public class BasinBlockEntity extends BlockEntity implements SimpleInventory {
     @Override
     public void writeNbt(NbtCompound nbt) {
         super.writeNbt(nbt);
-        writeInventoryNbt(nbt);
+
         if (essenceType == null) {
             nbt.putByte("essence_type", (byte) -1);
         } else {

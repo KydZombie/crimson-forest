@@ -1,5 +1,9 @@
 package io.github.kydzombie.crimsonforest.block.entity;
 
+import io.github.kydzombie.cairn.api.gui.SyncField;
+import io.github.kydzombie.cairn.api.storage.AutoNbt;
+import io.github.kydzombie.cairn.api.storage.HasItemStorage;
+import io.github.kydzombie.cairn.api.storage.ItemStorage;
 import io.github.kydzombie.crimsonforest.recipe.crude.CrudeRecipeData;
 import io.github.kydzombie.crimsonforest.recipe.crude.CrudeRecipeRegistry;
 import lombok.Getter;
@@ -15,21 +19,26 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 
-public abstract class CrudeMachineBlockEntity extends BlockEntity implements SimpleInventory {
+public abstract class CrudeMachineBlockEntity extends BlockEntity implements HasItemStorage {
     private static final int FUEL_SLOT = 0;
     private static final int OUTPUT_SLOT = 1;
     private final float FUEL_MULTIPLIER;
+
+    @SyncField("cookTotalTime")
     public int cookTotalTime = 0;
+    @SyncField("cookTime")
     public int cookTime = 0;
+    @SyncField("fuelTotalTime")
     public int fuelTotalTime = 0;
+    @SyncField("fuelTime")
     public int fuelTime = 0;
+    @AutoNbt
     @Getter
-    @Setter
-    ItemStack[] inventory;
+    private final ItemStorage itemStorage;
     CrudeRecipeRegistry recipeRegistry;
 
     public CrudeMachineBlockEntity(int inputsSize, float fuelMultiplier, CrudeRecipeRegistry recipeRegistry) {
-        inventory = new ItemStack[inputsSize + 2];
+        itemStorage = new ItemStorage(inputsSize + 2);
         this.FUEL_MULTIPLIER = fuelMultiplier;
         this.recipeRegistry = recipeRegistry;
     }
@@ -46,7 +55,7 @@ public abstract class CrudeMachineBlockEntity extends BlockEntity implements Sim
     protected @Nullable CrudeRecipeData getOutput(ItemStack[] inputItems) {
         CrudeRecipeData output = recipeRegistry.getOutput(inputItems);
         if (output != null) {
-            ItemStack existingOutput = inventory[OUTPUT_SLOT];
+            ItemStack existingOutput = getStack(OUTPUT_SLOT);
             ItemStack outputStack = output.outputStack();
             if (existingOutput != null) {
                 if (!outputStack.isItemEqual(existingOutput) ||
@@ -61,15 +70,15 @@ public abstract class CrudeMachineBlockEntity extends BlockEntity implements Sim
 
     @Override
     public void tick() {
-        ItemStack[] inputItems = Arrays.copyOfRange(inventory, 2, inventory.length);
-        CrudeRecipeData output = getOutput(inputItems);
+        ItemStorage inputItems = itemStorage.copy(2);
+        CrudeRecipeData output = getOutput(inputItems.getStacks());
 
         if (output != null) {
             this.cookTotalTime = output.cookTicks();
         }
 
         if (output != null && fuelTime == 0) {
-            int itemFuelTime = (int) Math.floor(FuelRegistry.getFuelTime(inventory[FUEL_SLOT]) * FUEL_MULTIPLIER);
+            int itemFuelTime = (int) Math.floor(FuelRegistry.getFuelTime(getStack(FUEL_SLOT)) * FUEL_MULTIPLIER);
             if (itemFuelTime != 0) {
                 fuelTotalTime = itemFuelTime;
                 fuelTime = itemFuelTime;
@@ -86,10 +95,11 @@ public abstract class CrudeMachineBlockEntity extends BlockEntity implements Sim
                 cookTime++;
 
                 if (cookTime >= cookTotalTime) {
-                    if (inventory[OUTPUT_SLOT] != null) {
-                        inventory[OUTPUT_SLOT].count += output.outputStack().count;
+                    ItemStack stack = getStack(OUTPUT_SLOT);
+                    if (stack != null) {
+                        stack.count += output.outputStack().count;
                     } else {
-                        inventory[OUTPUT_SLOT] = output.outputStack().copy();
+                        setStack(OUTPUT_SLOT, output.outputStack().copy());
                     }
 
                     takeInputItems(output);
@@ -124,8 +134,6 @@ public abstract class CrudeMachineBlockEntity extends BlockEntity implements Sim
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
 
-        readInventoryNbt(nbt);
-
         this.cookTime = nbt.getShort("cook_time");
         this.fuelTime = nbt.getShort("fuel_time");
         this.fuelTotalTime = nbt.getShort("fuel_total_time");
@@ -133,8 +141,6 @@ public abstract class CrudeMachineBlockEntity extends BlockEntity implements Sim
 
     public void writeNbt(NbtCompound nbt) {
         super.writeNbt(nbt);
-
-        writeInventoryNbt(nbt);
 
         nbt.putShort("cook_time", (short) this.cookTime);
         nbt.putShort("fuel_time", (short) this.fuelTime);

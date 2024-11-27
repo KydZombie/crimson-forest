@@ -5,12 +5,9 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "CowEntityMixin",
-    "CraftingRecipeManagerMixin",
-    "ItemStackMixin",
     "LivingEntityMixin",
     "MonsterEntityMixin",
     "NbtCompoundAccessor",
-    "PlayerMixin",
     "SpiderEntityMixin"
   ],
   "server": [

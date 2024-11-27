@@ -1,9 +1,7 @@
 package io.github.kydzombie.crimsonforest.mixin;
 
 import io.github.kydzombie.crimsonforest.block.entity.BasinBlockEntity;
-import io.github.kydzombie.crimsonforest.block.entity.MortarAndPestleBlockEntity;
 import io.github.kydzombie.crimsonforest.packet.BasinBlockUpdatePacket;
-import io.github.kydzombie.crimsonforest.packet.MortarAndPestleUpdatePacket;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.ClientWorld;
 import net.minecraft.world.World;
@@ -23,14 +21,6 @@ public class ClientWorldMixin extends World {
     @Inject(method = "tick", at = @At("TAIL"))
     private void updateBlockEntities(CallbackInfo ci) {
         try {
-            if (!MortarAndPestleUpdatePacket.pending.isEmpty()) {
-                for (MortarAndPestleUpdatePacket packet : MortarAndPestleUpdatePacket.pending) {
-                    if (getBlockEntity(packet.x, packet.y, packet.z) instanceof MortarAndPestleBlockEntity blockEntity) {
-                        blockEntity.setEssence(packet.essence);
-                        MortarAndPestleUpdatePacket.pending.remove(packet);
-                    }
-                }
-            }
             if (!BasinBlockUpdatePacket.pending.isEmpty()) {
                 for (BasinBlockUpdatePacket packet : BasinBlockUpdatePacket.pending) {
                     if (getBlockEntity(packet.x, packet.y, packet.z) instanceof BasinBlockEntity blockEntity) {

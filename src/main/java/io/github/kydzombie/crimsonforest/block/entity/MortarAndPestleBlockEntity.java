@@ -1,19 +1,16 @@
 package io.github.kydzombie.crimsonforest.block.entity;
 
+import io.github.kydzombie.cairn.api.block.entity.UpdatePacketReceiver;
 import io.github.kydzombie.crimsonforest.TheCrimsonForest;
-import io.github.kydzombie.crimsonforest.packet.MortarAndPestleUpdatePacket;
+import lombok.Getter;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.packet.Packet;
 
-public class MortarAndPestleBlockEntity extends BlockEntity {
+public class MortarAndPestleBlockEntity extends BlockEntity implements UpdatePacketReceiver<MortarAndPestleBlockEntity.MortarAndPestleData> {
     public static final int MAX_ESSENCE = 1000;
     public static String ESSENCE_NBT = TheCrimsonForest.NAMESPACE.id("essence").toString();
+    @Getter
     private long essence = 0;
-
-    public long getEssence() {
-        return essence;
-    }
 
     public void setEssence(long essence) {
         this.essence = Math.max(Math.min(MAX_ESSENCE, essence), 0);
@@ -33,7 +30,14 @@ public class MortarAndPestleBlockEntity extends BlockEntity {
     }
 
     @Override
-    public Packet createUpdatePacket() {
-        return new MortarAndPestleUpdatePacket(x, y, z, essence);
+    public void receiveUpdateData(MortarAndPestleData data) {
+        essence = data.essence;
     }
+
+    @Override
+    public MortarAndPestleData createUpdateData() {
+        return new MortarAndPestleData(essence);
+    }
+
+    public record MortarAndPestleData(long essence) { }
 }

@@ -1,5 +1,6 @@
 package io.github.kydzombie.crimsonforest.gui.screen;
 
+import io.github.kydzombie.cairn.api.gui.TickableScreenHandler;
 import io.github.kydzombie.crimsonforest.gui.screen.slot.OutputSlot;
 import io.github.kydzombie.crimsonforest.gui.screen.slot.TunedThermosInputSlot;
 import io.github.kydzombie.crimsonforest.item.HasItemEssenceStorage;

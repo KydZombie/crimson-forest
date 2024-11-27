@@ -1,11 +1,13 @@
 package io.github.kydzombie.crimsonforest.item.render;
 
 import com.matthewperiut.accessoryapi.api.helper.AccessoryAccess;
+import io.github.kydzombie.cairn.api.item.ItemBreakHandler;
+import io.github.kydzombie.cairn.api.item.ItemBreakResult;
+import io.github.kydzombie.cairn.api.item.ItemKillHandler;
 import io.github.kydzombie.crimsonforest.TheCrimsonForest;
 import io.github.kydzombie.crimsonforest.custom.SoundEffect;
 import io.github.kydzombie.crimsonforest.item.CrimsonWeaponItem;
 import io.github.kydzombie.crimsonforest.item.HasItemEssenceStorage;
-import io.github.kydzombie.crimsonforest.item.HasBreakEvent;
 import io.github.kydzombie.crimsonforest.item.thermos.TunedThermosItem;
 import io.github.kydzombie.crimsonforest.magic.EssenceType;
 import io.github.kydzombie.crimsonforest.packet.PlaySoundAtPlayerPacket;
@@ -22,7 +24,7 @@ import net.modificationstation.stationapi.api.util.Identifier;
 
 import java.util.List;
 
-public class EssenceRenderItem extends CrimsonWeaponItem implements HasItemEssenceStorage, CustomTooltipProvider, HasBreakEvent {
+public class EssenceRenderItem extends CrimsonWeaponItem implements HasItemEssenceStorage, CustomTooltipProvider, ItemKillHandler, ItemBreakHandler {
     public static final String BLOOD_DRIP_TIMER_NBT = "crimsonforest:blood_drip_timer";
     private static final int BLOOD_DRIP_MILLISECONDS = 4 * 1000;
     private static final String VIAL_NBT = "crimsonforest:has_vial";
@@ -41,8 +43,9 @@ public class EssenceRenderItem extends CrimsonWeaponItem implements HasItemEssen
     }
 
     @Override
-    protected void onKill(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+    public void onKill(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         if (attacker.world.isRemote) return;
+
         long given = giveEssence(stack, EssenceType.LIFE, dropsPerKill);
         if (given <= 0) return;
         System.out.println("kill");
@@ -51,22 +54,6 @@ public class EssenceRenderItem extends CrimsonWeaponItem implements HasItemEssen
                 PacketHelper.sendTo(player, new PlaySoundAtPlayerPacket(SoundEffect.FILL_VIAL));
             }
             stack.getStationNbt().putLong(BLOOD_DRIP_TIMER_NBT, System.currentTimeMillis());
-        }
-    }
-
-    @Override
-    public void onBreak(ItemStack stack, Entity user) {
-        if (!user.world.isRemote && hasVial(stack)) {
-            ItemStack vialStack = TheCrimsonForest.vialItem.asStack(EssenceType.LIFE, getEssence(stack, EssenceType.LIFE));
-            if (user instanceof PlayerEntity player) {
-                if (player.inventory.addStack(vialStack)) {
-                    player.playerScreenHandler.sendContentUpdates();
-                } else {
-                    player.dropItem(vialStack, true);
-                }
-            } else {
-                user.dropItem(vialStack, 0);
-            }
         }
     }
 
@@ -198,6 +185,15 @@ public class EssenceRenderItem extends CrimsonWeaponItem implements HasItemEssen
                     }
                 }
             }
+        }
+    }
+
+    @Override
+    public ItemBreakResult onItemBroken(ItemStack stack, Entity user) {
+        if (hasVial(stack)) {
+            return new ItemBreakResult(TheCrimsonForest.vialItem.asStack(EssenceType.LIFE, getEssence(stack, EssenceType.LIFE)), true);
+        } else {
+            return ItemBreakResult.BROKEN;
         }
     }
 }

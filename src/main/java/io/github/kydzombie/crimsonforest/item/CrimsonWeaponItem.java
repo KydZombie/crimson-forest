@@ -22,18 +22,4 @@ public class CrimsonWeaponItem extends TemplateItem {
     public int getAttackDamage(Entity attackedEntity) {
         return attackDamage;
     }
-
-    protected void onKill(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-    }
-
-    @Override
-    public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        // TODO: This doesn't work on server
-        if (target.deathTime == 0 && target.lastHealth > 0 && target.health <= 0) {
-            onKill(stack, target, attacker);
-        }
-
-        stack.damage(1, attacker);
-        return true;
-    }
 }
