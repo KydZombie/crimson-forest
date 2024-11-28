@@ -131,7 +131,7 @@ public class TheCrimsonForest implements ModInitializer {
         AccessoryRegister.add("thermos", "assets/crimsonforest/accessoryapi/accessory_icon_atlas.png", 0, 0);
 
         UpdatePacketHelper.registerSerializer(EssenceType.class,
-                (buffer, value) -> buffer.put(value == null ? (byte) -1 : (byte) value.ordinal()),
+                (buffer, value) -> buffer.put((byte) (value == null ? -1 : value.ordinal())),
                 (buffer) -> {
                     byte ordinal = buffer.get();
                     return ordinal == -1 ? null : EssenceType.values()[ordinal];

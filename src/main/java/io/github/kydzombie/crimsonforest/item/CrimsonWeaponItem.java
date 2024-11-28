@@ -22,4 +22,10 @@ public class CrimsonWeaponItem extends TemplateItem {
     public int getAttackDamage(Entity attackedEntity) {
         return attackDamage;
     }
+
+    @Override
+    public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+        stack.damage(1, attacker);
+        return super.postHit(stack, target, attacker);
+    }
 }
