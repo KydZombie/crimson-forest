@@ -1,11 +1,11 @@
 package io.github.kydzombie.crimsonforest.block.entity;
 
+import io.github.kydzombie.cairn.api.block.entity.UpdatePacketReceiver;
 import io.github.kydzombie.cairn.api.storage.AutoNbt;
 import io.github.kydzombie.cairn.api.storage.HasItemStorage;
 import io.github.kydzombie.cairn.api.storage.ItemStorage;
 import io.github.kydzombie.crimsonforest.fluid.FluidHelper;
 import io.github.kydzombie.crimsonforest.magic.EssenceType;
-import io.github.kydzombie.crimsonforest.packet.BasinBlockUpdatePacket;
 import io.github.kydzombie.crimsonforest.recipe.BasinRecipe;
 import io.github.kydzombie.crimsonforest.recipe.BasinRecipeRegistry;
 import lombok.Getter;
@@ -14,10 +14,11 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.ItemEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.packet.Packet;
+import org.jetbrains.annotations.Nullable;
 
-public class BasinBlockEntity extends BlockEntity implements HasItemStorage {
+public class BasinBlockEntity extends BlockEntity implements HasItemStorage, UpdatePacketReceiver<BasinBlockEntity.BasinData> {
     @AutoNbt
     @Getter
     ItemStorage itemStorage = new ItemStorage(1);
@@ -98,12 +99,6 @@ public class BasinBlockEntity extends BlockEntity implements HasItemStorage {
         }
     }
 
-    // TODO: Replace with UpdatePacketReceiver<BasinData>
-    @Override
-    public Packet createUpdatePacket() {
-        return new BasinBlockUpdatePacket(x, y, z, essenceType, essence, getStack(0) == null ? new NbtCompound() : getStack(0).writeNbt(new NbtCompound()));
-    }
-
     @Override
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
@@ -128,4 +123,18 @@ public class BasinBlockEntity extends BlockEntity implements HasItemStorage {
         }
         nbt.putLong("essence_amount", essence);
     }
+
+    @Override
+    public void receiveUpdateData(BasinData data) {
+        this.essenceType = data.essenceType;
+        this.essence = data.essence;
+        setStack(0, data.stack);
+    }
+
+    @Override
+    public BasinData createUpdateData() {
+        return new BasinData(essenceType, essence, getStack(0));
+    }
+
+    public record BasinData(@Nullable EssenceType essenceType, long essence, @Nullable ItemStack stack) {}
 }

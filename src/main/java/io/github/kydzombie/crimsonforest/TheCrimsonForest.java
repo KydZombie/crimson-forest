@@ -2,6 +2,7 @@ package io.github.kydzombie.crimsonforest;
 
 import com.matthewperiut.accessoryapi.api.AccessoryRegister;
 import com.mojang.datafixers.util.Pair;
+import io.github.kydzombie.cairn.api.packet.UpdatePacketHelper;
 import io.github.kydzombie.cairn.api.recipe.CustomCraftingRecipeManager;
 import io.github.kydzombie.crimsonforest.block.*;
 import io.github.kydzombie.crimsonforest.block.entity.*;
@@ -14,7 +15,6 @@ import io.github.kydzombie.crimsonforest.item.render.SoulRenderItem;
 import io.github.kydzombie.crimsonforest.item.render.VinelashRenderItem;
 import io.github.kydzombie.crimsonforest.item.thermos.*;
 import io.github.kydzombie.crimsonforest.magic.EssenceType;
-import io.github.kydzombie.crimsonforest.packet.BasinBlockUpdatePacket;
 import io.github.kydzombie.crimsonforest.packet.PlaySoundAtPlayerPacket;
 import io.github.kydzombie.crimsonforest.packet.TunedThermosInventoryPacket;
 import io.github.kydzombie.crimsonforest.recipe.BasinRecipe;
@@ -129,6 +129,15 @@ public class TheCrimsonForest implements ModInitializer {
     public void onInitialize() {
         AccessoryRegister.requestSlot("pendant", 1);
         AccessoryRegister.add("thermos", "assets/crimsonforest/accessoryapi/accessory_icon_atlas.png", 0, 0);
+
+        UpdatePacketHelper.registerSerializer(EssenceType.class,
+                (buffer, value) -> buffer.put(value == null ? (byte) -1 : (byte) value.ordinal()),
+                (buffer) -> {
+                    byte ordinal = buffer.get();
+                    return ordinal == -1 ? null : EssenceType.values()[ordinal];
+                },
+                (value) -> 1
+        );
     }
 
     @EventListener
@@ -363,7 +372,6 @@ public class TheCrimsonForest implements ModInitializer {
 
     @EventListener
     private void registerPackets(PacketRegisterEvent event) {
-        IdentifiablePacket.register(NAMESPACE.id("basin_block_update"), true, false, BasinBlockUpdatePacket::new);
         IdentifiablePacket.register(NAMESPACE.id("tuned_thermos_inventory"), true, false, TunedThermosInventoryPacket::new);
 
         IdentifiablePacket.register(NAMESPACE.id("play_sound_at_player"), true, false, PlaySoundAtPlayerPacket::new);
